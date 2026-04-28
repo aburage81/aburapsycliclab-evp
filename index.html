@@ -15,15 +15,11 @@
         .search { width: 100%; margin-bottom: 25px; padding: 12px; font-family: 'VT323', monospace; font-size: 20px; border: 3px inset #fff; background: #fff; box-sizing: border-box; }
         .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); gap: 20px; }
         .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 18px; transition: all 0.1s; }
-        
-        /* マウスオーバー強調 */
         .post:hover { background: #d0d0d0; border: 3px solid #000080; box-shadow: inset 2px 2px 0 #fff; cursor: pointer; }
-
         .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; border-bottom: 1px dashed #808080; }
         .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; }
-
-        /* ページ選択用ボタン */
-        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+        /* ページ選択ボタン */
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; padding-bottom: 20px; }
         .page-btn { padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; }
         .page-btn:disabled { color: #808080; cursor: default; box-shadow: none; }
     </style>
@@ -45,170 +41,7 @@
     </div>
     <script>
         // --- DATA START ---
-        const posts = [
-    {
-        "date": "2026-04-28 11:53",
-        "source": "Global Observation",
-        "text": "アドバイスを求めています",
-        "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-    },
-    {
-        "date": "2026-04-28 11:53",
-        "source": "Global Observation",
-        "text": "何を捕らえたのか分かりません。",
-        "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-    },
-    {
-        "date": "2026-04-28 11:53",
-        "source": "Global Observation",
-        "text": "ヘリテージ ジャンクション パークのソーガス駅ビルの EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1scfrdv/evp_at_saugus_station_building_heritage_junction/"
-    },
-    {
-        "date": "2026-04-28 11:53",
-        "source": "Global Observation",
-        "text": "電子音声現象の明らかなケース?",
-        "url": "https://www.reddit.com/r/EVP/comments/1s648fc/a_clear_case_of_electronic_voice_phenomenon/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "EVP は AI で分析できると思いますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1rw6exc/do_you_think_that_evp_can_be_analyzed_by_ai/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "ゲート番号に電話したら歌い始めました...",
-        "url": "https://www.reddit.com/r/EVP/comments/1rk38ei/i_called_a_gate_number_and_it_started_singing_to/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "この音は何ですか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1rc41a6/what_is_this_sound/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "血の流れる音や低い轟音を自分の耳で聞くことができますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qy7j9h/can_you_will_the_sound_of_blood_rushing_or_a_low/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "OG を紡ぐ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1svap1d/spinning_the_og/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "Spiritboxのようなおすすめの音楽はありますか？",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1surisd/any_music_recommendations_like_spiritbox/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "FoFのアルバムアートワークが彼女の顔だということに今気づいた",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1sultw4/i_just_realized_that_the_album_art_for_fof_is_her/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "コートニーのリノカット版画を作りました",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1spa4p2/linocut_print_i_made_of_courtney/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "ツアーグッズ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1solprh/tour_merch/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "私の「Circle With Me」のギターカバーがSpotifyで公開されました！たくさんのご支援ありがとうございます🖤",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1snwx9c/my_guitar_cover_of_circle_with_me_is_out_on/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "PCコートニー・ティーの質問",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smqmam/pc_courtney_tee_question/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "ホリー・ローリーがちょうどヒットする",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smb8xn/holly_rolly_just_hits/"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "カジュアルだけどメチャクチャ怖い…リアルで本格的な「ゴーストハンター」になれる幽霊屋敷調査ホラー『Ghost Frequency』プレイレポ！実際に買える「道具」もご紹介 - Game*Spark",
-        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFA5STYxeElnQ013NC1wNGswQ2J0dURITHJRMmVpVlBMRUxtVXhRQUFLM19WSnR3TjJCX2RNa0ZURFUwYmxoVjRPdzY2dDhiUkc0MENONlRoOGlURUdaTU5Zc2dBQUN4Zw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "偽物であろうと心霊写真が必要とされた時代 - VICE",
-        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOM0ZOdDZUaXZMbEo4YjJxZnRDcEJZTE1OYmlWMW9LbE1IbkM1U211azNNZkpwT3VNOXFocEoxUlNHSGtld3RZR25TMlRjdVV0WjlROWxhX0ZBNEtKNzR6NGxaak9sRDliUGpWVG5taEJaRk16TTc5WmNnNFpQNGVwX1dNRHZRWHA1RUF6dVZSdnB2a2c4S01rdGRBSWhWSFRjR1pyWktwNXJ4ejIxYXpZTXBrVVQzaVk?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "心霊写真に写る「幽霊」はホンモノなのか？ - GIGAZINE",
-        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE0zRlR4YjZ0OWlBVnFIYzZ2bDg5Q2piN0FSdnlwNlRWeFBYb0dRdmlzMUpYTEdPNUIwcWVYSmtpeHZPWXJic0Y2LXNmck51YXV1eEduWnY1T1BzdWNNSTRONktHWGswaXVTQVd4STlR?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "Pqahffowr スピリットボックス超常現象キット - ゴーストボックススピーカー 1 個 + ゴーストハンティング用 LED キャットボール 2 個 - RuhrkanalNEWS",
-        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOOFJPTDlGc0xXUzBnWXVHajRMQzZqcWpDMkV5bko2QnFjeXloZHhjYjFoamo0cUFpRjFpdVBYUUZlNko0VEFMeU5iQWFQZ19HTHVBNnZqS0RETDBodkJ3NDllbGtJdnd3WXFHNGpPclo1WUVZMlpOdDhlQVhBZExBY1AxOE0yZjVoU0poR213?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "スピリットボックス by Love Ghost: レビュー - イラストレートマガジン",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9IcnZ2enE4YUlyYVRhdXZhU0prWXoyVFFZYlA4RC1hdDQ0bUR3UEVsc3VCazA3TzBPSFhrUldqUEhKWVJxZHB4U0FUa09hMkt1VjFIVkM0akJ4bzYta2pQS0xOMV9kdzU0T2k5cEJRMU8?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "ゴーストハンティング EVP レコーダー & 超常現象スピリットボックス - ゴーストハンティングと日常使用のための 32GB デジタルボイスレコーダー - RuhrkanalNEWS",
-        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPaFNJTTVfYmRmMGxKYkVRMzk2OGNvR0Z3ZTBMclhSYmxDblBBZEFRMGh5UW91WVNybzNZZ3lqcFlzanB6WUE3MnBFUl9DSkplNndCYTRfa1Q2VkJ6bFBoNFpXbllrY3pQNEU2VDY3UmhpUzMzVElUOWtZa0lkM3ZyN2Fwb2RYLWxzUUxydGNQZw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "Love Ghost - Spirit Box (Love Ghost 公式) - The Big Takeover",
-        "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOXzVwdDdiMEFfRjV3R3FoLXFaZFNkWmFFdXc2RUhCbURpRVQyY212NTA2Z0pIY1FlUVZOd21mMGc5WlJNOVpUUVdEZXJsX2E0a0dOdlZELTRHSW1Ia3dPQWk4cC1DTUdjalFzOG16Rm92OFIxYUkwcEp6dS1OZkZPbmFn?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "「本物の」ゴーストハンターはハロウィーンのランズバーグ・ゴーストタウンで超常現象との遭遇を保証 - Victorville Daily Press",
-        "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPbkVfMzFjOXNsSFJ3X2ZKbjNETE1lcklCaXdaZV81bkJiT20xeDc2SHRuRzcwSURDTDVzbEJqR3hHQmdELUlGanB6Y3UzQVRNUUJ4Q2MwRW1ieHV3Skt4dGVWb3daRDY3eVVJWi1ZV2xmNG1NT3lRczByNHh6dkZseHl6bndmR2swWjJENm42eTRCQmhLdm9UeldqcVplWVNXUF9XN2ZqTG5TTXQxUXdTT0ZXTGM5UW5CaEFaVTd2cmJycWpPQlF4MlZZeDFFTTBGeDd3di1B?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "兪夢龍の幽霊？俳優が「不当に殺された」と主張するぞっとするスピリットボックスセッション - International Business Times UK",
-        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQdG9uMkhhT0lsVFVtbkFZaVQ1RmdsdThIaDgzVWNsRnM4Z1BNVE5yOE5XWjA2c1NTUHhWU3Zial83VGxpenJhcXc3R1E2SGdsQUdvZXNYd042WTdnRDlLOTRrV1EtTjlqY1ZhRVVoSW5meHZmb2syZVFGV0drSjg5eGpmMWNXeXNWaTBBMi1Ma3ZNX1hQellSR0JNR0NOVUEtdVUwdFctdDlBLUpSSmMtZTVzZnRObzdt?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "ゴーストハンティング装備は機能しますか?私たちはそれを知るために幽霊の出る場所でいくつかをテストしました。 | Wirecutter によるレビュー - ニューヨーク・タイムズ",
-        "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0wZ0pSY1UxX2IzYVBpbVR3ODFrRkllRTZOZ2RNbF9LWl9XcEcxbUdkaXBsdGdoRVZpZ0VpRUtMdmdZd3J5VDhlcGhmdG5VT2FaNDV5akdLa0g0bUFiSnU0Y0pkNmJLcGdUc2pBcXV6RnFEcDBnTnUyUmlR?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:54",
-        "source": "Global Observation",
-        "text": "エコーズ・イン・ザ・ダーク: ナサニエル・ロジャース・ハウスでのゴースト・ボックス・ヴォイス - ボーカル.メディア",
-        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOeHFrUXRHOXhSUm55Rms4WFZVaHZ1V2xDTjR3ZGxjSVBQMmtxSWhtTzlPbDFJTV93NTZGcHNWZHZINkowcmZjQTNRVmJ3cWNsSVlRUnZYZnUyR3NnYUI0T2N4dHpKUndMbloya3dNNy1vYTYwZFI1NDRxaU9YdElOS2VCaXdEeDRkTVFOU0w5WXJfR3Q3alFv?oc=5"
-    }
-];
+        const posts = [];
         // --- DATA END ---
 
         let currentPage = 1;
@@ -242,3 +75,6 @@
     </script>
 </body>
 </html>
+  
+
+  
