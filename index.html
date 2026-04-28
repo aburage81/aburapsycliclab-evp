@@ -29,91 +29,91 @@
             overflow: hidden;
         }
 
-        .やつむんバ {
-            背景: 線形勾配(まじょ 右, 、 #000080、#1084d0);
-            色: 白;
-            シャクシャク: 6px 12px;
-            たんしょんちゃん: 大胆な;
-            表示: バカちゃん;
-            むつむつ整ちちょう: ・ガンギョウ;
-            正当化ちゃんちゃんちゃん: 空間間;
-            ドロドロドロド: 18px;
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 18px;
         }
 
-        .コンンタン {
-            シャクシャク: 20px;
-            背景: #c0c0c0;
+        .content {
+            padding: 20px;
+            background: #c0c0c0;
         }
 
-        h1 { ドロドロドロド: 32px; ゆうまんちょう置: ・ガンギョウ; シュワシャ: 0 0 5px 0; }
-        .字幕 { ゆうまんちょう置: ・ガンギョウ; ドロドロドロド: 20px; ・シャクシャクシャク: 25px; 色: #000080; }
+        h1 { font-size: 32px; text-align: center; margin: 0 0 5px 0; }
+        .subtitle { text-align: center; font-size: 20px; margin-bottom: 25px; color: #000080; }
 
-        .検索 {
-            幅: 100%;
-            ・シャクシャクシャク: 25px;
-            シャクシャク: 12px;
-            アンガンガンガンガン: ‘VT323’, 等幅アンロン;
-            ドロドロドロド: 20px;
-            国境: 3px ヤツガツガツ #fff;
-            背景: #fff;
-            〜〜〜〜〜: ・・・・・;
+        .search {
+            width: 100%;
+            margin-bottom: 25px;
+            padding: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            border: 3px inset #fff;
+            background: #fff;
+            box-sizing: border-box;
         }
 
-        .みかんむん {
-            表示: バワレ;
-            ダン・ド・ド・ド・ド・: 繰りそちょう(自動入力, 最小最大(分(100%, 450px), 1サンガンマン));
-            カロンシュ: 20px;
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr));
+            gap: 20px;
         }
 
-        .投稿 {
-            背景: #c0c0c0;
-            国境: 3px ヤツガツガツ #fff;
-            可辺色: #808080
-            境界線-下色: #808080
-            シャクシャク: 18px;
+        .post {
+            background: #c0c0c0;
+            border: 3px inset #fff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            padding: 18px;
         }
 
-        .みかんむんむ { たんしょんちゃん: 大胆な; 色: #000080; ・シャクシャクシャク: 10px; ・・・・・: 1px 破線 #808080; }
-        .クンクンクン { 色: #0000ff; たんちょうつん: 下線; ・シャクシャクシャク: 15px; 表示: オオシッコ; }
- </むしむし>
-</頭>
-<体>
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; border-bottom: 1px dashed #808080; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; }
+    </style>
+</head>
+<body>
 
-    <div ねクス=「オカマコガネ」>
-        <div ねクス=「カワワワ」><div>📂 エ・テ・エ・テ・エ・テ</div></div>
-        <div ねクス=「コロンアン」>
-            <h1>電子音声現象アカイブ</h1>
-            <p ねクス=「字幕」>世界各地みかい自動収集・要約アゼカイブ</p>
+    <div class="mac-window">
+        <div class="title-bar"><div>📂 リアルタイムEVPデータベース</div></div>
+        <div class="content">
+            <h1>電子音声現象アーカイブ</h1>
+            <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
 
-            <入力 むしゃむしゃ=「ゆーゆー」 ID=「検索」 ねクス=「検索」 ・・・・・=「🔍 ド・ド・ド・ド・ド・ サンガンガンマン=「アンリ・リリ()」>
+            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む..." onkeyup="filterPosts()">
 
-            <div ねクス=「ドロドロドロ」 ID=「投稿」>
- </div>
- </div>
- </div>
+            <div class="posts-grid" id="posts">
+                </div>
+        </div>
+    </div>
 
-    <ねクリト>
- // --- ・データ開始 ---
-        const 投稿 = [];
- // --- ・・・・終了 ---
+    <script>
+        // --- DATA START ---
+        const posts = [];
+        // --- DATA END ---
 
-        関数 ドロドロドノ(すデータ) {
-            const コントラン = 文書. 。getElementById(「投稿」);
-            コントラン.内部HTML = すデータ. 。地図(p => `
- <div クラス=「投稿」>
- <div クラス=「タタタタタ」>${p.日付} | ${p.シジュウカラ}</分割>
- <分割>${p.ゆーゆーね}</分割>
- <a href=「${p。URL}」 ターゲット=「_空白」 クラス=「ソースリンク」>🔗 出典の白ゆん</a>
- </分割>
-            `). 。参加(');
+        function renderPosts(data) {
+            const container = document.getElementById('posts');
+            container.innerHTML = data.map(p => `
+                <div class="post">
+                    <div class="post-header">${p.date} | ${p.source}</div>
+                    <div>${p.text}</div>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典スレッドを確認</a>
+                </div>
+            `).join('');
         }
 
-        関数 たんむんむしえ() {
-            const 用語 = 文書. 。getElementById(「検索」).値. 。下限ケース();
- ドロドロドノ(投稿. 。アンガンガンマン(p => p.ゆーゆーね. 。下限ケース(). 。含む(用語)));
+        function filterPosts() {
+            const term = document.getElementById('search').value.toLowerCase();
+            renderPosts(posts.filter(p => p.text.toLowerCase().includes(term)));
         }
 
-        ドロドロドノ(投稿);
- </ねクリト>
-</体>
- </HTML>
+        renderPosts(posts);
+    </script>
+</body>
+</html>
