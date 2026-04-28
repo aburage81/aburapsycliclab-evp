@@ -1,31 +1,26 @@
-name: 毎日EVP自動更新（世界網羅版）
-
+name: EVP_Daily_Update_Test
 on:
   schedule:
-    - cron: '0 10 * * *'
-  workflow_dispatch:
+    - cron: '*/5 * * * *'  # 5分ごとに実行（ただしGitHub側の都合で10分程度かかる場合あり）
+  workflow_dispatch:       # 手動実行ボタンも残しておく（推奨）
 
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Pythonセットアップ
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-
-      - name: 最新EVP情報を取得・生成
+          python-version: '3.10'
+      - name: Install libs
+        run: pip install feedparser deep-translator
+      - name: Update EVP
+        run: python .github/scripts/update_evp.py
+      - name: Commit
         run: |
-          # ※ここでは例として、既存の20件に加え、
-          # その日の日付を入れた「最新観測レポート」を自動生成するロジックを組み込みます。
-          python3 .github/scripts/generate_evp.py
-
-      - name: 変更をコミット＆プッシュ
-        run: |
-          git config user.name "EVP Global Collector"
-          git config user.email "evp-bot@github.com"
+          git config user.name "EVP_Bot"
+          git config user.email "bot@example.com"
           git add index.html
-          git commit -m "🌐 世界規模EVPアーカイブ自動更新: $(date +'%Y-%m-%d')" || exit 0
+          git commit -m "Update EVP Archive (Auto Test)" || exit 0
           git push
