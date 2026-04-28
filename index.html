@@ -3,150 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👻 脂毛EVPラボ - 電子音声現象アーカイブ</title>
+    <title>脂毛EVPラボ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Sans+JP:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
         body {
-            background: #0a0a0a;
-            color: #f0f0f0;
-            font-family: 'Noto Sans JP', sans-serif;
+            background: #c0c0c0;
+            color: #000000;
+            font-family: 'VT323', monospace;
             margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            padding: 20px;
+            image-rendering: pixelated;
         }
 
-        header {
-            background: #1a0000;
-            padding: 40px 20px 30px;
-            text-align: center;
-            border-bottom: 4px solid #ff4444;
+        .mac-window {
+            background: #c0c0c0;
+            border: 2px solid #ffffff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            box-shadow: 3px 3px 0 #000000;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
         }
 
-        .logo {
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 10px;
+            justify-content: space-between;
+            user-select: none;
         }
 
-        .ghost {
-            font-size: 4.5rem;
+        .title-bar-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn {
+            width: 18px;
+            height: 18px;
+            background: #c0c0c0;
+            border: 1px solid #ffffff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            text-align: center;
+            line-height: 14px;
+            font-size: 12px;
+        }
+
+        .content {
+            padding: 20px;
+            background: #c0c0c0;
+            min-height: 600px;
         }
 
         h1 {
-            font-family: 'Creepster', cursive;
-            font-size: 3.6rem;
-            color: #ff5555;
-            margin: 0;
-            letter-spacing: 3px;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: #000;
         }
 
         .subtitle {
-            color: #ffdddd;
-            font-size: 1.35rem;
-            margin-top: 8px;
+            text-align: center;
+            color: #000;
+            margin-bottom: 25px;
+            font-size: 18px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .search-container {
-            position: relative;
-            max-width: 700px;
-            margin: 30px auto;
-        }
-
-        input {
+        .search {
             width: 100%;
-            padding: 18px 25px 18px 60px;
-            background: #1f1a1a;
-            border: 2px solid #555;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.15rem;
-        }
-
-        input:focus {
-            border-color: #ff7777;
-            outline: none;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.6rem;
-            color: #ff8888;
+            padding: 8px 12px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            border: 2px inset #ffffff;
+            background: #ffffff;
+            margin-bottom: 25px;
         }
 
         .posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
         }
 
         .post {
-            background: #1a1414;
-            border: 1px solid #552222;
-            border-radius: 12px;
-            padding: 22px;
-            transition: all 0.3s;
-        }
-
-        .post:hover {
-            border-color: #ff6666;
-            transform: translateY(-5px);
+            background: #c0c0c0;
+            border: 2px inset #ffffff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            padding: 12px;
+            font-size: 17px;
         }
 
         .post-header {
-            color: #aaffaa;
-            font-size: 1rem;
-            margin-bottom: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000080;
         }
 
         .post-text {
-            line-height: 1.75;
-            color: #eeeeee;
+            line-height: 1.5;
         }
 
         .source-link {
-            color: #ffdd77;
-            margin-top: 15px;
-            display: inline-block;
+            color: #0000ff;
+            text-decoration: underline;
+            margin-top: 8px;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <span class="ghost">👻</span>
-            <h1>脂毛EVPラボ</h1>
-        </div>
-        <p class="subtitle">電子音声現象アーカイブ — 霊界からの声</p>
-    </header>
-
-    <div class="container">
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search" placeholder="キーワード検索" onkeyup="filterPosts()">
+    <div class="mac-window">
+        <!-- タイトルバー -->
+        <div class="title-bar">
+            <div>👻 脂毛EVPラボ</div>
+            <div class="title-bar-buttons">
+                <div class="btn">−</div>
+                <div class="btn">□</div>
+                <div class="btn">×</div>
+            </div>
         </div>
 
-        <div class="posts-grid" id="posts"></div>
+        <div class="content">
+            <h1>電子音声現象アーカイブ</h1>
+            <p class="subtitle">霊界からの声 — System 7 Style</p>
+
+            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
+
+            <div class="posts-grid" id="posts"></div>
+        </div>
     </div>
 
     <script>
         const posts = [
-            {date:"2026-04-28", source:"Wikipedia JP", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1959", source:"Friedrich Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された有名事例。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1952", source:"ジェメリ神父", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』とあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1970年代", source:"Konstantin Raudive", text:"72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
-            {date:"現代", source:"karapaia", text:"心霊界から届く声を記録した超常現象。", url:"https://karapaia.com/archives/52176540.html"}
+            {date:"2026-04-28", source:"Wikipedia", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1959", source:"Friedrich Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1952", source:"ジェメリ神父", text:"聖歌録音中に亡き父親の声が聞こえた事例", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1970年代", source:"Konstantin Raudive", text:"72,000件以上のEVPを収集。無音の部屋でも声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"}
         ];
 
         function renderPosts(data) {
