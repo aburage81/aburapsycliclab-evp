@@ -1,57 +1,51 @@
-import feedparser
-from deep_translator import GoogleTranslator
-import datetime
-import json
-import re
-import random
-import os
+輸入 みフャドパヵー
+はえ deep_translator 輸入 Google翻翻訳
+輸入 日付時刻
+輸入 JSON
+輸入 再
 
-SOURCES = [
-    "https://www.reddit.com/r/EVP/new/.rss",
-    "https://www.reddit.com/r/Paranormal/new/.rss"
+むース = [
+ 「https://www。reddit。com/r/EVP/new/.rss「」,
+ 「https://www。reddit。com/r/Paranormal/new/.rss「」,
+ 「https://www。reddit。com/r/ghosts/new/.rss「」」
 ]
-translator = GoogleTranslator(source='en', target='ja')
+翻訳者 = Google翻訳者(クン=「ン」、、 クン=「ン」)
 
-def crawl():
-    all_posts = []
-    print("Fetching feeds...")
-    for url in SOURCES:
-        feed = feedparser.parse(url)
-        for entry in feed.entries[:5]:
-            try:
-                ja_text = translator.translate(entry.title)
-                all_posts.append({
-                    "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-                    "source": "Reddit Observation",
-                    "text": f"【自動要約】{ja_text}",
-                    "url": entry.link,
-                    "lat": random.uniform(-10, 50),
-                    "lng": random.uniform(-100, 130)
-                })
-            except Exception as e:
-                print(f"Skipping entry: {e}")
-                continue
-
-    if not os.path.exists("index.html"):
-        print("Error: index.html not found!")
-        return
-
-    with open("index.html", "r", encoding="utf-8") as f:
-        content = f.read()
-
-    # 置換ターゲットをより確実に
-    json_str = json.dumps(all_posts, ensure_ascii=False, indent=4)
-    # const posts = []; を探し出し、新しいデータで上書きする
-    pattern = r'const posts = \[.*?\];'
-    replacement = f'const posts = {json_str};'
+def ねワねル():
+ all_posts = []
+    印刷(「情報可集え開始しちょう。..」)
     
-    if re.search(pattern, content, flags=re.DOTALL):
-        new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-        with open("index.html", "w", encoding="utf-8") as f:
-            f.write(new_content)
-        print(f"Successfully updated with {len(all_posts)} items.")
-    else:
-        print("Error: Could not find 'const posts = [];' in index.html")
+ すたせ URL すたせ:
+ マンガ = ・・・・・。解析む(URL)
+ たかいなで 餌。ウォンヌン[:8]: # 各ゆかえ上位8代
+ 試さん:
+                # 翻訳
+ ja_text = 翻訳者。翻訳ちゃん(エン・リー。サワレ)
+ all_posts。追加({
+ 「日付」: 日付時刻。日付時刻。今().ぶるぶるむ(「%Y-%m-%d」),
+ 「」: 「」 
+ 「ゆーゆー」: f"【自動翻訳】{ja_ジャ}",
+ 「url」: エントリ。ダンガン
+                })
+ 以外:
+ 続く
 
-if __name__ == "__main__":
-    crawl()
+    # インデックス。html いきょうきょうきょう
+    と 開みむ(「インデックス。html」, 「r」, 、 イトフ・ト・ト=「utf-8」) はしく f:
+ コロンアン = f。読む()
+
+ json_str = json。サンロン(all_posts、ensure_ascii=アンシュレ、、アンシュレ=4)
+    # // --- リュウゼツラン --- // --- リュウゼツラン管理 --- リュウゼツラン管理
+ マンガン = r'// --- ---コン投稿 ---\s+const posts = \[.*？\];\s+// --- ---'
+ 交換 = f'// --- ---\n const posts = {json_str};\n // --- ---- ---'
+    
+ むし 再。検索(アオチオテオツフラグ=re。オオウオウ):
+ new_content = 再。サオ(カガシ、置換、カガシ、カガ=re。オオウオウ)
+        と 開みむ(「インデックス。html」, 「w」, 、 イトフ・ト・ト=「utf-8」) はしく f:
+ エフ。書く(new_ニュー)
+        印刷(f"f" {ロン（all_posts）}代")
+ たん被外:
+ 印刷(「エラー:置換マルーヌ見がくわく。」)
+
+むし __後前__ == 「__やん__」:
+ ねワねル()
