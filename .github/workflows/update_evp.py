@@ -1,51 +1,51 @@
-輸入 みフャドパヵー
-はえ deep_translator 輸入 Google翻翻訳
-輸入 日付時刻
-輸入 JSON
-輸入 再
+import feedparser
+from deep_translator import GoogleTranslator
+import datetime
+import json
+import re
 
-むース = [
- 「https://www。reddit。com/r/EVP/new/.rss「」,
- 「https://www。reddit。com/r/Paranormal/new/.rss「」,
- 「https://www。reddit。com/r/ghosts/new/.rss「」」
+SOURCES = [
+    "https://www.reddit.com/r/EVP/new/.rss",
+    "https://www.reddit.com/r/Paranormal/new/.rss",
+    "https://www.reddit.com/r/ghosts/new/.rss"
 ]
-翻訳者 = Google翻訳者(クン=「ン」、、 クン=「ン」)
+translator = GoogleTranslator(source='en', target='ja')
 
-def ねワねル():
- all_posts = []
-    印刷(「情報可集え開始しちょう。..」)
+def crawl():
+    all_posts = []
+    print("情報収集を開始します...")
     
- すたせ URL すたせ:
- マンガ = ・・・・・。解析む(URL)
- たかいなで 餌。ウォンヌン[:8]: # 各ゆかえ上位8代
- 試さん:
+    for url in SOURCES:
+        feed = feedparser.parse(url)
+        for entry in feed.entries[:8]: # 各ソースから上位8件
+            try:
                 # 翻訳
- ja_text = 翻訳者。翻訳ちゃん(エン・リー。サワレ)
- all_posts。追加({
- 「日付」: 日付時刻。日付時刻。今().ぶるぶるむ(「%Y-%m-%d」),
- 「」: 「」 
- 「ゆーゆー」: f"【自動翻訳】{ja_ジャ}",
- 「url」: エントリ。ダンガン
+                ja_text = translator.translate(entry.title)
+                all_posts.append({
+                    "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                    "source": "Global Network",
+                    "text": f"【自動翻訳】{ja_text}",
+                    "url": entry.link
                 })
- 以外:
- 続く
+            except:
+                continue
 
-    # インデックス。html いきょうきょうきょう
-    と 開みむ(「インデックス。html」, 「r」, 、 イトフ・ト・ト=「utf-8」) はしく f:
- コロンアン = f。読む()
+    # index.html の書き換え
+    with open("index.html", "r", encoding="utf-8") as f:
+        content = f.read()
 
- json_str = json。サンロン(all_posts、ensure_ascii=アンシュレ、、アンシュレ=4)
-    # // --- リュウゼツラン --- // --- リュウゼツラン管理 --- リュウゼツラン管理
- マンガン = r'// --- ---コン投稿 ---\s+const posts = \[.*？\];\s+// --- ---'
- 交換 = f'// --- ---\n const posts = {json_str};\n // --- ---- ---'
+    json_str = json.dumps(all_posts, ensure_ascii=False, indent=4)
+    # // --- DATA START --- と // --- DATA END --- の間を置換
+    pattern = r'// --- DATA START ---\s+const posts = \[.*?\];\s+// --- DATA END ---'
+    replacement = f'// --- DATA START ---\n        const posts = {json_str};\n        // --- DATA END ---'
     
- むし 再。検索(アオチオテオツフラグ=re。オオウオウ):
- new_content = 再。サオ(カガシ、置換、カガシ、カガ=re。オオウオウ)
-        と 開みむ(「インデックス。html」, 「w」, 、 イトフ・ト・ト=「utf-8」) はしく f:
- エフ。書く(new_ニュー)
-        印刷(f"f" {ロン（all_posts）}代")
- たん被外:
- 印刷(「エラー:置換マルーヌ見がくわく。」)
+    if re.search(pattern, content, flags=re.DOTALL):
+        new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+        with open("index.html", "w", encoding="utf-8") as f:
+            f.write(new_content)
+        print(f"アーカイブ更新完了: {len(all_posts)}件")
+    else:
+        print("エラー: 置換マーカーが見つかりません。")
 
-むし __後前__ == 「__やん__」:
- ねワねル()
+if __name__ == "__main__":
+    crawl()
