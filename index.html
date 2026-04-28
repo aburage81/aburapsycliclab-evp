@@ -6,69 +6,85 @@
     <title>👻 脂毛EVPラボ - リアルタイムデータベース</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
-        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1000px; width: 100%; margin: 0 auto; overflow: hidden; }
-        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 12px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
-        .content { padding: 20px; background: #c0c0c0; }
-        h1 { font-size: 32px; text-align: center; margin: 0 0 5px 0; }
-        .subtitle { text-align: center; font-size: 20px; margin-bottom: 25px; color: #000080; }
-        .search { width: 100%; margin-bottom: 25px; padding: 12px; font-family: 'VT323', monospace; font-size: 20px; border: 3px inset #fff; background: #fff; box-sizing: border-box; }
-        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); gap: 20px; }
+        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; }
+        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1000px; margin: 0 auto; overflow: hidden; }
+        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 12px; font-weight: bold; display: flex; justify-content: space-between; font-size: 18px; }
+        .content { padding: 20px; }
+        h1 { font-size: 32px; text-align: center; margin: 0; }
+        .subtitle { text-align: center; font-size: 18px; color: #000080; margin-bottom: 20px; }
+        .search { width: 100%; margin-bottom: 20px; padding: 12px; font-family: 'VT323'; font-size: 20px; border: 3px inset #fff; box-sizing: border-box; }
+        .posts-grid { display: grid; gap: 15px; }
+        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; transition: all 0.1s; }
+        .post:hover { background: #d0d0d0; border: 3px solid #000080; box-shadow: inset 2px 2px 0 #fff; transform: scale(1.005); }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; border-bottom: 1px dashed #808080; font-size: 14px; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 10px; display: block; font-size: 16px; }
         
-        /* 記事カードの基本デザイン */
-        .post { 
-            background: #c0c0c0; 
-            border: 3px inset #fff; 
-            border-right-color: #808080; 
-            border-bottom-color: #808080; 
-            padding: 18px;
-            transition: all 0.1s ease; /* 変化を滑らかに */
-        }
-        
-        /* 【追加】マウスオーバー時の強調エフェクト */
-        .post:hover {
-            background: #d0d0d0;
-            border: 3px solid #000080; /* タイトルバーと同じ濃い青で強調 */
-            box-shadow: inset 2px 2px 0 #fff;
-            cursor: pointer;
-            transform: scale(1.01); /* わずかに浮き上がる演出 */
-        }
-
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; border-bottom: 1px dashed #808080; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; }
+        /* ページネーション用 */
+        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 25px; padding-bottom: 20px; }
+        .page-btn { padding: 8px 16px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 18px; box-shadow: 2px 2px 0 #000; }
+        .page-btn:active { border: 3px inset #fff; box-shadow: none; transform: translate(1px, 1px); }
+        .page-btn:disabled { color: #808080; cursor: default; }
+        .page-info { font-size: 20px; align-self: center; }
     </style>
 </head>
 <body>
     <div class="mac-window">
-        <div class="title-bar"><div>📂 リアルタイムEVPデータベース</div></div>
+        <div class="title-bar"><div>📂 EVP_GLOBAL_DATABASE_V2</div></div>
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
-            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む..." onkeyup="filterPosts()">
-            <div class="posts-grid" id="posts"></div>
+            <p class="subtitle">アジア・欧米を含む全世界の多言語リアルタイム観測記録</p>
+            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索（EVP, 声, 霊など）" onkeyup="searchPosts()">
+            <div id="posts" class="posts-grid"></div>
+            <div class="pagination">
+                <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
+                <span id="pageInfo" class="page-info">PAGE 1</span>
+                <button id="nextBtn" class="page-btn" onclick="changePage(1)">NEXT</button>
+            </div>
         </div>
     </div>
+
     <script>
         // --- DATA START ---
         const posts = [];
         // --- DATA END ---
 
-        function renderPosts(data) {
+        let currentPage = 1;
+        const postsPerPage = 10;
+        let filteredPosts = [...posts];
+
+        function render() {
+            const start = (currentPage - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const target = filteredPosts.slice(start, end);
+            
             const container = document.getElementById('posts');
-            container.innerHTML = data.map(p => `
+            container.innerHTML = target.map(p => `
                 <div class="post">
-                    <div class="post-header">${p.date} | ${p.source}</div>
+                    <div class="post-header">UTC/JST ${p.date} | ${p.source}</div>
                     <div>${p.text}</div>
-                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典スレッドを確認</a>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典スレッド / 録音データを確認</a>
                 </div>
             `).join('');
+
+            document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
         }
 
-        function filterPosts() {
-            const term = document.getElementById('search').value.toLowerCase();
-            renderPosts(posts.filter(p => p.text.toLowerCase().includes(term)));
+        function changePage(dir) {
+            currentPage += dir;
+            render();
+            window.scrollTo(0,0);
         }
-        renderPosts(posts);
+
+        function searchPosts() {
+            const term = document.getElementById('search').value.toLowerCase();
+            filteredPosts = posts.filter(p => p.text.toLowerCase().includes(term));
+            currentPage = 1;
+            render();
+        }
+
+        render();
     </script>
 </body>
 </html>
