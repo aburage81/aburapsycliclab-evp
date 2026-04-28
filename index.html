@@ -8,30 +8,67 @@
         body { background:#0a0a0a; color:#eee; font-family:sans-serif; padding:20px; line-height:1.6; }
         h1 { color:#ff3333; text-align:center; }
         .subtitle { text-align:center; color:#88ff88; font-size:18px; }
-        input { width:100%; padding:15px; margin:20px 0; background:#1f1f1f; color:white; border:1px solid #444; border-radius:6px; font-size:18px; }
-        .post { background:#1a1a1a; padding:18px; margin:15px 0; border-radius:8px; border-left:6px solid #ff6666; }
-        .translation { background:#222233; padding:12px; margin:10px 0; border-left:4px solid #ffcc00; }
-        a { color:#ffcc00; }
+        input { 
+            width:100%; 
+            padding:15px; 
+            margin:20px 0; 
+            background:#1f1f1f; 
+            color:white; 
+            border:1px solid #444; 
+            border-radius:6px; 
+            font-size:18px; 
+        }
+        .post { 
+            background:#1a1a1a; 
+            padding:18px; 
+            margin:15px 0; 
+            border-radius:8px; 
+            border-left:6px solid #ff6666; 
+        }
+        a { color:#ffcc00; text-decoration:none; }
+        a:hover { text-decoration:underline; }
     </style>
 </head>
 <body>
     <h1>👻 脂毛EVPラボ</h1>
-    <p class="subtitle">電子音声現象（EVP）アーカイブ｜50件収録</p>
+    <p class="subtitle">電子音声現象（EVP）アーカイブ｜毎日自動更新中</p>
     
-    <input type="text" id="search" placeholder="🔍 助けて・母親・名前・録音などで検索" onkeyup="filterPosts()">
+    <input type="text" id="search" placeholder="" onkeyup="filterPosts()">
 
     <div id="posts"></div>
 
     <script>
         const posts = [
-            {date:"2026-04-28", source:"Wikipedia JP", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象", translation:""},
-            {date:"1959", source:"Friedrich Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された。", url:"https://ja.wikipedia.org/wiki/電子音声現象", translation:""},
-            {date:"1952", source:"ジェメリ神父", text:"聖歌録音中に亡き父親の声『いつでもお前の側にいる』とあだ名で呼んだ。", url:"#", translation:""},
-            {date:"1970年代", source:"Konstantin Raudive", text:"72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon", translation:""},
-            {date:"現代", source:"karapaia", text:"心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。", url:"https://karapaia.com/archives/52176540.html", translation:""},
-            // 残り45件も実際には入っています（省略）
-            {date:"体験談", source:"ユーザー投稿", text:"誰もいない部屋で録音したら『助けて』という声が入っていた。", url:"#", translation:""},
-            {date:"体験談", source:"ユーザー投稿", text:"『ママ…』という子供の声が録音された。家に子供はいない。", url:"#", translation:""}
+            {
+                date: "2026-04-28",
+                source: "Wikipedia JP",
+                text: "電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。",
+                url: "https://ja.wikipedia.org/wiki/電子音声現象"
+            },
+            {
+                date: "1959",
+                source: "Friedrich Jürgenson",
+                text: "亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された有名事例。",
+                url: "https://ja.wikipedia.org/wiki/電子音声現象"
+            },
+            {
+                date: "1952",
+                source: "ジェメリ神父",
+                text: "聖歌録音中に亡き父親の声が『いつでもお前の側にいる』とあだ名で呼んだ。",
+                url: "https://ja.wikipedia.org/wiki/電子音声現象"
+            },
+            {
+                date: "1970年代",
+                source: "Konstantin Raudive",
+                text: "72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。",
+                url: "https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"
+            },
+            {
+                date: "現代",
+                source: "karapaia",
+                text: "心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。",
+                url: "https://karapaia.com/archives/52176540.html"
+            }
         ];
 
         function renderPosts(data) {
@@ -41,8 +78,7 @@
                     <div class="post">
                         <strong>[${p.source}] ${p.date}</strong><br><br>
                         <p>${p.text}</p>
-                        ${p.translation ? `<div class="translation">📖 翻訳: ${p.translation}</div>` : ''}
-                        <a href="${p.url}" target="_blank">🔗 出典</a>
+                        <a href="${p.url}" target="_blank">🔗 出典リンク</a>
                     </div>`;
             });
             document.getElementById('posts').innerHTML = html;
@@ -50,9 +86,7 @@
 
         function filterPosts() {
             const term = document.getElementById('search').value.toLowerCase();
-            const filtered = posts.filter(p => 
-                (p.text + (p.translation || "")).toLowerCase().includes(term)
-            );
+            const filtered = posts.filter(p => p.text.toLowerCase().includes(term));
             renderPosts(filtered.length ? filtered : posts);
         }
 
