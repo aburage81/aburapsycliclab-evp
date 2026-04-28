@@ -1,26 +1,25 @@
-name: EVP_Daily_Update_Test
+name: EVP_Realtime_Update
 on:
   schedule:
-    - cron: '*/5 * * * *'  # 5分ごとに実行（ただしGitHub側の都合で10分程度かかる場合あり）
-  workflow_dispatch:       # 手動実行ボタンも残しておく（推奨）
-
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install libs
+      - name: Install dependencies
         run: pip install feedparser deep-translator
-      - name: Update EVP
+      - name: Run Crawler
         run: python .github/scripts/update_evp.py
-      - name: Commit
+      - name: Commit and Push
         run: |
-          git config user.name "EVP_Bot"
-          git config user.email "bot@example.com"
+          git config user.name "EVP-Bot"
+          git config user.email "bot@evp-lab.com"
           git add index.html
-          git commit -m "Update EVP Archive (Auto Test)" || exit 0
+          git commit -m "📡 リアルタイムデータベース更新: $(date)" || exit 0
           git push
