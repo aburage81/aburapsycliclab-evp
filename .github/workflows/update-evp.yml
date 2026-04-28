@@ -2,8 +2,8 @@ name: 毎日EVP自動更新
 
 on:
   schedule:
-    - cron: '0 10 * * *'    # 日本時間 朝10時（毎日）
-  workflow_dispatch:        # 手動でも実行可能
+    - cron: '0 1 beam0 * * *'    # 日本時間 朝10時（毎日）
+  workflow_dispatch:           # 手動実行用
 
 jobs:
   update:
@@ -13,61 +13,75 @@ jobs:
 
       - name: EVPデータでHTML生成
         run: |
+          # ヒアドキュメントでHTMLを出力
           cat > index.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="ja">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>👻 脂毛EVPラボ - 電子音声現象アーカイブ</title>
-              <style>
-                  body { background:#0a0a0a; color:#eee; font-family:sans-serif; padding:20px; line-height:1.6; }
-                  h1 { color:#ff3333; text-align:center; }
-                  .subtitle { text-align:center; color:#88ff88; }
-                  input { width:100%; padding:15px; margin:20px 0; background:#1f1f1f; color:white; border:1px solid #444; }
-                  .post { background:#1a1a1a; padding:18px; margin:15px 0; border-radius:8px; border-left:6px solid #ff6666; }
-              </style>
-          </head>
-          <body>
-              <h1>👻 脂毛EVPラボ</h1>
-              <p class="subtitle">電子音声現象アーカイブ｜毎日自動更新中（50件）</p>
-              
-              <input type="text" id="search" placeholder="🔍 検索" onkeyup="filterPosts()">
-              <div id="posts"></div>
-
-              <script>
-                  const posts = [
-                      {date:"2026-04-28", source:"Wikipedia JP", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-                      {date:"1959", source:"Friedrich Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-                      {date:"1952", source:"ジェメリ神父", text:"聖歌録音中に亡き父親の声が聞こえた", url:"#"},
-                      {date:"1970年代", source:"Konstantin Raudive", text:"72,000件以上のEVPを収集", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
-                      // ここにさらに事例を追加できます
-                  ];
-
-                  function renderPosts(data) {
-                      let html = '';
-                      data.forEach(p => {
-                          html += `<div class="post"><strong>[${p.source}] ${p.date}</strong><br><br><p>${p.text}</p><a href="${p.url}" target="_blank">🔗 出典</a></div>`;
-                      });
-                      document.getElementById('posts').innerHTML = html;
-                  }
-
-                  function filterPosts() {
-                      const term = document.getElementById('search').value.toLowerCase();
-                      const filtered = posts.filter(p => p.text.toLowerCase().includes(term));
-                      renderPosts(filtered.length ? filtered : posts);
-                  }
-
-                  renderPosts(posts);
-              </script>
-          </body>
-          </html>
-          EOF
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👻 脂毛EVPラボ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
+        .mac-window { background: #c0c0c0; border: 3px solid #ffffff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1450px; width: 100%; margin: 0 auto; overflow: hidden; box-sizing: border-box; }
+        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 10px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
+        .btn { width: 18px; height: 18px; background: #c0c0c0; border: 1px solid #fff; border-right-color: #808080; border-bottom-color: #808080; text-align: center; line-height: 14px; font-size: 12px; color: black; }
+        .content { padding: 15px; background: #c0c0c0; min-height: 500px; }
+        h1 { font-size: 28px; text-align: center; margin: 0 0 5px 0; }
+        .subtitle { text-align: center; font-size: 18px; margin-bottom: 20px; color: #000080; }
+        .search { width: 100%; margin-bottom: 20px; padding: 10px; font-family: 'VT323', monospace; font-size: 18px; border: 3px inset #fff; background: #fff; box-sizing: border-box; }
+        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 15px; }
+        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; transition: all 0.2s; word-wrap: break-word; }
+        .post:hover { border-color: #ff0000; border-style: outset; background: #e0e0e0; transform: scale(1.01); }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; font-size: 16px; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 12px; display: block; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="mac-window">
+        <div class="title-bar">
+            <div>👻 脂毛EVPラボ</div>
+            <div class="btn">×</div>
+        </div>
+        <div class="content">
+            <h1>電子音声現象アーカイブ</h1>
+            <p class="subtitle">霊界の声（最終更新: '$(date +'%Y-%m-%d %H:%M')'）</p>
+            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
+            <div class="posts-grid" id="posts"></div>
+        </div>
+    </div>
+    <script>
+        const posts = [
+            {date:"2026-04-28", source:"ラボ通信", text:"【自動更新】本日の霊域感度：良好。観測を続けます。", url:"#"},
+            {date:"1959", source:"F. Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。』", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1970年代", source:"K. Raudive", text:"72,000件以上のEVPを収集。録音機から絶え間ない囁き。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
+            {date:"現代", source:"Ghost Hunter", text:"『Child Counting to Three』など明確な音声のキャプチャに成功。", url:"http://www.connecticutghosthunter.com/evp-examples.html"}
+            // 自動更新スクリプトでここにデータを追加可能
+        ];
+        function renderPosts(d) {
+            document.getElementById('posts').innerHTML = d.map(p => `
+                <div class="post">
+                    <div class="post-header">${p.date} | ${p.source}</div>
+                    <div>${p.text}</div>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典</a>
+                </div>
+            `).join('');
+        }
+        function filterPosts() {
+            const t = document.getElementById('search').value.toLowerCase();
+            renderPosts(posts.filter(p => p.text.toLowerCase().includes(t)));
+        }
+        renderPosts(posts);
+    </script>
+</body>
+</html>
+EOF
 
       - name: 変更をコミット＆プッシュ
         run: |
           git config user.name "EVP Bot"
           git config user.email "evp-bot@github.com"
           git add index.html
-          git commit -m "自動更新: $(date +'%Y-%m-%d %H:%M')"
+          git commit -m "自動更新: $(date +'%Y-%m-%d %H:%M')" || exit 0
           git push
