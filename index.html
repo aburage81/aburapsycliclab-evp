@@ -3,166 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👻 脂毛EVPラボ</title>
+    <title>👻 脂毛EVPラボ - 世界観測モード</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
-        body {
-            background: #c0c0c0;
-            color: #000000;
-            font-family: 'VT323', monospace;
-            margin: 0;
-            padding: 20px 10px; /* スマホ用に余白を少し縮小 */
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-
-        .mac-window {
-            background: #c0c0c0;
-            border: 3px solid #ffffff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            box-shadow: 4px 4px 0 #000000;
-            max-width: 1450px;
-            width: 100%; /* スマホで横幅いっぱいに */
-            margin: 0 auto;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        .title-bar {
-            background: linear-gradient(to right, #000080, #1084d0);
-            color: white;
-            padding: 6px 10px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 18px;
-        }
-
-        .title-bar-buttons {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn {
-            width: 18px; height: 18px;
-            background: #c0c0c0;
-            border: 1px solid #fff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            text-align: center;
-            line-height: 14px;
-            font-size: 12px;
-            color: black;
-        }
-
-        .content {
-            padding: 15px; /* スマホ用に少し詰める */
-            background: #c0c0c0;
-            min-height: 500px;
-        }
-
-        h1 { font-size: 28px; text-align: center; margin: 0 0 5px 0; }
+        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
+        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1200px; width: 100%; margin: 0 auto 20px; overflow: hidden; box-sizing: border-box; }
+        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 10px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
+        .btn { width: 18px; height: 18px; background: #c0c0c0; border: 1px solid #fff; border-right-color: #808080; border-bottom-color: #808080; text-align: center; line-height: 14px; font-size: 12px; cursor: pointer; }
+        #map { height: 350px; width: 100%; background: #000; filter: grayscale(1) contrast(1.2); border-top: 2px solid #808080; }
+        .content { padding: 15px; }
+        h1 { font-size: 28px; text-align: center; margin: 0; }
         .subtitle { text-align: center; font-size: 18px; margin-bottom: 20px; color: #000080; }
-
-        .search {
-            width: 100%;
-            max-width: 100%; /* はみ出し防止 */
-            margin: 0 auto 20px;
-            display: block;
-            padding: 10px;
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            border: 3px inset #ffffff;
-            background: #ffffff;
-            box-sizing: border-box; /* パディングを含めた幅計算 */
-        }
-
-        .posts-grid {
-            display: grid;
-            /* 1カラムを基本とし、画面が広くなったら440px以上の要素を並べる */
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
-            gap: 15px;
-        }
-
-        .post {
-            background: #c0c0c0;
-            border: 3px inset #ffffff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            padding: 15px;
-            transition: all 0.2s;
-            word-wrap: break-word; /* 長いテキストの折り返し */
-        }
-
-        .post:hover {
-            border-color: #ff0000;
-            border-style: outset;
-            background: #e0e0e0;
-            transform: scale(1.01);
-        }
-
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; font-size: 16px; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 12px; display: block; font-size: 16px; }
-
-        /* タッチデバイス向けのホバー無効化（オプション） */
-        @media (hover: none) {
-            .post:hover {
-                transform: none;
-            }
-        }
+        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr)); gap: 15px; }
+        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; word-wrap: break-word; }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; border-bottom: 1px dashed #808080; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 10px; display: block; }
     </style>
 </head>
 <body>
     <div class="mac-window">
-        <div class="title-bar">
-            <div>👻 脂毛EVPラボ</div>
-            <div class="title-bar-buttons">
-                <div class="btn">−</div>
-                <div class="btn">□</div>
-                <div class="btn">×</div>
-            </div>
-        </div>
-
+        <div class="title-bar"><div>📡 世界EVPリアルタイム観測モニタ</div><div class="btn">×</div></div>
+        <div id="map"></div>
+    </div>
+    <div class="mac-window">
+        <div class="title-bar"><div>👻 データベース</div><div class="btn">?</div></div>
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">霊界の声</p>
-
-            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
-
+            <p class="subtitle">Reddit(r/EVP)より自動抽出・翻訳済</p>
             <div class="posts-grid" id="posts"></div>
         </div>
     </div>
-
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const posts = [
-            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"鳥の録音中に亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された。EVP研究のきっかけ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』と幼少期のあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1970年代", source:"Konstantin Raudive (ラトビア)", text:"72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
-            {date:"現代", source:"Connecticut Ghost Hunter (USA)", text:"『Child Counting to Three』『We're not dead』『Cut it out!』など明確なEVP多数。", url:"http://www.connecticutghosthunter.com/evp-examples.html"},
-            {date:"現代", source:"世界の調査事例", text:"『Help me!』『Get out』『I am here』が最も頻出するEVP応答。", url:"#"},
-            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。", url:"https://karapaia.com/archives/52176540.html"}
-        ];
+        // Pythonがここを自動書き換えします
+        const posts = []; 
 
-        function renderPosts(data) {
-            document.getElementById('posts').innerHTML = data.map(p => `
+        const map = L.map('map', { zoomControl: false }).setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        function render() {
+            document.getElementById('posts').innerHTML = posts.map(p => `
                 <div class="post">
-                    <div class="post-header">${p.date}　｜　${p.source}</div>
+                    <div class="post-header">${p.date} | ${p.source}</div>
                     <div>${p.text}</div>
-                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典を見る</a>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 元スレッド</a>
                 </div>
             `).join('');
+            posts.forEach(p => {
+                if(p.lat) L.marker([p.lat, p.lng]).addTo(map).bindPopup(p.text);
+            });
         }
-
-        function filterPosts() {
-            const term = document.getElementById('search').value.toLowerCase();
-            const filtered = posts.filter(p => p.text.toLowerCase().includes(term));
-            renderPosts(filtered.length ? filtered : posts);
-        }
-
-        renderPosts(posts);
+        render();
     </script>
 </body>
 </html>
