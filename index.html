@@ -12,8 +12,9 @@
             color: #000000;
             font-family: 'VT323', monospace;
             margin: 0;
-            padding: 30px 20px;
+            padding: 20px 10px; /* スマホ用に余白を少し縮小 */
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .mac-window {
@@ -23,8 +24,10 @@
             border-bottom-color: #808080;
             box-shadow: 4px 4px 0 #000000;
             max-width: 1450px;
+            width: 100%; /* スマホで横幅いっぱいに */
             margin: 0 auto;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         .title-bar {
@@ -35,49 +38,53 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-size: 18px;
         }
 
         .title-bar-buttons {
             display: flex;
-            gap: 8px;
+            gap: 5px;
         }
 
         .btn {
-            width: 20px; height: 20px;
+            width: 18px; height: 18px;
             background: #c0c0c0;
             border: 1px solid #fff;
             border-right-color: #808080;
             border-bottom-color: #808080;
             text-align: center;
-            line-height: 16px;
-            font-size: 14px;
+            line-height: 14px;
+            font-size: 12px;
+            color: black;
         }
 
         .content {
-            padding: 25px;
+            padding: 15px; /* スマホ用に少し詰める */
             background: #c0c0c0;
-            min-height: 700px;
+            min-height: 500px;
         }
 
-        h1 { font-size: 32px; text-align: center; margin: 0 0 8px 0; }
-        .subtitle { text-align: center; font-size: 20px; margin-bottom: 30px; color: #000080; }
+        h1 { font-size: 28px; text-align: center; margin: 0 0 5px 0; }
+        .subtitle { text-align: center; font-size: 18px; margin-bottom: 20px; color: #000080; }
 
         .search {
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto 30px;
+            max-width: 100%; /* はみ出し防止 */
+            margin: 0 auto 20px;
             display: block;
-            padding: 12px 20px;
+            padding: 10px;
             font-family: 'VT323', monospace;
-            font-size: 20px;
+            font-size: 18px;
             border: 3px inset #ffffff;
             background: #ffffff;
+            box-sizing: border-box; /* パディングを含めた幅計算 */
         }
 
         .posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
-            gap: 20px;
+            /* 1カラムを基本とし、画面が広くなったら440px以上の要素を並べる */
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+            gap: 15px;
         }
 
         .post {
@@ -85,19 +92,27 @@
             border: 3px inset #ffffff;
             border-right-color: #808080;
             border-bottom-color: #808080;
-            padding: 18px;
+            padding: 15px;
             transition: all 0.2s;
+            word-wrap: break-word; /* 長いテキストの折り返し */
         }
 
         .post:hover {
             border-color: #ff0000;
             border-style: outset;
             background: #e0e0e0;
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
 
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 12px; display: block; }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; font-size: 16px; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 12px; display: block; font-size: 16px; }
+
+        /* タッチデバイス向けのホバー無効化（オプション） */
+        @media (hover: none) {
+            .post:hover {
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
