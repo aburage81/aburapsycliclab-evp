@@ -3,49 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👻 脂毛EVPラボ - 世界の電子音声現象アーカイブ</title>
+    <title>👻 脂毛EVPラボ - 電子音声現象アーカイブ</title>
     <style>
-        body { background:#0a0a0a; color:#f0f0f0; font-family:'Noto Sans JP', sans-serif; margin:0; padding:0; }
-        header { background:#1a0000; padding:40px 20px; text-align:center; border-bottom:4px solid #ff4444; }
-        h1 { font-size:3.2rem; color:#ff5555; margin:0; }
-        .subtitle { color:#ffdddd; font-size:1.3rem; }
-        .search-container { max-width:700px; margin:30px auto; position:relative; }
-        input { width:100%; padding:18px 25px 18px 60px; background:#1f1a1a; border:2px solid #555; border-radius:50px; color:white; font-size:1.15rem; }
-        .posts-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:20px; padding:0 20px; max-width:1200px; margin:0 auto; }
-        .post { background:#1a1414; border:1px solid #552222; border-radius:12px; padding:20px; }
-        .post:hover { border-color:#ff6666; }
-        .post-header { color:#aaffaa; margin-bottom:10px; }
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        body {
+            background: #0a0a0a;
+            color: #f0f0f0;
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1a0000;
+            padding: 40px 20px 30px;
+            text-align: center;
+            border-bottom: 4px solid #ff4444;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .ghost { font-size: 4.5rem; }
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 3.6rem;
+            color: #ff5555;
+            margin: 0;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: #ffdddd;
+            font-size: 1.35rem;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 1400px;          /* ← ここを広くしました */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 25px 18px 60px;
+            background: #1f1a1a;
+            border: 2px solid #555;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.15rem;
+        }
+
+        input:focus {
+            border-color: #ff7777;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.6rem;
+            color: #ff8888;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); /* ← カードを少し広く */
+            gap: 24px;
+        }
+
+        .post {
+            background: #1a1414;
+            border: 1px solid #552222;
+            border-radius: 12px;
+            padding: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .post:hover {
+            border-color: #ff6666;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 70, 70, 0.25);
+            background: #221a1a;
+        }
+
+        .post-header {
+            color: #aaffaa;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .post-text {
+            line-height: 1.75;
+            color: #eeeeee;
+        }
+
+        .source-link {
+            color: #ffdd77;
+            margin-top: 15px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>👻 脂毛EVPラボ</h1>
-        <p class="subtitle">世界中の電子音声現象アーカイブ</p>
+        <div class="logo">
+            <span class="ghost">👻</span>
+            <h1>脂毛EVPラボ</h1>
+        </div>
+        <p class="subtitle">電子音声現象アーカイブ — 世界の霊界の声</p>
     </header>
 
-    <div class="search-container">
-        <input type="text" id="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
-    </div>
+    <div class="container">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search" placeholder="キーワード検索" onkeyup="filterPosts()">
+        </div>
 
-    <div class="posts-grid" id="posts"></div>
+        <div class="posts-grid" id="posts"></div>
+    </div>
 
     <script>
         const posts = [
-            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"鳥の録音中に亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された。EVP研究のきっかけとなった有名事例。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』と幼少期のあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1970年代", source:"Konstantin Raudive (ラトビア)", text:"72,000件以上のEVPを収集。無音の部屋でも数百の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
-            {date:"現代", source:"Connecticut Ghost Hunter (USA)", text:"『Child Counting to Three』『We're not dead』『Please Help Me』などの明確なEVPを多数収録。", url:"http://www.connecticutghosthunter.com/evp-examples.html"},
-            {date:"現代", source:"世界各地の調査", text:"『Help me!』『Get out』『I am here』が最も頻出するEVP応答。", url:"https://www.intuitive-investigations.com"},
-            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。", url:"https://karapaia.com/archives/52176540.html"}
-            // ここにさらに世界中の事例を自動追加可能
+            {date:"2026-04-28", source:"Wikipedia JP", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された有名事例。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』とあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1970年代", source:"Konstantin Raudive (ラトビア)", text:"72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
+            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。", url:"https://karapaia.com/archives/52176540.html"}
         ];
 
         function renderPosts(data) {
             document.getElementById('posts').innerHTML = data.map(p => `
                 <div class="post">
                     <div class="post-header">${p.date}　｜　${p.source}</div>
-                    <p>${p.text}</p>
-                    <a href="${p.url}" target="_blank" style="color:#ffcc00;">🔗 出典</a>
+                    <div class="post-text">${p.text}</div>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典を見る</a>
                 </div>
             `).join('');
         }
