@@ -14,26 +14,35 @@
         .subtitle { text-align: center; font-size: 18px; color: #000080; margin-bottom: 20px; }
         .search { width: 100%; margin-bottom: 20px; padding: 12px; font-family: 'VT323'; font-size: 20px; border: 3px inset #fff; box-sizing: border-box; }
         .posts-grid { display: grid; gap: 15px; }
-        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; transition: all 0.1s; }
-        .post:hover { background: #d0d0d0; border: 3px solid #000080; box-shadow: inset 2px 2px 0 #fff; transform: scale(1.005); }
+        
+        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; transition: all 0.1s; position: relative; }
+        
+        /* マウスオーバー強調 */
+        .post:hover { 
+            background: #d0d0d0; 
+            border: 3px solid #000080; 
+            box-shadow: inset 2px 2px 0 #fff; 
+            transform: scale(1.005); 
+            cursor: pointer;
+        }
+
         .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; border-bottom: 1px dashed #808080; font-size: 14px; }
         .source-link { color: #0000ff; text-decoration: underline; margin-top: 10px; display: block; font-size: 16px; }
         
-        /* ページネーション用 */
-        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 25px; padding-bottom: 20px; }
-        .page-btn { padding: 8px 16px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 18px; box-shadow: 2px 2px 0 #000; }
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; padding-bottom: 20px; }
+        .page-btn { padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; }
         .page-btn:active { border: 3px inset #fff; box-shadow: none; transform: translate(1px, 1px); }
-        .page-btn:disabled { color: #808080; cursor: default; }
-        .page-info { font-size: 20px; align-self: center; }
+        .page-btn:disabled { color: #808080; cursor: default; box-shadow: none; }
+        .page-info { font-size: 22px; align-self: center; }
     </style>
 </head>
 <body>
     <div class="mac-window">
-        <div class="title-bar"><div>📂 EVP_GLOBAL_DATABASE_V2</div></div>
+        <div class="title-bar"><div>📂 EVP_GLOBAL_DATABASE_V3</div></div>
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">アジア・欧米を含む全世界の多言語リアルタイム観測記録</p>
-            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索（EVP, 声, 霊など）" onkeyup="searchPosts()">
+            <p class="subtitle">世界各地の多言語信号を自動翻訳・記録中</p>
+            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索（EVP, 霊, 声など）" onkeyup="searchPosts()">
             <div id="posts" class="posts-grid"></div>
             <div class="pagination">
                 <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
@@ -45,386 +54,7 @@
 
     <script>
         // --- DATA START ---
-        const posts = [
-    {
-        "date": "2026-04-28 11:23",
-        "source": "Global Observation Network",
-        "text": "アドバイスを求めています",
-        "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-    },
-    {
-        "date": "2026-04-28 11:23",
-        "source": "Global Observation Network",
-        "text": "何を捕らえたのか分かりません。",
-        "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-    },
-    {
-        "date": "2026-04-28 11:23",
-        "source": "Global Observation Network",
-        "text": "ヘリテージ ジャンクション パークのソーガス駅ビルの EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1scfrdv/evp_at_saugus_station_building_heritage_junction/"
-    },
-    {
-        "date": "2026-04-28 11:23",
-        "source": "Global Observation Network",
-        "text": "電子音声現象の明らかなケース?",
-        "url": "https://www.reddit.com/r/EVP/comments/1s648fc/a_clear_case_of_electronic_voice_phenomenon/"
-    },
-    {
-        "date": "2026-04-28 11:23",
-        "source": "Global Observation Network",
-        "text": "EVP は AI で分析できると思いますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1rw6exc/do_you_think_that_evp_can_be_analyzed_by_ai/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ゲート番号に電話したら歌い始めました...",
-        "url": "https://www.reddit.com/r/EVP/comments/1rk38ei/i_called_a_gate_number_and_it_started_singing_to/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "この音は何ですか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1rc41a6/what_is_this_sound/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "血の流れる音や低い轟音を自分の耳で聞くことができますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qy7j9h/can_you_will_the_sound_of_blood_rushing_or_a_low/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "もし（シズの）声が彼らの精神によって生み出されたものであるなら、どうして私は自分の声を録音したのでしょうか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1qfgmn8/if_the_schiz_voices_are_their_minds_generating/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "EVP捕獲！！！",
-        "url": "https://www.reddit.com/r/EVP/comments/1qffm0t/evp_capture/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "何が聞こえますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qbjxct/what_do_you_hear/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "EVP 2026 年 1 月",
-        "url": "https://www.reddit.com/r/EVP/comments/1q9bkxd/evps_january_2026/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "OG を紡ぐ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1svap1d/spinning_the_og/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "Spiritboxのようなおすすめの音楽はありますか？",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1surisd/any_music_recommendations_like_spiritbox/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "FoFのアルバムアートワークが彼女の顔だということに今気づいた",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1sultw4/i_just_realized_that_the_album_art_for_fof_is_her/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "コートニーのリノカット版画を作りました",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1spa4p2/linocut_print_i_made_of_courtney/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ツアーグッズ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1solprh/tour_merch/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "私の「Circle With Me」のギターカバーがSpotifyで公開されました！たくさんのご支援ありがとうございます🖤",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1snwx9c/my_guitar_cover_of_circle_with_me_is_out_on/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "PCコートニー・ティーの質問",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smqmam/pc_courtney_tee_question/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ホリー・ローリーがちょうどヒットする",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smb8xn/holly_rolly_just_hits/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "苦しみの美しさ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1sl84ro/the_beauty_of_suffering/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "うわー、マイケル・ストリンガーは野獣だ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1sl80qq/wow_michael_stringer_is_a_beast/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "どうしたの??",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1skmux5/howd_i_do/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ついに私のものになりました！",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1simgrq/its_finally_mine/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "私の人形は（おそらく）幽霊に取り憑かれています。ヘルプ！",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxwhee/my_dolls_are_maybe_haunted_help/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ジンクスって本当ですか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvvpx/is_jinxing_something_real/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "夜勤は簡単に稼げました。そうではなかった",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvqwd/night_shift_was_easy_money_it_wasnt/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ネットでリサイクルしたばかりの服に不快感を感じる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvatf/uncomfortable_feeling_around_a_clothing_i_just/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "私は幽霊に取り憑かれているのでしょうか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxthty/am_i_being_haunted/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "物体が消えて別の場所に再び現れる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxta72/object_disappearing_and_reappearing_somewhere_else/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "何か変だ",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxsxl1/something_weird/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "奇妙な聴覚と物理現象",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxslob/strange_auditory_physical_phenomenon/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "突き飛ばされたような感じだった",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxs1gn/it_felt_like_a_shove/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "この招かれざる客を特定するのに役立ちます",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxr0wh/help_identify_this_uninvited_guest/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "そうですね、私は 1 か月前にこのサブチャンネルに投稿しましたが、さらに多くのことが起こっています。",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxpzaf/hey_so_i_posted_on_this_sub_a_month_ago_and_more/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "光、叩く音、騒音、そして奇妙な夢",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxodkx/lights_tapping_noises_and_strange_dreams/"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "アボット・ラボラトリーズのEVP兼CFOフィリップ・ブードロー氏が20万1300ドル相当の株式を購入 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9PQjRNVmEtR3M1cnp4amk5ZjlqQjRBWWlnUEN3M0tIa0ZyM240WFNDcUVQQ1o1QUhfMWpDSzFtZXlVUEJxUU1GdEViOUV3WjdVTERaTV9Tb0xsT3QtUmZQVC1WalJyR3BTSE05dXN0bU1FWUVicFprei1ZMA?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "Nordic Semiconductor、マーケティングと開発者体験を統合する新EVP職を新設 - PR TIMES",
-        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5jNS1wbEdOVlNDNl9EQkV2Q3V3UDhEUEVEcktCM3JHcnBaLTBaTU1VOVI3bUNBaE9sRlJyUzdPWE1yZExHYS0zOFgzZ0hzeFhSeHB0SmtkNlpOSGZFTGlMOGdXRDV0STBZbHc?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "Zscaler（ZS）のEVP退任は、AIセキュリティ戦略を再構築するのか、それともゼロ・トラスト・フォーカスを強化するのか？ - simplywall.st",
-        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSHpVamdwWGY3azg0QU5Da1Y0dlV2bVpvVk9abnRKc1JEa29scWx3dEtIVF9EamxfSkRtYTRHeWxNY3hSb1Z1TTdLbnhENlRza3Y1enB6U05lb0ozUnpJNjE4cG5BM29XemJMeWlha0xRQWNSZC1jWGZWWnRvM2xQQU1hWjMwcDJBZXVj0gGQAUFVX3lxTE54T2J0clRfbDUtdzEza0RSR1l2X25yNlh0WFRCY2FXamZjWTdjOFJUazZNZTY5QnVSVGRYU0JQUVpIUnAtUGhoZmstYXlHdE9seVU2U0dDRHN3dWlxZjZLTy1UMkI1LThhQzdjV0ZHSWV1TjNLdEZLU3JIcXEwY0hPWV9Fd0hubUsybTJzRGRORg?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ZipRecruiterのEVP兼最高法務責任者が8,665ドル相当の株式を売却 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOUWdFMHE0TzVPQUZsUGktUERmNS0ybDRXc3J6STg3dGw2TkxMTVlwYmZVNzF1N2t0QXhKMVF1MnBwRDdGSzJqNTA2SWJOLVV1clVRZGI2REUxUW1lLW5iRTRhcUNBN1hHT3I0NVNiMS0yWlVoZkJVQWUxRnJDZXRpcDJMbVNBaWZyUUVj?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "新着情報“ｅＫクロス ＥＶP”2023年式アイボリーⅡ入荷しました！ - 中古車のガリバー",
-        "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNaE1QYmx4U3BmNE1WU3Z6XzF4VFhSOEVLdVBwckNEanhIZzVZbUFZS2lDSW1OZFRxdG9vbjNlQkFKXzBiTmlxMXVFT3JPZWd1QUcyY2EwOXp1cGJudXVYX29lbmgwdlowY0tSZjVuTkNhNDJLTmVQN3lIaTRSNmFSMU5Zd0w?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "自動車用電動真空ポンプ市場規模、シェア及び成長｜2034年予測分析 - Fortune Business Insights",
-        "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOakdqeTRDR3BDUkxaQ3NlQVR0dnI2cngyTlRvbmFLOU91T3MyTTR1d1czSUZmakt1R3h1MjRPQVlsUVBleUVxZkRpZVNvd1ZBT1hURUxqbFozLUd4X2xGVGNWZGNmX2NKckplSFBvQi1zZ2pFRVVmclV0WUxIYThReUVRd09IbE0tSXg0NlNQUktBT2RKRkE1UFo5Si14djBmRkZmLTZ5RVhnSjZzZlhGZmpZd2RSOFdnTHNxc3B1VGl1R1paVjNaaHpBWjdhbzltcHYzbC1aRC0tcGhUZUJwQzBCRmxKYjNZUUNBczRXNA?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ユナイテッド・レンタルズのEVP、クレイグ・ピントフ氏が237万ドル相当の自社株を売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE10ejR4S3duQkpMSnZmR1VjZ29CRXNWTU5xdzZ0Ty13T0cwd3pOcmJuRVJ4eEN3MFM4MkdRUDdxcXNRZWxHckM3YlZiT1g3Ql9abWc4WTcwRmRjVUx3QnZMZllVbHFwQ1YyZV9pRGhvLUZzM0J4eEtwdGhyWQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "グローブ・ライフのEVPマイケル・メジャーズ氏、GL株520万ドルを売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBfVWgyUDFYUjFvcHNTYzNSUkY4b1g0NzRsMDZuWGN4X0tfODMyZkNoVEQtcFZ1ZDRXNURHZ044dmtaTzkwMXRaV0FPUmZIa25MUnBpdU01WFNVbTlRN0lwRHZ6dmVSNlNZRVRRbEZGbnhIQmhiZklDYzZlUQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "WAFD社のEVP、キム・ロビソン氏が77万6,160ドル相当の自社株を売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1QREFzd0NFZ29hdFRDc19ETlFUMTJDOWFWSWdrSGtCS28wQTVleElra3RrWEJnNHpjWi02QTZldkJBZmRTX285a1liN3ZHVGxBLTlFYlJHbHAwNDh2STBxQzdhMnBXLUpqOWRyUThvMkkwNmc1bGFQRXVPcw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "SmartFinancial社のEVP、2万925ドル相当の自社株を売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43Nm9YTnZXZkx0MXhkNTdrdmkzdU91cFVtUXRWMTlQZEFyOVU4c0g1Y0MzVWlsVy1NckstTW02YzZWT0xoWk5DU2k0clJlOFJZa1AxT0R2d2UyU19Xbmg3S21aeU9XLTg1LVdCTUNFaWVjMXBsblVVUVRMTQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "SEIインベストメンツのEVP、フィリップ・マッケイブ氏が1万5000株を138万ドルで売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE54Z0Rjd25GaXpvVm9WOEY2UUdtQmJqWGtZNnJ0dTZPV0JkSkc2cFQzclFZMkVBamZ2cVlrWURUNk1NdnptYS1Sb3BwRTRSMndPSXp0NmZHUnAzVDhOS2QzOHlnRlUxLXJUMVY4bkhVZ0hFdWpyR2p3OXpycw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ステート・ストリートEVPのマイケル・リチャーズ氏が46万1000ドル相当の自社株を売却 執筆 - Investing.com - FX | 株式市場 | ファイナンス | 金融ニュース",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1uWVBVT1paOEpsdWtuY19ndWlTT2ltSW5HQXNfTWVzRWxiMHJ6czRKaDFQVVU3T0pKZ1BLdHhETXcwLVFCLUZGeHpEQzc1TDdiMTVRR1c3X0tLMXdUSnAyT19IT09DUEFNZl8wQ3dqNzVUV3pqRkJEczVvOA?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "「EVP現象」死亡者の声録音「衝撃」実際vs操作",
-        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9kZkZkSkhUb2syUWhQZU9OMk1DdjZwREFjOUxEUmw0SFk3U3c0OUN4M2RGVXE1SjhWczlYajAyRzBKSG5mSlczazZ0LUZjMS1wYjYxRnZGQmRiNjNYRnFubXZMZzQ0UWZD?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "[猟奇科学]被殺人魂が殺人者の指摘？ - 週間傾向",
-        "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9Rc0JsMWt3NXBrZWxXQ0UyY3FvaXNnR1duYjNOcXphNTU4NlFpUWFwWTVVSGJ1X25xVVl1NGZ4YXZ4TU1ETFp1ZW1VQkltN2M?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "「支持職」冷たいノイズ…白い魂の影が「スルリック」 - 朝鮮日報",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5vRjYyaWJ3bDQ0TlRqUzZZSlQxTGZ1MDB4N1JmcTN3WG9EVlVqWG5pLXpfTGJ5MUFkdjZYVWJaTVN0X2d0RmZISUhOUDlDS1BHN0JlWkFSTzZKVldfSnVnUEtMT1FmVmdlLW9SWjhBV1MyLTAzQ2dDR2lzWQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "凌華推出全新 IAP 與 EVP 工業運算平台 一站式全球認證助攻設備商跨國佈署 - iThome",
-        "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE1jQjl0cTBpVXZIa1A5MHJoU0c0Rm1MS0VfdlliNV9keFI5ZndqUE5NcXFhTmFBRFJKY3NUeW45M3lqaFNfREl2dVdLYw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "ベル・ヒューズ、トーマス・スメルカー氏とスティーブ・ドーソン氏を副社長兼社長に任命 - TradingView",
-        "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNcXRvUjQ2Rm9VV1RDZnY2VjJacDlSTEhzTUE2NUhTUG9ETTBYX1llaHdzMGNnYkVSQ0JtbTBqVExRdTg0VFAxZVJzX2dnVi1MVl9jbVFNdGM2TDhseDFUVXR1bXFndE5PYmoxTFRTbkppNjRFdkQtTnM4LVRjS2Y5dld0LUxkQ1JMWWx0WmgyM1lFRmFyME52d29xYk41Y2ZuYjBjWjMwcElqX1d6cUEzYVRGMVJUTGtVNVBYWG1NUXREaFVqTkZVZWZ4dmFOZ3lCc0J3?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "員工體驗與員工價值主張（EVP）：吸引人才與留才的關鍵策略 - Mercer |ブライトへようこそ",
-        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQemY0RmNmMF9tb0dvdlVVZFFEeTdhcEw3TkxseWJZaThaVmFmWXlJcENLNENtRnRxczRtUzAxR3kzVXhiYjhJck0zbjl1TVB1QjVfdUt3UWlEZkJRTkxxYlJfYnFYWWY0eU40eDYzNDlpME5HcFRkenhsRDQ2akRkVkVFT0I1OVV6RDVudy10MURnR25ETzJKVThLRGd1R3hicHJtdFZhN3lPelhvSElHWVVMQ2lrQjNJeDlYWHExT3IzdXJJNDJxSS0weE4?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "個股：凌華IAP/EVP 新問世，一站式全球認證攻撃自動化/半導体/零售設備商機 - 富聯網",
-        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPdHFTOWVDbEU4MWNpcVg0a1lUY1c3VldCNTJ6M2FlNFNqZUtCS0pwWV9pVVNiRlNuUW0yUEw2MzM1QW9yN1RweWR6bVVYWVE3LWxTdnpUamtCT1dJVktlUDBZUE41UHdJTVA3MWx6eVNQdml6ckY5OE5lUWd4NXVQc0RQbGMxbWR5?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "紅闖墓地網！朦朧現身喊冤「為什麼要弄我」抖出真凶命理師出面說話了 - ETtoday星光雲| ETtoday新聞雲",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9GaUtSZ3FZRVIzQnpMS3REbFd0N0VtUnhRUHJFSG5iT0VhSWVHenVjTmFsbXFQd00xX1ZfR3NqNTAzSFBSemJOVDJySE16UdIBakFVX3lxTE5YOXdNWldKenZISVdDczlvZWEzNTdyeXpQNDhjSWF2UVFyRk9WRGhBbFMwQTkxdUZxejBCTTYtMkxuaGVIbUV0SXBuaGh5S01YQ1hBd3VhQ0txVVU1bkNWY1dFUWcwSGFOOHc?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "他闖墓地「和在朦朧對話」恐怖實錄瘋傳！祂現身對講機抖出「真凶、宇盤內幕」 - 民視新聞網",
-        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAweHo2R0RPRTdXTEFEOEZHTnRacklvLXp4aVpjS2F4MzRPaGNJS1V4NDlaOTJRMjlaRk9hX0tVNk5FaFJqZDcyTmVSVC1GU3F0ZmYzMmNxMXpubWc3NVduYg?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "網紅直闖墓地「和在朦朧對話」！虐殺真凶內幕全招了 動画暴露網鍋 - 三立娛樂星聞",
-        "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFB4bHZqbXZMM0s1ZU1ZaTNRem52RmZxWGlQUzBEdVFIT1Jod2JpbnMtVUxVNUVoQi1jb3F3bkpGRVhSSDhfQUVJZ19n0gFfQVVfeXFMTWpQd0JxQkgzbU5lcEdOUkZDQ1U4NjFMWHltOUFwcDdRQTQ3MzM5QTNHMFhFQm9ERWJWOFJNQ3VhYXZlUmhnckc2NEVISmxmbkV5TERNWWlyUWRCMmtERlk?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "マイクロン・テクノロジー副社長マニッシュ・H・バティア、自社株1000万ドル超売却 - TradingView",
-        "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcEpQQUhsZlU4UUUyVDdzb0c3T2tRZDF3dUFRamg5Nmc3Rkw4cHMwdmtTdWpEdnZNRElWZW1YYUlaVnZ1MFJ0SlpkVTRlUDd5V1N6TjR5Si1UUUVLQzlHVkswOHA5UVJwRlFNejNmV2tIVmJmM2IxWFFyUTlFamV2Q2JIUURDYldwX0J5M1Q3ZFRiaVhwcG9IMmdET3M2aHVIWG52OVRYUWljWmNJOU5jY2hkZHNBemFTLXJScnhRVGhmTk5sc1BNT21wd19HSmVJN0lr?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "星展銀行全方位投入「人才永續」，攜手共創美好未来 - DBS Bank Ltd",
-        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBtMDdVREY2ZHVndnlIWTFxQl8zZnZrUU1KMzlUb2JRbGs3V0pVbzNRSTdJaEpPSGo5UExKbnkyMmZXWVFIa19vd3VWWDUxRHJBbF9nVmQ5alE5WTJReV8zTU81cVBSLU9mMzFZOFpB?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "他用EVP談1問題網震驚｜#全民話燒 - 民視新聞網",
-        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE96N0Y4b1gtTDZUZnlsQUxjOFhrZzdtOXAwRVlFOWQ2eFpKdXlSSFFhOUxJdFdHVk5kTTE3RWVDZHZsX0FPUWJRMDdWUnRxLXNCUmNxUGpnOEtFYTdBUXdtZQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "企業推「社員主品牌」吸人才真有用？關鍵２點需要先到 - 人才永續@天下學習 - Cheers快樂工作人",
-        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFB5SVp4N0FFTFVjTE1OTlNZRnpkbGc1Z0NFbVc5TVk1QkVPel81NzlhNkJVSENwckk2Zlk1Wm5VT29OczY2MWwxSEdqcHJjbVNUdVFqeWFJUmE0LXdhNklHM1JvcTJMSnVYMXNmcWpaZ2pjUVZa?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:24",
-        "source": "Global Observation Network",
-        "text": "宏碁啟動2025校園徵才 迎接AI 新世代人才 - Acer",
-        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQVXI4RkVMendjWVRCQTRjdmw4ODd5RVVBczlFWGdleDlFU1NSRzB5dEdTNGtyUEV6V2ZVdG1qRVRUd2hKR2Zua3UwQWo3ZkowU0JOQk1ILURGanNmZlhKYTVJemMtRmk3aEJKeHdYY2hHMTduMVY3R1J5Sm84ek5yaGZTWEFDRERmN2xaTkI4N284WHc?oc=5"
-    }
-];
+        const posts = [];
         // --- DATA END ---
 
         let currentPage = 1;
@@ -437,13 +67,17 @@
             const target = filteredPosts.slice(start, end);
             
             const container = document.getElementById('posts');
-            container.innerHTML = target.map(p => `
-                <div class="post">
-                    <div class="post-header">UTC/JST ${p.date} | ${p.source}</div>
-                    <div>${p.text}</div>
-                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典スレッド / 録音データを確認</a>
-                </div>
-            `).join('');
+            if (filteredPosts.length === 0) {
+                container.innerHTML = "<div style='text-align:center; padding:20px;'>信号を受信中、または該当する記録がありません...</div>";
+            } else {
+                container.innerHTML = target.map(p => `
+                    <div class="post" onclick="window.open('${p.url}', '_blank')">
+                        <div class="post-header">RECORED: ${p.date} | ${p.source}</div>
+                        <div>${p.text}</div>
+                        <span class="source-link">🔗 詳細データを確認</span>
+                    </div>
+                `).join('');
+            }
 
             document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
