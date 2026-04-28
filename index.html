@@ -6,266 +6,46 @@
     <title>👻 脂毛EVPラボ - リアルタイムデータベース</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; }
-        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1000px; margin: 0 auto; overflow: hidden; }
-        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 12px; font-weight: bold; display: flex; justify-content: space-between; font-size: 18px; }
-        .content { padding: 20px; }
-        h1 { font-size: 32px; text-align: center; margin: 0; }
-        .subtitle { text-align: center; font-size: 18px; color: #000080; margin-bottom: 20px; }
-        .search { width: 100%; margin-bottom: 20px; padding: 12px; font-family: 'VT323'; font-size: 20px; border: 3px inset #fff; box-sizing: border-box; }
-        .posts-grid { display: grid; gap: 15px; }
-        
-        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; transition: all 0.1s; position: relative; }
+        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
+        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1000px; width: 100%; margin: 0 auto; overflow: hidden; }
+        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 12px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
+        .content { padding: 20px; background: #c0c0c0; }
+        h1 { font-size: 32px; text-align: center; margin: 0 0 5px 0; }
+        .subtitle { text-align: center; font-size: 20px; margin-bottom: 25px; color: #000080; }
+        .search { width: 100%; margin-bottom: 25px; padding: 12px; font-family: 'VT323', monospace; font-size: 20px; border: 3px inset #fff; background: #fff; box-sizing: border-box; }
+        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); gap: 20px; }
+        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 18px; transition: all 0.1s; }
         
         /* マウスオーバー強調 */
-        .post:hover { 
-            background: #d0d0d0; 
-            border: 3px solid #000080; 
-            box-shadow: inset 2px 2px 0 #fff; 
-            transform: scale(1.005); 
-            cursor: pointer;
-        }
+        .post:hover { background: #d0d0d0; border: 3px solid #000080; box-shadow: inset 2px 2px 0 #fff; cursor: pointer; }
 
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; border-bottom: 1px dashed #808080; font-size: 14px; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 10px; display: block; font-size: 16px; }
-        
-        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; padding-bottom: 20px; }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; border-bottom: 1px dashed #808080; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; }
+
+        /* ページ選択用ボタン */
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
         .page-btn { padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; }
-        .page-btn:active { border: 3px inset #fff; box-shadow: none; transform: translate(1px, 1px); }
         .page-btn:disabled { color: #808080; cursor: default; box-shadow: none; }
-        .page-info { font-size: 22px; align-self: center; }
     </style>
 </head>
 <body>
     <div class="mac-window">
-        <div class="title-bar"><div>📂 EVP_GLOBAL_DATABASE_V3</div></div>
+        <div class="title-bar"><div>📂 リアルタイムEVPデータベース</div></div>
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">世界各地の多言語信号を自動翻訳・記録中</p>
-            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索（EVP, 霊, 声など）" onkeyup="searchPosts()">
-            <div id="posts" class="posts-grid"></div>
+            <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
+            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む..." onkeyup="searchPosts()">
+            <div class="posts-grid" id="posts"></div>
             <div class="pagination">
                 <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
-                <span id="pageInfo" class="page-info">PAGE 1</span>
+                <span id="pageInfo" style="font-size:22px; align-self:center;">PAGE 1</span>
                 <button id="nextBtn" class="page-btn" onclick="changePage(1)">NEXT</button>
             </div>
         </div>
     </div>
-
     <script>
         // --- DATA START ---
-        const posts = [
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "アドバイスを求めています",
-        "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "何を捕らえたのか分かりません。",
-        "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "ヘリテージ ジャンクション パークのソーガス駅ビルの EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1scfrdv/evp_at_saugus_station_building_heritage_junction/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "電子音声現象の明らかなケース?",
-        "url": "https://www.reddit.com/r/EVP/comments/1s648fc/a_clear_case_of_electronic_voice_phenomenon/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "EVP は AI で分析できると思いますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1rw6exc/do_you_think_that_evp_can_be_analyzed_by_ai/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "ゲート番号に電話したら歌い始めました...",
-        "url": "https://www.reddit.com/r/EVP/comments/1rk38ei/i_called_a_gate_number_and_it_started_singing_to/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "この音は何ですか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1rc41a6/what_is_this_sound/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "血の流れる音や低い轟音を自分の耳で聞くことができますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qy7j9h/can_you_will_the_sound_of_blood_rushing_or_a_low/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "OG を紡ぐ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1svap1d/spinning_the_og/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "Spiritboxのようなおすすめの音楽はありますか？",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1surisd/any_music_recommendations_like_spiritbox/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "FoFのアルバムアートワークが彼女の顔だということに今気づいた",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1sultw4/i_just_realized_that_the_album_art_for_fof_is_her/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "コートニーのリノカット版画を作りました",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1spa4p2/linocut_print_i_made_of_courtney/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "ツアーグッズ",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1solprh/tour_merch/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "私の「Circle With Me」のギターカバーがSpotifyで公開されました！たくさんのご支援ありがとうございます🖤",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1snwx9c/my_guitar_cover_of_circle_with_me_is_out_on/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "PCコートニー・ティーの質問",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smqmam/pc_courtney_tee_question/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "ホリー・ローリーがちょうどヒットする",
-        "url": "https://www.reddit.com/r/spiritbox/comments/1smb8xn/holly_rolly_just_hits/"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "【ポケモンセンター】「一番くじ Pokémon Type:Ghost」の再販売日について｜ポケモンセンター（全店） - ポケモンセンター スタッフボイス",
-        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE54NlhDQXR2Z0d6TmNMZ2ZuSzhwMWZTVlBFeWJWRkxzdXlOMWxSdmZQQ0plX0NIcmRDMTUzajhMNkthbzRtNVBkaWYtdWgtSkN5REhnWjBFbk5JaElKX29IOUVWWTNNUDF3akQ0SVVoUQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "幽霊調査ホラー『Ghost Frequency』5月26日配信へ。“実在の幽霊検出アプリ”が登場、電磁波や赤外線から霊に迫るハイテク心霊調査 - AUTOMATON",
-        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQazJUQVh1TE8tWjRfdkpMUXd3SVgxSWExVkV3ajF4dy1qdG9GSWNxem5TTzRrM1JZTmpIY3NKaTFuODRwZWNOcHpSd2JoYXp6djFJWTNGaUYwWWwyVEVBcUdxSVpGcTFnT0Zpb0dNQV93WV9RRS1adl8xQVFUNHZZbl9Wem5EcHJacUpj?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "『怪速急行■■行き』7月31日公開決定！日本版特報＆ティザービジュアルが解禁！ - Fan's Voice",
-        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBqWFhGVHE1OUJ3ZEVhWVpuSWpYUHBKQWplSHZTTWVScFZndlFCUkV1a2xFanJvYlViUXR2blpHWDVKLXBtQm8wVTQ5aDZuc1VUZkZpb01mUm0ySU5IV25JZnVn?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "ZETAグループの連結子会社であるLAMBDAのEVP CAIOに清水亮氏が就任（ネットショップ担当者フォーラム） - Yahoo!ニュース",
-        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1ZUGR3M2dGRHJueGRYc3JqZHZrWFU4UjRrYnJrTFlsZlVvQzZxMjFVdlhNZjBIR245ZDZMTEhiSWkwLTRFa0ZJSmMzS2puTE8teWZwZ04wNzJsX2FUYWZFS19GZzZodnpwb1V2eVJQVGpFbHVNOVZPZE51elB5Y2c?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "【Game of the Year】過去5年の受賞作から見えるビデオゲームのトレンド - Red Bull",
-        "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9JampwSC12bFBpQWxEY3pnRVp0SGJyUTVhSFgxSHlMczByMnBiZWhGT1pkM1o0dTQ5aEpzUkFCUERUbFhtenRPRHo2eTNRNnAzdkR5alpVU2VKRmJZdnBB?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "「The Game Awards 2020」で『Ghost of Tsushima（ゴースト・オブ・ツシマ）』が「Player’s Voice Award」を受賞 「プレイヤーが選んだ”Game of the Year”ってことだよ」「史上最高のサムライゲームかもしれない」 - ライブドアニュース",
-        "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1iVmctemUweTdhYTllWnlhVF9wdDlHd0JSWGFVeXczLTZZbFNXRXROMnhwUTlsM2s2RWNUc1RrRHE3elgyNUdpdG5jY3RHUXhXbTVqWnNtSlFxbFhLZG80?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "『Monthly Artist File-THE VOICE-』YUKIが21年4月パーソナリティに就任！ - PR TIMES",
-        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5CZTV1Y090b0JjWmxBX3FmLWFpNzMyTGQzUnZxT3E0NDRNRHBDRHp4ZFEtR1VCUmJmc3M3QVVlNEh4alIxbnhsVmZfRFNieXpaNThoX0RFV210b1YybGlaVkMzR3JpclpqZFE?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "アンドロップ - skream.jp",
-        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE81ZmgtVWZFZmNDM0g3U25JR0sxX3M0UDJXZTRPLTE0bl9nOHRVczlVMHQ2U1BodGxxWVdDems1eHpwZEwya3ljSWo1ZHRtOGNZd2NNQ0FWeWFUWHNC?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "「支持職」冷たいノイズ…白い魂の影が「スルリック」 - 朝鮮日報",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5vRjYyaWJ3bDQ0TlRqUzZZSlQxTGZ1MDB4N1JmcTN3WG9EVlVqWG5pLXpfTGJ5MUFkdjZYVWJaTVN0X2d0RmZISUhOUDlDS1BHN0JlWkFSTzZKVldfSnVnUEtMT1FmVmdlLW9SWjhBV1MyLTAzQ2dDR2lzWQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:48",
-        "source": "Global Network",
-        "text": "[猟奇科学]被殺人魂が殺人者の指摘？ - 週間傾向",
-        "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9Rc0JsMWt3NXBrZWxXQ0UyY3FvaXNnR1duYjNOcXphNTU4NlFpUWFwWTVVSGJ1X25xVVl1NGZ4YXZ4TU1ETFp1ZW1VQkltN2M?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "DEKRAと韓国産業技術試験院(KTL)、MOU締結 - KIPOST",
-        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE93dHpYcEZHMl9vM2hJWlJYcHI5NG9tTHB2VER5LVBLNUljY0RrZWUwZEtiTEVWQU05Um1TSVllQnlRT2didjRiZnlaNzFRckJBRUFXTjlfbjU0dmxtTFV0ZGZiTGFYU2520gFsQVVfeXFMUE9BUXoxZEhVVHlQU1Y4Um5NSDh1ZGRScFM5aGowR2x4V0RkdFdCRVY2SmVvaWFyQkVXWW81Qnl0a0NsTmlkblpKY21PcFZHelc2UUszV0JEM0FXalE3c1Z0cTVPLXVMUFA3V0l6?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "GHOSTが「Griftwood」をライブで初披露、TOBIAS FORGEが声を失ったため短縮設定 - Metal Injection",
-        "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPbktxYW9KTVZwQWNwVDNUZEZ5S2tZbEFvR0hmMVlMWU8zS2RCWU43MHdxSEZIMEVYV0xScGQ0ai1Makd3YWJ4VWFYdVdqUGVWLTlPRlRkbXR2NUh6RExwa1ZkVEp4d1JnLWlrYWMta2FqMG9OZXVyUnhBTTByTXlVOF9xREFaTTZDVkpCTXl3aVV4MU5EZGRpZ2plYUFMMlh2YjVuU0QwWDZfSTFWVFZ2TUNZcHlaVUpubmVnNlBidzJoYl95Mnkw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "部屋の中の幽霊: ストリートから断酒への旅 - The Voice of San Francisco",
-        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxORzNsRXMtcFZHRm40eE5Dckg0NnQ1ME1pYmQ0RlVsb3RXQ2lDaXc3V2gtXzVSX24zWVg3V2hXY2k2RUllZW1sdEhBaHpicUZ5cE10Q3g4ak5CTFBtRWJrV3pOUE8tSVZzdXc5d3ZIMVQ0M3FOWndVa2lxVHFfZDVjbzM2ZWpqLWdYS1JhOA?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "ゴーストハンティング EVP レコーダー & 超常現象スピリットボックス - ゴーストハンティングと日常使用のための 32GB デジタルボイスレコーダー - RuhrkanalNEWS",
-        "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPaFNJTTVfYmRmMGxKYkVRMzk2OGNvR0Z3ZTBMclhSYmxDblBBZEFRMGh5UW91WVNybzNZZ3lqcFlzanB6WUE3MnBFUl9DSkplNndCYTRfa1Q2VkJ6bFBoNFpXbllrY3pQNEU2VDY3UmhpUzMzVElUOWtZa0lkM3ZyN2Fwb2RYLWxzUUxydGNQZw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "幽霊の印象を取り戻し、声の正確なシェアをキャプチャ - PRWeek",
-        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPeWJQeHVyWUFfRXVvbFNsREtIOHljclFNcVh1OGJLdnVtaThFanhRX2h0LUZhZEVFQjdXcFZpUUw3aFdDX3pJZFNvNF9xVGhLVWx2QlJjc25TdlU3NHRpU3pEZ1kwd2xwUjNqZnl2U0JrbWtCT3hCOWdJbWVtM3VVOTlMX2xZQlhyeEhsRXZDSFB6OEZkVkptbg?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "ブレイク・シェルトン、依然としてボイスコーチの周りに「留まっている」：「彼の幽霊が私たちを悩ませている...」 - Yahoo!ショッピング",
-        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQbllBNmNITVlYUnlBZzB3dHZMOE8yQUY2dzVzbXQxcWVjNkxWZmNfUzlUNS1mXzZCTmlyUjhhdlRneW5SbzU3bkp5MWpoaEdlX2xXTEdNTGx6XzBNLW5RRmtQVERyUWVBZWFCNEM2M1pWRUR0Ym5LbksxNnp3YkUtX1cyTmxuWnEwUUNqZ2JvSjZTVU9XbTZIR3ZOT092Zw?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "ノシール・ダラルに会いましょう: 羊蹄の幽霊の十兵衛やその他の象徴的なビデオ ゲームの伝説の背後にあるおなじみの声 - IMDb",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE93R2c1NFhoQlJ0NTVYaUVYNFJkZDRfUG0wY3I4cF9oWXA2djlvSE5sdGpNX1RyWnlaU25mT3d4SVNQOE1GM3gwdUVjcmRCUQ?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "マリンの声：悲しみ、きらめき、そして幽霊船 — 被害者の母親は小さなことに慰めを見つける - Marin Independent Journal",
-        "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOdS03MnFxaWVRMmx6ZkN0RnFaTWpOcVN4aTIybzFtWHFhbUpSV01pRUpmZmRQQjNJakU5Z3BtUWRiSDJQd2tZNE5lbEFEMDVZZUozNWxQY29uN3Y1RU1OSnpiSE5nbEVWNmJUWlZEOTJWYTZ3UjA5c2p4LU96bzBTTmtiZVV3Z1Z6S215eVh4OTBaa1ZENFYwdWVveU9jbkVvOWFieHdUdXA2aGVQU2g3QWhXNWNEaTVoOG5TZ21uZEh2QW550gHKAUFVX3lxTE5SRWpPZjZPM2loTU0xaVVYYUhsOElLOU5GTGpueHE3V0NlYm5falRUVUVYV1FzdnBPRmYzaFdKMXVqdTRXSGZra01SVTR6RWFacVhyTjlIQUhRZTRBRFZuVndaSjgydTdtVDI2N3VGblpPamdDT19KaW5BR0d2OWI2OEtLUTNIMWwzY2ltdGMzOWhNbUw3Z3k5cWk1SmZnTktzZmdzeVB1SWdpa2ROTG9NVmxNRlJfYTFrX3hKaWNncllRdlZiczN4VVE?oc=5"
-    },
-    {
-        "date": "2026-04-28 11:49",
-        "source": "Global Network",
-        "text": "フリーモントのゴーストハウスは「これはハロウィンだ」と言う - Tri City Voice",
-        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBkTjBFYTY2aWhpQnF5VUdjOFBEQlBZNzdCZHBmbHN6VHM0dy1GTkFGTGFSaXo4b3RYbHVpaHk5X3p5aWhCR19vRGp1dDdvMHZkU0sxWDFsWV9Hb2hkaXV6emt3TTNTMURzNGVXVXZHTy1HVEE5SWM0?oc=5"
-    }
-];
+        const posts = [];
         // --- DATA END ---
 
         let currentPage = 1;
@@ -276,38 +56,25 @@
             const start = (currentPage - 1) * postsPerPage;
             const end = start + postsPerPage;
             const target = filteredPosts.slice(start, end);
-            
             const container = document.getElementById('posts');
-            if (filteredPosts.length === 0) {
-                container.innerHTML = "<div style='text-align:center; padding:20px;'>信号を受信中、または該当する記録がありません...</div>";
-            } else {
-                container.innerHTML = target.map(p => `
-                    <div class="post" onclick="window.open('${p.url}', '_blank')">
-                        <div class="post-header">RECORED: ${p.date} | ${p.source}</div>
-                        <div>${p.text}</div>
-                        <span class="source-link">🔗 詳細データを確認</span>
-                    </div>
-                `).join('');
-            }
-
+            container.innerHTML = target.map(p => `
+                <div class="post" onclick="window.open('${p.url}', '_blank')">
+                    <div class="post-header">${p.date} | ${p.source}</div>
+                    <div>${p.text}</div>
+                    <span class="source-link">🔗 出典スレッドを確認</span>
+                </div>
+            `).join('');
             document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
         }
 
-        function changePage(dir) {
-            currentPage += dir;
-            render();
-            window.scrollTo(0,0);
-        }
-
+        function changePage(dir) { currentPage += dir; render(); window.scrollTo(0,0); }
         function searchPosts() {
             const term = document.getElementById('search').value.toLowerCase();
             filteredPosts = posts.filter(p => p.text.toLowerCase().includes(term));
-            currentPage = 1;
-            render();
+            currentPage = 1; render();
         }
-
         render();
     </script>
 </body>
