@@ -3,157 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>脂毛EVPラボ</title>
+    <title>👻 脂毛EVPラボ - 世界の電子音声現象アーカイブ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
-        body {
-            background: #c0c0c0;
-            color: #000000;
-            font-family: 'VT323', monospace;
-            margin: 0;
-            padding: 20px;
-            image-rendering: pixelated;
-        }
-
-        .mac-window {
-            background: #c0c0c0;
-            border: 2px solid #ffffff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            box-shadow: 3px 3px 0 #000000;
-            max-width: 1000px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .title-bar {
-            background: linear-gradient(to right, #000080, #1084d0);
-            color: white;
-            padding: 4px 8px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            user-select: none;
-        }
-
-        .title-bar-buttons {
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn {
-            width: 18px;
-            height: 18px;
-            background: #c0c0c0;
-            border: 1px solid #ffffff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            text-align: center;
-            line-height: 14px;
-            font-size: 12px;
-        }
-
-        .content {
-            padding: 20px;
-            background: #c0c0c0;
-            min-height: 600px;
-        }
-
-        h1 {
-            font-size: 28px;
-            margin: 0 0 10px 0;
-            text-align: center;
-            color: #000;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #000;
-            margin-bottom: 25px;
-            font-size: 18px;
-        }
-
-        .search {
-            width: 100%;
-            padding: 8px 12px;
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            border: 2px inset #ffffff;
-            background: #ffffff;
-            margin-bottom: 25px;
-        }
-
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
-        }
-
-        .post {
-            background: #c0c0c0;
-            border: 2px inset #ffffff;
-            border-right-color: #808080;
-            border-bottom-color: #808080;
-            padding: 12px;
-            font-size: 17px;
-        }
-
-        .post-header {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #000080;
-        }
-
-        .post-text {
-            line-height: 1.5;
-        }
-
-        .source-link {
-            color: #0000ff;
-            text-decoration: underline;
-            margin-top: 8px;
-            display: block;
-        }
+        body { background:#0a0a0a; color:#f0f0f0; font-family:'Noto Sans JP', sans-serif; margin:0; padding:0; }
+        header { background:#1a0000; padding:40px 20px; text-align:center; border-bottom:4px solid #ff4444; }
+        h1 { font-size:3.2rem; color:#ff5555; margin:0; }
+        .subtitle { color:#ffdddd; font-size:1.3rem; }
+        .search-container { max-width:700px; margin:30px auto; position:relative; }
+        input { width:100%; padding:18px 25px 18px 60px; background:#1f1a1a; border:2px solid #555; border-radius:50px; color:white; font-size:1.15rem; }
+        .posts-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:20px; padding:0 20px; max-width:1200px; margin:0 auto; }
+        .post { background:#1a1414; border:1px solid #552222; border-radius:12px; padding:20px; }
+        .post:hover { border-color:#ff6666; }
+        .post-header { color:#aaffaa; margin-bottom:10px; }
     </style>
 </head>
 <body>
-    <div class="mac-window">
-        <!-- タイトルバー -->
-        <div class="title-bar">
-            <div>👻 脂毛EVPラボ</div>
-            <div class="title-bar-buttons">
-                <div class="btn">−</div>
-                <div class="btn">□</div>
-                <div class="btn">×</div>
-            </div>
-        </div>
+    <header>
+        <h1>👻 脂毛EVPラボ</h1>
+        <p class="subtitle">世界中の電子音声現象アーカイブ</p>
+    </header>
 
-        <div class="content">
-            <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">霊界からの声 — System 7 Style</p>
-
-            <input type="text" id="search" class="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
-
-            <div class="posts-grid" id="posts"></div>
-        </div>
+    <div class="search-container">
+        <input type="text" id="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
     </div>
+
+    <div class="posts-grid" id="posts"></div>
 
     <script>
         const posts = [
-            {date:"2026-04-28", source:"Wikipedia", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1959", source:"Friedrich Jürgenson", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1952", source:"ジェメリ神父", text:"聖歌録音中に亡き父親の声が聞こえた事例", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1970年代", source:"Konstantin Raudive", text:"72,000件以上のEVPを収集。無音の部屋でも声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"}
+            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"鳥の録音中に亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された。EVP研究のきっかけとなった有名事例。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』と幼少期のあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1970年代", source:"Konstantin Raudive (ラトビア)", text:"72,000件以上のEVPを収集。無音の部屋でも数百の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
+            {date:"現代", source:"Connecticut Ghost Hunter (USA)", text:"『Child Counting to Three』『We're not dead』『Please Help Me』などの明確なEVPを多数収録。", url:"http://www.connecticutghosthunter.com/evp-examples.html"},
+            {date:"現代", source:"世界各地の調査", text:"『Help me!』『Get out』『I am here』が最も頻出するEVP応答。", url:"https://www.intuitive-investigations.com"},
+            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。", url:"https://karapaia.com/archives/52176540.html"}
+            // ここにさらに世界中の事例を自動追加可能
         ];
 
         function renderPosts(data) {
             document.getElementById('posts').innerHTML = data.map(p => `
                 <div class="post">
                     <div class="post-header">${p.date}　｜　${p.source}</div>
-                    <div class="post-text">${p.text}</div>
-                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典を見る</a>
+                    <p>${p.text}</p>
+                    <a href="${p.url}" target="_blank" style="color:#ffcc00;">🔗 出典</a>
                 </div>
             `).join('');
         }
