@@ -6,29 +6,33 @@ import re
 import os
 import time
 
-# 全世界・全領域クエリ
+# キーワード強化：呪物、ホーンテッドドール、ポルターガイスト、ロシア語・各言語対応
 KEYWORDS = (
-    "EVP OR 'Spirit Box' OR 'Ghost Voice' OR ITC OR 'Instrumental Transcommunication' OR "
-    "Parapsychology OR Paranormal OR 'Psychical Research' OR 'Electronic Voice Phenomena' OR "
-    "電子音声現象 OR 心霊研究 OR 超心理学 OR 不可解 OR スピリットボックス OR "
-    "심령 OR 고스트보イス OR 초심리학 OR '전자 음성 현상' OR "
-    "靈異聲音 OR '電子語音現象' OR 超心理學 OR '鬼魂語音'"
+    "EVP OR 'Spirit Box' OR ITC OR 'Ghost Voice' OR "
+    "Poltergeist OR 'Haunted Doll' OR 'Cursed Object' OR 'Possessed Item' OR "
+    "電子音声現象 OR スピリットボックス OR ポルターガイスト OR 呪物 OR 呪いの人形 OR "
+    "심령 OR 폴터가イスト OR '저주받은 인형' OR '유령 인형' OR "
+    "靈異聲音 OR 跑馬燈現象 OR '鬧鬼娃娃' OR '受詛咒的物品' OR "
+    "Полтергейст OR 'Проклятый объект' OR 'Одержимая кукла' OR ФЭГ"
 )
 
 def get_sources():
     base_url = "https://news.google.com/rss/search?q={query}&hl={hl}&gl={gl}&ceid={ceid}"
+    # ロシア(RU)を含む、全世界の重要ノード
     regions = [
         {"hl": "ja", "gl": "JP", "ceid": "JP:ja"},
         {"hl": "ko", "gl": "KR", "ceid": "KR:ko"},
         {"hl": "zh-TW", "gl": "TW", "ceid": "TW:zh-Hant"},
         {"hl": "en", "gl": "US", "ceid": "US:en"},
-        {"hl": "fr", "gl": "FR", "ceid": "FR:fr"},
+        {"hl": "ru", "gl": "RU", "ceid": "RU:ru"}, # ロシア圏追加
+        {"hl": "en", "gl": "GB", "ceid": "GB:en"}, # 英国（ホーンテッドドールの本場）
         {"hl": "de", "gl": "DE", "ceid": "DE:de"}
     ]
     sources = [
         "https://www.reddit.com/r/EVP/new/.rss",
-        "https://www.reddit.com/r/SpiritBox/new/.rss",
-        "https://www.reddit.com/r/Paranormal/new/.rss"
+        "https://www.reddit.com/r/Paranormal/new/.rss",
+        "https://www.reddit.com/r/HauntedObjects/new/.rss", # 呪物専門
+        "https://www.reddit.com/r/Poltergeist/new/.rss"    # ポルターガイスト専門
     ]
     for r in regions:
         sources.append(base_url.format(query=KEYWORDS, **r))
@@ -37,33 +41,34 @@ def get_sources():
 translator = GoogleTranslator(source='auto', target='ja')
 
 def generate_tags(text):
-    """内容から自動でタグを生成する"""
+    """内容から自動でタグを生成する（呪物・人形・現象の追加）"""
     tags = []
-    # カテゴリ判別
-    if any(x in text for x in ["音声", "録音", "声", "Voice", "Audio", "EVP", "スピリットボックス"]): tags.append("#Audio")
-    if any(x in text for x in ["研究", "検証", "超心理学", "学", "Research", "Lab", "ITC"]): tags.append("#Research")
-    if any(x in text for x in ["不可解", "超常", "怪異", "Paranormal", "Ghost", "幽霊"]): tags.append("#Paranormal")
-    # 地域判別
-    if any(x in text for x in ["韓国", "ソウル", "Korea", "심령"]): tags.append("#Korea")
-    if any(x in text for x in ["台湾", "中国", "香港", "Taiwan", "China", "靈異"]): tags.append("#Asia")
-    if any(x in text for x in ["日本", "東京", "Japan"]): tags.append("#Japan")
+    # 現象・カテゴリ
+    if any(x in text for x in ["音声", "録音", "声", "EVP", "Voice", "Audio"]): tags.append("#Audio")
+    if any(x in text for x in ["人形", "ドール", "Doll", "кукла"]): tags.append("#Doll")
+    if any(x in text for x in ["呪物", "呪い", "Cursed", "Possessed", "物"]): tags.append("#Object")
+    if any(x in text for x in ["ポルターガイスト", "物理", "Poltergeist"]): tags.append("#Physical")
+    if any(x in text for x in ["研究", "超心理学", "検証", "Research", "Lab"]): tags.append("#Research")
     
-    return " ".join(tags) if tags else "#Unknown"
+    # 地域
+    if any(x in text for x in ["韓国", "Korea"]): tags.append("#Korea")
+    if any(x in text for x in ["ロシア", "Russia", "RU", "Полтер"]): tags.append("#Russia")
+    if any(x in text for x in ["台湾", "中国", "Asia"]): tags.append("#Asia")
+    
+    return " ".join(tags) if tags else "#Paranormal"
 
 def crawl():
     new_posts = []
-    print("📡 自動タグ付けモードでスキャン中...")
-    
+    print("📡 呪物・物理現象を含む全領域スキャンを開始...")
     for url in get_sources():
         try:
             feed = feedparser.parse(url)
-            for entry in feed.entries[:12]:
+            for entry in feed.entries[:15]:
                 try:
-                    time.sleep(0.3) 
+                    time.sleep(0.3)
                     translated_text = translator.translate(entry.title)
-                    
-                    # タグを生成してテキストの先頭に付与
                     tags = generate_tags(translated_text + entry.title)
+                    # デザイン維持のため、テキストの先頭にタグを埋め込む
                     tagged_text = f"{tags} {translated_text}"
                     
                     new_posts.append({
@@ -81,7 +86,6 @@ def crawl():
 
     match = re.search(r'const posts = (\[.*?\]);', content, flags=re.DOTALL)
     old_posts = json.loads(match.group(1)) if match else []
-    
     urls = {p['url'] for p in old_posts}
     final_posts = ([p for p in new_posts if p['url'] not in urls] + old_posts)[:200]
 
@@ -90,9 +94,7 @@ def crawl():
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(new_content)
-    print(f"✅ 完了。タグ付き記事を保存しました。")
+    print(f"✅ 更新完了。全 {len(final_posts)} 件をアーカイブ。")
 
 if __name__ == "__main__":
     crawl()
-  
-  
