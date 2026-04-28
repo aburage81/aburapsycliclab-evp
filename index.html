@@ -14,7 +14,6 @@
             margin: 0;
             padding: 30px 20px;
             min-height: 100vh;
-            image-rendering: pixelated;
         }
 
         .mac-window {
@@ -23,7 +22,7 @@
             border-right-color: #808080;
             border-bottom-color: #808080;
             box-shadow: 4px 4px 0 #000000;
-            max-width: 1400px;           /* ← 広くしました */
+            max-width: 1450px;
             margin: 0 auto;
             overflow: hidden;
         }
@@ -44,8 +43,7 @@
         }
 
         .btn {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             background: #c0c0c0;
             border: 1px solid #fff;
             border-right-color: #808080;
@@ -61,19 +59,8 @@
             min-height: 700px;
         }
 
-        h1 {
-            font-size: 32px;
-            text-align: center;
-            margin: 0 0 10px 0;
-            color: #000;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 30px;
-            color: #000080;
-        }
+        h1 { font-size: 32px; text-align: center; margin: 0 0 8px 0; }
+        .subtitle { text-align: center; font-size: 20px; margin-bottom: 30px; color: #000080; }
 
         .search {
             width: 100%;
@@ -89,10 +76,8 @@
 
         .posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); /* ← 広く */
+            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
             gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
         }
 
         .post {
@@ -102,7 +87,6 @@
             border-bottom-color: #808080;
             padding: 18px;
             transition: all 0.2s;
-            cursor: default;
         }
 
         .post:hover {
@@ -110,21 +94,10 @@
             border-style: outset;
             background: #e0e0e0;
             transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
         }
 
-        .post-header {
-            font-weight: bold;
-            color: #000080;
-            margin-bottom: 10px;
-        }
-
-        .source-link {
-            color: #0000ff;
-            text-decoration: underline;
-            margin-top: 12px;
-            display: block;
-        }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 12px; display: block; }
     </style>
 </head>
 <body>
@@ -140,7 +113,7 @@
 
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">System 7 Style — 世界の霊界の声</p>
+            <p class="subtitle">霊界の声</p>
 
             <input type="text" id="search" class="search" placeholder="🔍 キーワード検索" onkeyup="filterPosts()">
 
@@ -150,11 +123,12 @@
 
     <script>
         const posts = [
-            {date:"2026-04-28", source:"Wikipedia JP", text:"電子音声現象（EVP）とは、電子機器で死後世界と交信を試みる現象。通常録音中に直接聞こえない声が後で聞こえる。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
-            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』とあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1959", source:"Friedrich Jürgenson (スウェーデン)", text:"鳥の録音中に亡き母親の声『フリードリヒ、あなたは守られています。この声が聞こえますか？』が録音された。EVP研究のきっかけ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
+            {date:"1952", source:"ジェメリ神父 (ヴァチカン)", text:"聖歌録音中に亡き父親の声が『いつでもお前の側にいる』と幼少期のあだ名で呼んだ。", url:"https://ja.wikipedia.org/wiki/電子音声現象"},
             {date:"1970年代", source:"Konstantin Raudive (ラトビア)", text:"72,000件以上のEVPを収集。無音の部屋でも多数の声が録音された。", url:"https://en.wikipedia.org/wiki/Electronic_voice_phenomenon"},
-            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。", url:"https://karapaia.com/archives/52176540.html"}
+            {date:"現代", source:"Connecticut Ghost Hunter (USA)", text:"『Child Counting to Three』『We're not dead』『Cut it out!』など明確なEVP多数。", url:"http://www.connecticutghosthunter.com/evp-examples.html"},
+            {date:"現代", source:"世界の調査事例", text:"『Help me!』『Get out』『I am here』が最も頻出するEVP応答。", url:"#"},
+            {date:"現代", source:"karapaia (日本)", text:"心霊界から届く声を記録した超常現象。録音中に直接聞こえない声が後で聞こえる。", url:"https://karapaia.com/archives/52176540.html"}
         ];
 
         function renderPosts(data) {
