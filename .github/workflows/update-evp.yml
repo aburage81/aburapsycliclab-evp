@@ -1,7 +1,7 @@
 name: EVP_Realtime_Update
 on:
   schedule:
-    - cron: '0 * * * *' # 1時間に1回自動更新
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # バージョンを上げました
         with:
           python-version: '3.10'
       - name: Install dependencies
@@ -24,5 +24,5 @@ jobs:
           git config user.name "EVP-Bot"
           git config user.email "bot@evp-lab.com"
           git add index.html
-          git commit -m "📡 信号受信記録: $(date)" || exit 0
+          git commit -m "📡 記録更新" || exit 0
           git push
