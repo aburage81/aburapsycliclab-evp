@@ -3,58 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👻 脂毛EVPラボ - 世界観測モード</title>
+    <title>👻 脂毛EVPラボ - リアルタイムデータベース</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
-        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1200px; width: 100%; margin: 0 auto 20px; overflow: hidden; box-sizing: border-box; }
-        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 10px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
-        .btn { width: 18px; height: 18px; background: #c0c0c0; border: 1px solid #fff; border-right-color: #808080; border-bottom-color: #808080; text-align: center; line-height: 14px; font-size: 12px; cursor: pointer; }
-        #map { height: 350px; width: 100%; background: #000; filter: grayscale(1) contrast(1.2); border-top: 2px solid #808080; }
-        .content { padding: 15px; }
-        h1 { font-size: 28px; text-align: center; margin: 0; }
-        .subtitle { text-align: center; font-size: 18px; margin-bottom: 20px; color: #000080; }
-        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr)); gap: 15px; }
-        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 15px; word-wrap: break-word; }
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 8px; border-bottom: 1px dashed #808080; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 10px; display: block; }
+
+        body {
+            background: #c0c0c0;
+            color: #000000;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 20px 10px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .mac-window {
+            background: #c0c0c0;
+            border: 3px solid #ffffff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            box-shadow: 4px 4px 0 #000000;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto 25px;
+            overflow: hidden;
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 18px;
+        }
+
+        #map {
+            height: 380px;
+            width: 100%;
+            background: #000;
+            filter: grayscale(1) contrast(1.1);
+            border-bottom: 3px inset #fff;
+        }
+
+        .content {
+            padding: 25px;
+            background: #c0c0c0;
+        }
+
+        h1 { font-size: 32px; text-align: center; margin: 0 0 5px 0; }
+        .subtitle { text-align: center; font-size: 20px; margin-bottom: 30px; color: #000080; }
+
+        .search {
+            width: 100%;
+            margin: 0 auto 30px;
+            display: block;
+            padding: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            border: 3px inset #ffffff;
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+            gap: 20px;
+        }
+
+        .post {
+            background: #c0c0c0;
+            border: 3px inset #ffffff;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            padding: 20px;
+            transition: transform 0.1s;
+        }
+
+        .post:hover { background: #d0d0d0; }
+        .post-header { font-weight: bold; color: #000080; margin-bottom: 12px; border-bottom: 1px dashed #808080; font-size: 18px; }
+        .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; font-size: 18px; }
     </style>
 </head>
 <body>
+
     <div class="mac-window">
-        <div class="title-bar"><div>📡 世界EVPリアルタイム観測モニタ</div><div class="btn">×</div></div>
+        <div class="title-bar"><div>📡 グローバル・エミッション・モニタ</div></div>
         <div id="map"></div>
     </div>
+
     <div class="mac-window">
-        <div class="title-bar"><div>👻 データベース</div><div class="btn">?</div></div>
+        <div class="title-bar"><div>📂 リアルタイムデータベース</div></div>
         <div class="content">
             <h1>電子音声現象アーカイブ</h1>
-            <p class="subtitle">Reddit(r/EVP)より自動抽出・翻訳済</p>
-            <div class="posts-grid" id="posts"></div>
+            <p class="subtitle">世界各地の観測事例：自動要約・翻訳</p>
+
+            <input type="text" id="search" class="search" placeholder="🔍 キーワードをフィルタ..." onkeyup="filterPosts()">
+
+            <div class="posts-grid" id="posts">
+                </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Pythonがここを自動書き換えします
-        const posts = []; 
+        // --- DATA START ---
+        const posts = []; // クローラーがここにJSONを流し込みます
+        // --- DATA END ---
 
         const map = L.map('map', { zoomControl: false }).setView([20, 0], 2);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        function render() {
-            document.getElementById('posts').innerHTML = posts.map(p => `
+        function renderPosts(data) {
+            const container = document.getElementById('posts');
+            container.innerHTML = data.map(p => `
                 <div class="post">
                     <div class="post-header">${p.date} | ${p.source}</div>
                     <div>${p.text}</div>
-                    <a href="${p.url}" target="_blank" class="source-link">🔗 元スレッド</a>
+                    <a href="${p.url}" target="_blank" class="source-link">🔗 出典を確認</a>
                 </div>
             `).join('');
+
             posts.forEach(p => {
                 if(p.lat) L.marker([p.lat, p.lng]).addTo(map).bindPopup(p.text);
             });
         }
-        render();
+
+        function filterPosts() {
+            const term = document.getElementById('search').value.toLowerCase();
+            renderPosts(posts.filter(p => p.text.toLowerCase().includes(term)));
+        }
+
+        renderPosts(posts);
     </script>
 </body>
 </html>
