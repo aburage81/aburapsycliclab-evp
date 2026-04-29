@@ -1,6 +1,8 @@
 import feedparser
 from deep_translator import GoogleTranslator
 import datetime
+# 時差計算モジュールを導入
+from datetime import timedelta, timezone
 import json
 import re
 import os
@@ -9,22 +11,18 @@ import time
 def get_sources():
     base_url = "https://news.google.com/rss/search?q={query}&hl={hl}&gl={gl}&ceid={ceid}"
     
-    # 掲示板・アングラサイト特化クエリ
-    # 4chan/x/, Above Top Secret, Forteanaなどをターゲットに含める
-    FORUM_Q = "(site:4channel.org/x/ OR site:abovetopsecret.com OR site:forteantimes.com) (EVP OR Poltergeist OR 'Haunted Doll' OR OBE OR NHI)"
+    # ターゲットキーワード
+    FORUM_Q = "(site:4channel.org/x/ OR site:abovetopsecret.com OR site:forteantimes.com) (EVP OR Poltergeist OR 'Haunted Doll' OR OBE OR NHI OR 'Mandela Effect')"
     RU_Q = "Полтергейст OR ФЭГ OR 'Аномальные явления' OR 'ИТК'"
     KO_Q = "심령 OR '유체 이탈' OR '오브' OR '초자연적'"
     ZH_Q = "靈異 OR '曼德拉效應' OR '超常現象'"
-    JA_Q = "心霊 OR 幽体離脱 OR 呪物 OR マンデラエフェクト OR 'スピリットボックス'"
+    JA_Q = "心霊 OR 幽体離脱 OR 呪物 OR マンデラエフェクト OR 'スピリットボックス' OR '超能力'"
 
     sources = [
-        # 直接RSS
         "https://www.reddit.com/r/EVP/new/.rss",
         "https://www.reddit.com/r/MandelaEffect/new/.rss",
         "https://www.reddit.com/r/Paranormal/new/.rss",
-        "https://boards.4channel.org/x/index.rss", # 4chan /x/ を直接追加
-        
-        # 特化ノード
+        "https://boards.4channel.org/x/index.rss",
         base_url.format(query=FORUM_Q, hl="en", gl="US", ceid="US:en"),
         base_url.format(query=RU_Q, hl="ru", gl="RU", ceid="RU:ru"),
         base_url.format(query=KO_Q, hl="ko", gl="KR", ceid="KR:ko"),
@@ -49,14 +47,18 @@ def generate_tags(text):
     return " ".join(tags) if tags else "#Paranormal"
 
 def crawl():
+    # --- 日本時間（JST）を生成 ---
+    jst = timezone(timedelta(hours=9), 'JST')
+    now = datetime.datetime.now(jst)
+    now_str = now.strftime("%Y-%m-%d %H:%M")
+    
     new_posts = []
-    now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    print(f"📡 脂心霊パラノーマルBOT 広域スキャン開始 ({now_str})")
+    print(f"📡 20分間隔スキャン開始 (JST: {now_str})")
     
     for url in get_sources():
         try:
             feed = feedparser.parse(url)
-            for entry in feed.entries[:10]:
+            for entry in feed.entries[:8]:
                 try:
                     time.sleep(0.5)
                     title = entry.get('title', '')
@@ -65,7 +67,7 @@ def crawl():
                     tagged_text = f"{tags} {translated_text}"
                     
                     new_posts.append({
-                        "date": now_str,
+                        "date": now_str, # 個別記事の時刻もJSTに固定
                         "source": "Global Node",
                         "text": tagged_text,
                         "url": entry.get('link', '')
@@ -77,7 +79,7 @@ def crawl():
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 
-    # 記事データの更新
+    # 1. 記事データの更新
     match = re.search(r'const posts = (\[.*?\]);', content, flags=re.DOTALL)
     old_posts = json.loads(match.group(1)) if match else []
     urls = {p['url'] for p in old_posts}
@@ -86,12 +88,12 @@ def crawl():
     json_str = json.dumps(final_posts, ensure_ascii=False, indent=4)
     content = re.sub(r'const posts = \[.*?\];', f'const posts = {json_str};', content, flags=re.DOTALL)
     
-    # 最終更新日時の更新
+    # 2. 最終更新日時（lastUpdated）を日本時間に書き換え
     content = re.sub(r'const lastUpdated = ".*?";', f'const lastUpdated = "{now_str}";', content)
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(content)
-    print(f"✅ スキャン完了。現在 {len(final_posts)} 件をアーカイブ。")
+    print(f"✅ 更新成功。時刻: {now_str}")
 
 if __name__ == "__main__":
     crawl()
