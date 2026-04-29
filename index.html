@@ -24,7 +24,6 @@
             max-width: 1000px; 
             width: 100%; 
             margin: 0 auto; 
-            overflow: hidden; 
         }
         .title-bar { 
             background: linear-gradient(to right, #000080, #1084d0); 
@@ -36,48 +35,28 @@
             justify-content: space-between; 
             font-size: 18px; 
         }
-        .content { 
-            padding: 20px; 
-            background: #c0c0c0; 
-        }
+        .content { padding: 20px; }
         
-        /* タイトルリンク設定 */
-        h1 { 
-            font-size: 32px; 
-            text-align: center; 
-            margin: 0 0 5px 0; 
-            cursor: pointer; 
-            text-decoration: none; 
-            color: #000; 
-        }
-        h1:hover { color: #000080; }
+        h1 { font-size: 32px; text-align: center; margin: 0; cursor: pointer; }
+        .subtitle { text-align: center; font-size: 20px; margin: 5px 0; color: #000080; }
+        .last-update { text-align: center; font-size: 14px; margin-bottom: 20px; color: #555; }
 
-        .subtitle { 
-            text-align: center; 
-            font-size: 20px; 
-            margin-bottom: 5px; 
-            color: #000080; 
+        /* 検索セクションの改良 */
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
         }
-        
-        .last-update {
-            text-align: center; 
-            font-size: 14px; 
-            margin-bottom: 25px; 
-            color: #555;
-            letter-spacing: 1px;
-        }
-
-        .search { 
-            width: 100%; 
-            margin-bottom: 25px; 
-            padding: 12px; 
-            font-family: 'VT323', monospace; 
+        .search-input, .tag-select { 
+            padding: 10px; 
+            font-family: 'VT323'; 
             font-size: 20px; 
             border: 3px inset #fff; 
             background: #fff; 
-            box-sizing: border-box; 
         }
-        
+        .search-input { flex-grow: 2; }
+        .tag-select { flex-grow: 1; cursor: pointer; }
+
         .posts-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); 
@@ -90,13 +69,6 @@
             border-right-color: #808080; 
             border-bottom-color: #808080; 
             padding: 18px; 
-            transition: all 0.1s; 
-        }
-        .post:hover { 
-            background: #d0d0d0; 
-            border: 3px solid #000080; 
-            box-shadow: inset 2px 2px 0 #fff; 
-            cursor: pointer; 
         }
         
         .post-header { 
@@ -104,59 +76,64 @@
             color: #000080; 
             margin-bottom: 10px; 
             border-bottom: 1px dashed #808080; 
-            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
         }
-        
+
+        /* タグのスタイル */
+        .tag-link {
+            color: #000080;
+            cursor: pointer;
+            padding: 0 4px;
+            text-decoration: underline;
+        }
+        .tag-link:hover {
+            background-color: yellow; /* マウスオンで黄色ハイライト */
+            color: #000;
+        }
+
         .source-link { 
             color: #0000ff; 
             text-decoration: underline; 
             margin-top: 15px; 
             display: block; 
-            font-size: 16px;
         }
 
-        .pagination { 
-            display: flex; 
-            justify-content: center; 
-            gap: 15px; 
-            margin-top: 25px; 
-            padding-bottom: 20px; 
-        }
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
         .page-btn { 
-            padding: 8px 20px; 
-            background: #c0c0c0; 
-            border: 3px solid #fff; 
-            border-right-color: #808080; 
-            border-bottom-color: #808080; 
-            cursor: pointer; 
-            font-family: 'VT323'; 
-            font-size: 20px; 
-            box-shadow: 2px 2px 0 #000; 
+            padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; 
+            border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; 
+            font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; 
         }
-        .page-btn:active {
-            box-shadow: none;
-            transform: translate(2px, 2px);
-        }
-        .page-btn:disabled { 
-            color: #808080; 
-            cursor: default; 
-            box-shadow: none; 
-            transform: none;
-        }
+        .page-btn:disabled { color: #808080; box-shadow: none; }
     </style>
 </head>
 <body>
     <div class="mac-window">
         <div class="title-bar">
             <div>📂 リアルタイム怪現象データベース</div>
-            <div style="font-size: 14px;">[Ver 5.0.0]</div>
+            <div style="font-size: 14px;">[Ver 5.5.0]</div>
         </div>
         <div class="content">
             <h1 onclick="location.href='./';">脂心霊パラノーマルBOT</h1>
             <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
             <p id="last-update" class="last-update">LAST UPDATE: ---</p>
             
-            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む（例: #Audio, #Russia, #Mandela）" onkeyup="searchPosts()">
+            <div class="search-container">
+                <input type="text" id="search" class="search-input" placeholder="🔍 キーワード検索..." onkeyup="filterPosts()">
+                <select id="tagFilter" class="tag-select" onchange="filterPosts()">
+                    <option value="">ALL TAGS (全て表示)</option>
+                    <option value="#Audio">#Audio (音声/EVP)</option>
+                    <option value="#Orb">#Orb (光球)</option>
+                    <option value="#OBE">#OBE (幽体離脱)</option>
+                    <option value="#Mandela">#Mandela (記憶異常)</option>
+                    <option value="#Psy">#Psy (超能力/ESP)</option>
+                    <option value="#Physical">#Physical (物理現象)</option>
+                    <option value="#NHI">#NHI (非人類知性)</option>
+                    <option value="#Object">#Object (呪物/物体)</option>
+                    <option value="#Paranormal">#Paranormal (その他)</option>
+                </select>
+            </div>
             
             <div class="posts-grid" id="posts"></div>
             
@@ -170,196 +147,8 @@
 
     <script>
         // --- DATA START ---
-        // Pythonボットがこの変数を直接書き換えます
-        const posts = [
-    {
-        "date": "2026-04-29 09:49",
-        "source": "Global Node",
-        "text": "#Paranormal 猫ですか、猫ではありませんか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sybv0f/cat_or_not_a_cat/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal アドバイスを求めています",
-        "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 何を捕らえたのか分かりません。",
-        "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Audio ヘリテージ ジャンクション パークのソーガス駅ビルの EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1scfrdv/evp_at_saugus_station_building_heritage_junction/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Audio 電子音声現象の明らかなケース?",
-        "url": "https://www.reddit.com/r/EVP/comments/1s648fc/a_clear_case_of_electronic_voice_phenomenon/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Audio EVP は AI で分析できると思いますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1rw6exc/do_you_think_that_evp_can_be_analyzed_by_ai/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal ゲート番号に電話したら歌い始めました...",
-        "url": "https://www.reddit.com/r/EVP/comments/1rk38ei/i_called_a_gate_number_and_it_started_singing_to/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal この音は何ですか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1rc41a6/what_is_this_sound/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 血の流れる音や低い轟音を自分の耳で聞くことができますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qy7j9h/can_you_will_the_sound_of_blood_rushing_or_a_low/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Audio もし（シズの）声が彼らの精神によって生み出されたものであるなら、どうして私は自分の声を録音したのでしょうか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1qfgmn8/if_the_schiz_voices_are_their_minds_generating/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Audio EVP捕獲！！！",
-        "url": "https://www.reddit.com/r/EVP/comments/1qffm0t/evp_capture/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Mandela 「セックス・アンド・ザ・シティ」がマンデラ効果リストに入っているのが信じられない",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sxiwk9/im_finding_it_hard_to_believe_that_sex_and_the/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal ベティ・ホワイト",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sxgajs/betty_white/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-04-27)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sx7yfy/did_you_discover_a_new_mandela_effect_post_it/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal ベレンスタインだとずっと思ってた",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1swx4no/i_always_knew_it_was_berenstain/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal Fruit Of The Loom は 2000 年代の海賊版です - なんてことだろう",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svu3bu/fruit_of_the_loom_ist_eine_raubkopie_aus_den/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Mandela テレビ番組「ER」でマンデラエフェクト！",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svnknt/mandela_effect_on_tv_show_er/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Mandela マンデラ効果って、人間の物の見方が以前と違うことですよね？",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svft7f/mandela_effect_is_when_humans_see_things/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 人体解剖学・骨格構造",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svb2rw/human_anatomy_skeletal_structure/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-04-23)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1stmxum/did_you_discover_a_new_mandela_effect_post_it/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal [SEGA CHANNEL] セガ チャンネル メニュー デモ 1994 年 12 月 (1294DEMO.BIN)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1srdw7m/sega_channel_sega_channel_menu_demo_121994/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 前腕に這う感覚",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syryag/crawling_sensation_on_my_forearms/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal これはどのような種類のアクティビティですか?",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syqy8w/what_type_of_activity_is_this/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal スピリットレコーダー",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sypne9/spirit_recorder/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal それで私は葬儀社「ナイツ」で一人で働いています。",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syns91/so_i_work_at_a_funeral_home_nights_all_alone/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 本能の共有",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1symfky/shared_instinct/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 幽霊が私の尻に触れた",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sym71x/ghost_touched_my_butt/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal うっかり非常に悪いことを話してしまったときの恐ろしい経験。何が起こったのか知っている人はいますか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sylr57/terrifying_experience_when_i_accidentally_spoke/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal それは何だったと思いますか?",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syj523/what_do_you_think_it_was/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal 影の人、意見",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syi3f0/shadow_person_opinion/"
-    },
-    {
-        "date": "2026-04-29 09:05",
-        "source": "Global Node",
-        "text": "#Paranormal Viewpoint Aqaurius の 1978 年 1 月号をオンラインで見つけられる場所を知っている人はいますか?",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sygt5r/does_anyone_know_where_to_find_the_jan_1978_issue/"
-    }
-];
-        const lastUpdated = "2026-04-29 18:56";
+        const posts = []; 
+        const lastUpdated = "2026-04-29 19:10"; 
         // --- DATA END ---
 
         let currentPage = 1;
@@ -367,9 +156,7 @@
         let filteredPosts = [...posts];
 
         function render() {
-            // 更新日時の表示反映
-            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated}`;
-            
+            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated} (JST)`;
             const start = (currentPage - 1) * postsPerPage;
             const end = start + postsPerPage;
             const target = filteredPosts.slice(start, end);
@@ -378,18 +165,49 @@
             if (target.length === 0) {
                 container.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 24px;">信号が見つかりません...</div>';
             } else {
-                container.innerHTML = target.map(p => `
-                    <div class="post" onclick="window.open('${p.url}', '_blank')">
-                        <div class="post-header">${p.date} | ${p.source}</div>
-                        <div style="font-size: 20px; line-height: 1.4;">${p.text}</div>
-                        <span class="source-link">🔗 出典スレッドを確認</span>
-                    </div>
-                `).join('');
+                container.innerHTML = target.map(p => {
+                    // テキストからタグを分離してクリック可能にする
+                    const tagMatch = p.text.match(/^(#[a-zA-Z]+)\s(.*)/);
+                    const tag = tagMatch ? tagMatch[1] : "#Paranormal";
+                    const body = tagMatch ? tagMatch[2] : p.text;
+
+                    return `
+                        <div class="post">
+                            <div class="post-header">
+                                <span>${p.date}</span>
+                                <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
+                            </div>
+                            <div style="font-size: 20px; line-height: 1.4;">${body}</div>
+                            <a href="${p.url}" target="_blank" class="source-link">🔗 出典を確認</a>
+                        </div>
+                    `;
+                }).join('');
             }
             
             document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
+        }
+
+        function filterPosts() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const tagTerm = document.getElementById('tagFilter').value.toLowerCase();
+
+            filteredPosts = posts.filter(p => {
+                const matchesSearch = p.text.toLowerCase().includes(searchTerm);
+                const matchesTag = tagTerm === "" || p.text.toLowerCase().includes(tagTerm);
+                return matchesSearch && matchesTag;
+            });
+
+            currentPage = 1;
+            render();
+        }
+
+        function quickFilter(tag) {
+            document.getElementById('tagFilter').value = tag;
+            document.getElementById('search').value = ""; // キーワードはリセット
+            filterPosts();
+            window.scrollTo(0, 0);
         }
 
         function changePage(dir) {
@@ -398,17 +216,6 @@
             window.scrollTo(0, 0);
         }
 
-        function searchPosts() {
-            const term = document.getElementById('search').value.toLowerCase();
-            filteredPosts = posts.filter(p => 
-                p.text.toLowerCase().includes(term) || 
-                p.source.toLowerCase().includes(term)
-            );
-            currentPage = 1;
-            render();
-        }
-
-        // 初回起動
         render();
     </script>
 </body>
