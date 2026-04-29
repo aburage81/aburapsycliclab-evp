@@ -3,38 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👻 脂毛EVPラボ - リアルタイムデータベース</title>
+    <title>👻 脂心霊パラノーマルBOT - リアルタイム怪現象データベース</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        body { background: #c0c0c0; color: #000; font-family: 'VT323', monospace; margin: 0; padding: 20px 10px; min-height: 100vh; box-sizing: border-box; }
-        .mac-window { background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; box-shadow: 4px 4px 0 #000; max-width: 1000px; width: 100%; margin: 0 auto; overflow: hidden; }
-        .title-bar { background: linear-gradient(to right, #000080, #1084d0); color: white; padding: 6px 12px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; font-size: 18px; }
-        .content { padding: 20px; background: #c0c0c0; }
+        body { 
+            background: #c0c0c0; 
+            color: #000; 
+            font-family: 'VT323', monospace; 
+            margin: 0; 
+            padding: 20px 10px; 
+            min-height: 100vh; 
+            box-sizing: border-box; 
+        }
+        .mac-window { 
+            background: #c0c0c0; 
+            border: 3px solid #fff; 
+            border-right-color: #808080; 
+            border-bottom-color: #808080; 
+            box-shadow: 4px 4px 0 #000; 
+            max-width: 1000px; 
+            width: 100%; 
+            margin: 0 auto; 
+            overflow: hidden; 
+        }
+        .title-bar { 
+            background: linear-gradient(to right, #000080, #1084d0); 
+            color: white; 
+            padding: 6px 12px; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            font-size: 18px; 
+        }
+        .content { 
+            padding: 20px; 
+            background: #c0c0c0; 
+        }
         
-        /* タイトルをクリック可能に設定 */
-        h1 { font-size: 32px; text-align: center; margin: 0 0 5px 0; cursor: pointer; text-decoration: none; color: #000; }
+        /* タイトルリンク設定 */
+        h1 { 
+            font-size: 32px; 
+            text-align: center; 
+            margin: 0 0 5px 0; 
+            cursor: pointer; 
+            text-decoration: none; 
+            color: #000; 
+        }
         h1:hover { color: #000080; }
 
-        .subtitle { text-align: center; font-size: 20px; margin-bottom: 25px; color: #000080; }
-        .search { width: 100%; margin-bottom: 25px; padding: 12px; font-family: 'VT323', monospace; font-size: 20px; border: 3px inset #fff; background: #fff; box-sizing: border-box; }
-        .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); gap: 20px; }
-        .post { background: #c0c0c0; border: 3px inset #fff; border-right-color: #808080; border-bottom-color: #808080; padding: 18px; transition: all 0.1s; }
-        .post:hover { background: #d0d0d0; border: 3px solid #000080; box-shadow: inset 2px 2px 0 #fff; cursor: pointer; }
-        .post-header { font-weight: bold; color: #000080; margin-bottom: 10px; border-bottom: 1px dashed #808080; }
-        .source-link { color: #0000ff; text-decoration: underline; margin-top: 15px; display: block; }
-        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; padding-bottom: 20px; }
-        .page-btn { padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; }
-        .page-btn:disabled { color: #808080; cursor: default; box-shadow: none; }
+        .subtitle { 
+            text-align: center; 
+            font-size: 20px; 
+            margin-bottom: 5px; 
+            color: #000080; 
+        }
+        
+        .last-update {
+            text-align: center; 
+            font-size: 14px; 
+            margin-bottom: 25px; 
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .search { 
+            width: 100%; 
+            margin-bottom: 25px; 
+            padding: 12px; 
+            font-family: 'VT323', monospace; 
+            font-size: 20px; 
+            border: 3px inset #fff; 
+            background: #fff; 
+            box-sizing: border-box; 
+        }
+        
+        .posts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); 
+            gap: 20px; 
+        }
+        
+        .post { 
+            background: #c0c0c0; 
+            border: 3px inset #fff; 
+            border-right-color: #808080; 
+            border-bottom-color: #808080; 
+            padding: 18px; 
+            transition: all 0.1s; 
+        }
+        .post:hover { 
+            background: #d0d0d0; 
+            border: 3px solid #000080; 
+            box-shadow: inset 2px 2px 0 #fff; 
+            cursor: pointer; 
+        }
+        
+        .post-header { 
+            font-weight: bold; 
+            color: #000080; 
+            margin-bottom: 10px; 
+            border-bottom: 1px dashed #808080; 
+            font-size: 16px;
+        }
+        
+        .source-link { 
+            color: #0000ff; 
+            text-decoration: underline; 
+            margin-top: 15px; 
+            display: block; 
+            font-size: 16px;
+        }
+
+        .pagination { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 25px; 
+            padding-bottom: 20px; 
+        }
+        .page-btn { 
+            padding: 8px 20px; 
+            background: #c0c0c0; 
+            border: 3px solid #fff; 
+            border-right-color: #808080; 
+            border-bottom-color: #808080; 
+            cursor: pointer; 
+            font-family: 'VT323'; 
+            font-size: 20px; 
+            box-shadow: 2px 2px 0 #000; 
+        }
+        .page-btn:active {
+            box-shadow: none;
+            transform: translate(2px, 2px);
+        }
+        .page-btn:disabled { 
+            color: #808080; 
+            cursor: default; 
+            box-shadow: none; 
+            transform: none;
+        }
     </style>
 </head>
 <body>
     <div class="mac-window">
-        <div class="title-bar"><div>📂 リアルタイムパラノーマル記事データベース</div></div>
+        <div class="title-bar">
+            <div>📂 リアルタイム怪現象データベース</div>
+            <div style="font-size: 14px;">[Ver 5.0.0]</div>
+        </div>
         <div class="content">
             <h1 onclick="location.href='./';">脂心霊パラノーマルBOT</h1>
-            <p class="subtitle">世界各地のパラノーマルなニュースを自動収集</p>
-            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む..." onkeyup="searchPosts()">
+            <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
+            <p id="last-update" class="last-update">LAST UPDATE: ---</p>
+            
+            <input type="text" id="search" class="search" placeholder="🔍 キーワードで絞り込む（例: #Audio, #Russia, #Mandela）" onkeyup="searchPosts()">
+            
             <div class="posts-grid" id="posts"></div>
+            
             <div class="pagination">
                 <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
                 <span id="pageInfo" style="font-size:22px; align-self:center;">PAGE 1</span>
@@ -42,610 +167,12 @@
             </div>
         </div>
     </div>
+
     <script>
         // --- DATA START ---
-        const posts = [
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela 「セックス・アンド・ザ・シティ」がマンデラ効果リストに入っているのが信じられない",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sxiwk9/im_finding_it_hard_to_believe_that_sex_and_the/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal ベティ・ホワイト",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sxgajs/betty_white/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-04-27)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sx7yfy/did_you_discover_a_new_mandela_effect_post_it/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal ベレンスタインだとずっと思ってた",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1swx4no/i_always_knew_it_was_berenstain/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal Fruit Of The Loom は 2000 年代の海賊版です - なんてことだろう",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svu3bu/fruit_of_the_loom_ist_eine_raubkopie_aus_den/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela テレビ番組「ER」でマンデラエフェクト！",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svnknt/mandela_effect_on_tv_show_er/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela マンデラ効果って、人間の物の見方が以前と違うことですよね？",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svft7f/mandela_effect_is_when_humans_see_things/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 人体解剖学・骨格構造",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1svb2rw/human_anatomy_skeletal_structure/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-04-23)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1stmxum/did_you_discover_a_new_mandela_effect_post_it/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal [SEGA CHANNEL] セガ チャンネル メニュー デモ 1994 年 12 月 (1294DEMO.BIN)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1srdw7m/sega_channel_sega_channel_menu_demo_121994/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 白雪姫と鏡",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sqarsj/snow_white_and_the_mirror/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela 何かが何であるか、そして常にそうであったことを示すことはマンデラ効果を反証するものではありません",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sq4ocn/showing_what_something_is_and_has_always_been/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-04-19)",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1spwwkd/did_you_discover_a_new_mandela_effect_post_it/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal フォレスト・ガンプ",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1spjf6i/forest_gump/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Mandela シャザム！マンデラ効果のほとんどはスペルミスや単純な間違いです。私たちはどうやって心の中で映画を作り上げたのでしょうか？",
-        "url": "https://www.reddit.com/r/MandelaEffect/comments/1sp42lm/shazam_most_mandella_effects_are_mispellings_or/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Psy 13 年間にわたるサイコキネシスの実践: 結果、疑問、実験プロトコル",
-        "url": "https://www.reddit.com/r/psi/comments/1rbt3ro/13_years_of_psychokinesis_practice_results_doubts/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 自分自身へのサイ/電気/サイオニックの傷害を防ぐにはどうすればよいですか?",
-        "url": "https://www.reddit.com/r/psi/comments/1qeduon/how_do_i_prevent_psielectricalpsionic_hurt_to/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal ロアリングキティ: 「8 ボールはアドバイスに該当するとは思いません」 ... /r/psi は同意しませんか? :D",
-        "url": "https://www.reddit.com/r/psi/comments/1dag0lx/roaring_kitty_i_dont_think_8_ball_constitutes/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal あなたのお気に入りのパラノーマルウーマンは誰ですか?",
-        "url": "https://www.reddit.com/r/psi/comments/1b9we1v/who_is_your_favorite_paranormal_woman/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 40 周年記念予知夢コンテストの手順",
-        "url": "https://www.reddit.com/r/psi/comments/15zdhhd/40th_anniversary_precognitive_dreaming_contest/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 次の強気相場の前に手法を開発する",
-        "url": "https://www.reddit.com/r/psi/comments/15y58tk/developping_methods_before_next_bull_run/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 短い実験",
-        "url": "https://www.reddit.com/r/psi/comments/15qcp1s/short_experiment/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal 実験0開始！ ARV ボットとアプリのアップデート。テスターとフィードバックを募集しています",
-        "url": "https://www.reddit.com/r/psi/comments/xxeady/experiment_0_launched_arv_bot_and_app_updates/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal Psi Discord コミュニティと Ps-ai bot が開始されました。",
-        "url": "https://www.reddit.com/r/psi/comments/vxc95g/psi_discord_community_and_psai_bot_have_launched/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal これを読んでいただければ…",
-        "url": "https://www.reddit.com/r/psi/comments/vig7a3/if_you_can_read_this/"
-    },
-    {
-        "date": "2026-04-29 07:59",
-        "source": "Global Node",
-        "text": "#Paranormal r/psi ラウンジ",
-        "url": "https://www.reddit.com/r/psi/comments/pk4yc2/rpsi_lounge/"
-    },
-    {
-        "date": "2026-04-29 06:27",
-        "source": "Global Node",
-        "text": "#Paranormal スピリットレコーダー",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sypne9/spirit_recorder/"
-    },
-    {
-        "date": "2026-04-29 06:27",
-        "source": "Global Node",
-        "text": "#Paranormal それで私は葬儀社「ナイツ」で一人で働いています。",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syns91/so_i_work_at_a_funeral_home_nights_all_alone/"
-    },
-    {
-        "date": "2026-04-29 06:27",
-        "source": "Global Node",
-        "text": "#Paranormal これは何ですか？？",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syqljc/what_is_this/"
-    },
-    {
-        "date": "2026-04-29 06:27",
-        "source": "Global Node",
-        "text": "#Paranormal 時間: 2026/04/28 18-19 場所: ボゴタ コロンビ",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syo3b3/time_1819hs_28042026_location_bogotá_colombi/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal 本能の共有",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1symfky/shared_instinct/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal 幽霊が私の尻に触れた",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sym71x/ghost_touched_my_butt/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal うっかり非常に悪いことを話してしまったときの恐ろしい経験。何が起こったのか知っている人はいますか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sylr57/terrifying_experience_when_i_accidentally_spoke/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal それは何だったと思いますか?",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syj523/what_do_you_think_it_was/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#NHI UFO の推進: プラズマ、電磁気、トーラス場",
-        "url": "https://www.reddit.com/r/UFOs/comments/1synlwe/ufo_propulsion_plasma_electromagnetism_torus/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal これは何ですか？",
-        "url": "https://www.reddit.com/r/UFOs/comments/1synco4/what_is_this/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Paranormal バーチェット議員：「明らかに誰かが1つか2つのメッセージを送っていると思います。彼らは私たちのテクノロジーを潰そうとしているのか、あるいは他の人に名乗り出ないよう警告しているのかのどちらかです…多くのことが危険にさらされており、私たちはスズメバチの巣をつついているのです。」",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syn1j9/rep_burchett_i_think_clearly_someones_sending_a/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#NHI ボゴタでのUAP目撃の相関関係",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sylzrm/uap_sighting_in_bogotá_correlation/"
-    },
-    {
-        "date": "2026-04-29 03:55",
-        "source": "Global Node",
-        "text": "#Physical #NHI #Research 元 NASA 研究科学者でオールバニー大学の物理学教授が、海に隠れ、テクノロジーに干渉し、核兵器を無効にし、物理法則を超えて活動する地球上の非人間知性体の存在について語ります。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syjyos/former_nasa_research_scientist_professor_of/"
-    },
-    {
-        "date": "2026-04-28 23:58",
-        "source": "Global Node",
-        "text": "#Paranormal 影の人、意見",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syi3f0/shadow_person_opinion/"
-    },
-    {
-        "date": "2026-04-28 23:58",
-        "source": "Global Node",
-        "text": "#Paranormal Viewpoint Aqaurius の 1978 年 1 月号をオンラインで見つけられる場所を知っている人はいますか?",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sygt5r/does_anyone_know_where_to_find_the_jan_1978_issue/"
-    },
-    {
-        "date": "2026-04-28 23:58",
-        "source": "Global Node",
-        "text": "#Paranormal リンダ・モルトン・ハウが 5 月 3 日に無料で講演します。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syi5qz/linda_molton_howe_is_speaking_on_may_3rd_for_free/"
-    },
-    {
-        "date": "2026-04-28 22:02",
-        "source": "Global Node",
-        "text": "#Paranormal 大したことは何ですか？",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syf7l1/whats_the_big_deal/"
-    },
-    {
-        "date": "2026-04-28 22:02",
-        "source": "Global Node",
-        "text": "#Paranormal フロリダ州オーランドの上空に何か",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syekd2/something_in_the_sky_above_orlando_fl/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal 猫ですか、猫ではありませんか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sybv0f/cat_or_not_a_cat/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal ベッドの上で誰かを感じる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syaull/feeling_someone_on_my_bed/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal ベッドの上で誰かを感じる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1syau8u/feeling_someone_on_my_bed/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal 私は霊との接触を確立しましたか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy9zbj/did_i_establish_contact_with_spirits/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal 内部告発者は、私たちが対処できないと考えているため、「門番」ではないと思います。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syb3gh/i_dont_think_whistleblowers_are_gatekeeping/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#NHI NASAの「GoFast」UFO評決の真実が秘密の内部メールで暴露される",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syayuw/the_truth_about_nasas_gofast_ufo_verdict_exposed/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal バーリソン：「（マシュー・サリバンは）レガシー・プログラムの一員であり、彼らは触ったり、目を凝らしたり、物的証拠を見たり、航空機や遺体を見たりしてきた」",
-        "url": "https://www.reddit.com/r/UFOs/comments/1syarak/burlison_matthew_sullivan_has_been_part_of_the/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Paranormal 変化はトップから始まるわけではありません。それは人々が何か重要だと判断し、それに基づいて行動することから始まります。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy7ypo/change_doesnt_start_at_the_top_it_starts_when/"
-    },
-    {
-        "date": "2026-04-28 20:20",
-        "source": "Global Node",
-        "text": "#Object アルテミス II オリオン スターフィールドの写真で発見された異常 – 背景の星とは完全に異なるベクトル上を移動する物体。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy6r8w/anomaly_found_in_artemis_ii_orion_starfield_photo/"
-    },
-    {
-        "date": "2026-04-28 18:22",
-        "source": "Global Node",
-        "text": "#Paranormal TMZの報道によると、ジェームズ・カマー下院議員はETが科学者を誘拐しているのではなく、単に外国人を誘拐しているだけだと考えているとのこと",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy9llh/tmz_reports_rep_james_comer_thinks_et_is_not/"
-    },
-    {
-        "date": "2026-04-28 18:22",
-        "source": "Global Node",
-        "text": "#NHI ショーン・カークパトリックがヤンキー・ブルーのUFOをかすめるいたずらを暴露 – しかし、それはデブになるのか...",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy993j/sean_kirkpatrick_reveals_yankee_blue_ufo_hazing/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal アドバイスを求めています",
-        "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 何を捕らえたのか分かりません。",
-        "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio ヘリテージ ジャンクション パークのソーガス駅ビルの EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1scfrdv/evp_at_saugus_station_building_heritage_junction/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio 電子音声現象の明らかなケース?",
-        "url": "https://www.reddit.com/r/EVP/comments/1s648fc/a_clear_case_of_electronic_voice_phenomenon/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio EVP は AI で分析できると思いますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1rw6exc/do_you_think_that_evp_can_be_analyzed_by_ai/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal ゲート番号に電話したら歌い始めました...",
-        "url": "https://www.reddit.com/r/EVP/comments/1rk38ei/i_called_a_gate_number_and_it_started_singing_to/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal この音は何ですか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1rc41a6/what_is_this_sound/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 血の流れる音や低い轟音を自分の耳で聞くことができますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qy7j9h/can_you_will_the_sound_of_blood_rushing_or_a_low/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio もし（シズの）声が彼らの精神によって生み出されたものであるなら、どうして私は自分の声を録音したのでしょうか？",
-        "url": "https://www.reddit.com/r/EVP/comments/1qfgmn8/if_the_schiz_voices_are_their_minds_generating/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio EVP捕獲！！！",
-        "url": "https://www.reddit.com/r/EVP/comments/1qffm0t/evp_capture/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 何が聞こえますか?",
-        "url": "https://www.reddit.com/r/EVP/comments/1qbjxct/what_do_you_hear/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio EVP 2026 年 1 月",
-        "url": "https://www.reddit.com/r/EVP/comments/1q9bkxd/evps_january_2026/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio マルチェロ・バッキ EVP",
-        "url": "https://www.reddit.com/r/EVP/comments/1q17pmt/marcello_bacci_evp/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio 非常に特別な EVP の応答",
-        "url": "https://www.reddit.com/r/EVP/comments/1pvpq72/a_very_special_evp_response/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 名前を尋ねると返事が来ました。",
-        "url": "https://www.reddit.com/r/EVP/comments/1pnw49o/asked_for_their_name_and_i_got_a_response/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 数分間取り憑かれているように感じました。",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy7s21/i_felt_like_i_was_posessed_for_a_few_minutes/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 「ジン」が父の真似をしている",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy6s4q/a_jinn_is_mimicking_my_father/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 会議室の電話で警察に50回通報",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy6gh2/a_phone_in_a_meeting_room_called_the_cops_50_times/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 夜の遊び心",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy563m/something_playful_at_night_time/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 森の中の背の高い男",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy4zsl/the_tall_man_in_the_woods/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Audio 森の中で呼ぶ声",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy29e0/voice_calling_out_in_the_woods/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal このことは誰にも話したことはありませんが、今は安全だと感じています。",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sy07uw/i_never_told_anyone_about_this_but_i_feel_like/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 幽霊が存在するという確かな証拠はあるのでしょうか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxzpku/is_there_any_solid_proof_of_ghost_exist/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Object 私の人形は（おそらく）幽霊に取り憑かれています。ヘルプ！",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxwhee/my_dolls_are_maybe_haunted_help/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal ジンクスって本当ですか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvvpx/is_jinxing_something_real/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 夜勤は簡単に稼げました。そうではなかった",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvqwd/night_shift_was_easy_money_it_wasnt/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal ネットでリサイクルしたばかりの服に不快感を感じる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxvatf/uncomfortable_feeling_around_a_clothing_i_just/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 私は幽霊に取り憑かれているのでしょうか？",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxthty/am_i_being_haunted/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Object 物体が消えて別の場所に再び現れる",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxta72/object_disappearing_and_reappearing_somewhere_else/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 何か変だ",
-        "url": "https://www.reddit.com/r/Paranormal/comments/1sxsxl1/something_weird/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 科学者ボイド・ブッシュマンの死の床での宇宙人に関する告白",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy8dr5/the_death_bed_confession_of_scientist_boyd/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 元AARO長官ショーン・カークパトリック、またしても嘘をつかれた - 元AARO長官代理ティム・フィリップス（カークパトリックの後を務めた）は、ティム・ギャローデット元少将に会っただけで、ショーン・カークパトリックは会っていないと認めた。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy7s6s/former_aaro_director_sean_kirkpatrick_caught_in/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal バーリソン: 「リストの新しい名前。火星に到達するために必要な核推進技術に取り組んでいたジョシュアという名の若い科学者が、ミズーリ州の田舎風の裏道を車で2時間独走した後、テスラの事故で死亡したところだった。遺体は認識できないほど焼け焦げていた。これは普通ではない」",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy77x4/burlison_a_new_name_for_the_list_a_young/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Research エイミー・エスクリッジがディスクロージャーをアラバマ州ハンツビルに結びつけるのはなぜですか?",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy70oc/why_is_amy_eskridge_linking_disclosure_to/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal [詳細] ジェームズ・ラカツキ博士の「ホログラフィック」開示の解読: AAWSAP、時空計量工学、および経済的特異点",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy31lr/indepth_decoding_dr_james_lacatskis_holographic/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI UFO実体が米国当局者に警告、神との戦争はゾクゾクする極秘接触主張で始まった",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sy2zjx/ufo_entities_warned_us_officials_their_war_on_god/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI 2020年、クルーズ船の船長ケイト・マッキューは、音もなく黒いクラゲの形をしたUFOが船上を風に逆らって時速16～15マイルで移動し、中心線を通過して日没時に海に降下したと報告した。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxzx1j/in_2020_cruise_ship_captain_kate_mccue_reported_a/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI デビッド・グルーシュの発言についての素朴な質問：「UFOの暴露は少し不快になるだろう - 飲み込むのが難しい薬だ」",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxzu3h/simple_question_about_david_grusch_statement_ufo/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 行方不明の科学者と死亡した科学者の間の関連性を示すグラフ (赤色は死亡を意味し、黄色は行方不明を意味します)。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxznpd/a_graph_showing_the_link_between_missing_and_dead/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal いつになったら私たちは偽のインサイダーに騙されなくなり、実際の証拠を見始めるのでしょうか？",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxye8b/when_do_we_stop_falling_for_the_fake_insiders_and/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI 4BCブリスベンラジオ：オーストラリアが沈黙を守る中、トランプ大統領は国防総省にUFOの「黒い保管庫」を開けるよう命令",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxxzkt/4bc_brisbane_radio_trump_orders_pentagon_to_open/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI 国民健康保険が実際にここで日常的に行っていることについてのあなたの最良の理論は何ですか?",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxwrcg/whats_your_best_theory_on_what_nhi_are_actually/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal 内部告発者は証言の数日前に過剰摂取で死亡するだろう。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxwphs/would_be_whistleblower_dies_of_overdose_days/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#Paranormal これは何ですか？",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxwcah/what_is_this/"
-    },
-    {
-        "date": "2026-04-28 17:57",
-        "source": "Global Node",
-        "text": "#NHI ポルトガルでUFO目撃/原因不明の爆発音が街や周囲のあちこちで聞こえた。",
-        "url": "https://www.reddit.com/r/UFOs/comments/1sxvrv8/ufo_sighthing_in_portugalunexplained_explosion/"
-    }
-];
+        // Pythonボットがこの変数を直接書き換えます
+        const posts = [];
+        const lastUpdated = "2026-04-29 18:00";
         // --- DATA END ---
 
         let currentPage = 1;
@@ -653,28 +180,48 @@
         let filteredPosts = [...posts];
 
         function render() {
+            // 更新日時の表示反映
+            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated}`;
+            
             const start = (currentPage - 1) * postsPerPage;
             const end = start + postsPerPage;
             const target = filteredPosts.slice(start, end);
             const container = document.getElementById('posts');
-            container.innerHTML = target.map(p => `
-                <div class="post" onclick="window.open('${p.url}', '_blank')">
-                    <div class="post-header">${p.date} | ${p.source}</div>
-                    <div>${p.text}</div>
-                    <span class="source-link">🔗 出典スレッドを確認</span>
-                </div>
-            `).join('');
+            
+            if (target.length === 0) {
+                container.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 24px;">信号が見つかりません...</div>';
+            } else {
+                container.innerHTML = target.map(p => `
+                    <div class="post" onclick="window.open('${p.url}', '_blank')">
+                        <div class="post-header">${p.date} | ${p.source}</div>
+                        <div style="font-size: 20px; line-height: 1.4;">${p.text}</div>
+                        <span class="source-link">🔗 出典スレッドを確認</span>
+                    </div>
+                `).join('');
+            }
+            
             document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
         }
 
-        function changePage(dir) { currentPage += dir; render(); window.scrollTo(0,0); }
+        function changePage(dir) {
+            currentPage += dir;
+            render();
+            window.scrollTo(0, 0);
+        }
+
         function searchPosts() {
             const term = document.getElementById('search').value.toLowerCase();
-            filteredPosts = posts.filter(p => p.text.toLowerCase().includes(term));
-            currentPage = 1; render();
+            filteredPosts = posts.filter(p => 
+                p.text.toLowerCase().includes(term) || 
+                p.source.toLowerCase().includes(term)
+            );
+            currentPage = 1;
+            render();
         }
+
+        // 初回起動
         render();
     </script>
 </body>
