@@ -6,80 +6,69 @@ import re
 import os
 import time
 
-# キーワード強化：OBE, ESP, Psy, 超能力、体外離脱などのバリエーション
-KEYWORDS = (
-    "EVP OR 'Spirit Box' OR ITC OR 'Ghost Voice' OR "
-    "Poltergeist OR 'Haunted Doll' OR 'Cursed Object' OR "
-    "orb OR nhi OR 'Mandela Effect' OR "
-    "OBE OR 'Out of Body Experience' OR ESP OR 'Extra Sensory Perception' OR Psy OR Psychokinesis OR "
-    "電子音声現象 OR ポルターガイスト OR 呪物 OR オーブ OR 非人類知性 OR マンデラエフェクト OR "
-    "体外離脱 OR 幽体離脱 OR 超能力 OR 超感覚的知覚 OR 念力 OR "
-    "심령 OR '유체 이탈' OR '초능력' OR 'ESP' OR "
-    "靈異聲音 OR '出體経験' OR '超能力' OR '曼德拉效應' OR "
-    "Внетелесный опыт OR Телепатия OR Психокинез OR Полтергейст"
-)
-
 def get_sources():
     base_url = "https://news.google.com/rss/search?q={query}&hl={hl}&gl={gl}&ceid={ceid}"
-    regions = [
-        {"hl": "ja", "gl": "JP", "ceid": "JP:ja"},
-        {"hl": "ko", "gl": "KR", "ceid": "KR:ko"},
-        {"hl": "zh-TW", "gl": "TW", "ceid": "TW:zh-Hant"},
-        {"hl": "en", "gl": "US", "ceid": "US:en"},
-        {"hl": "ru", "gl": "RU", "ceid": "RU:ru"},
-        {"hl": "en", "gl": "GB", "ceid": "GB:en"}
-    ]
+    
+    # 掲示板・アングラサイト特化クエリ
+    # 4chan/x/, Above Top Secret, Forteanaなどをターゲットに含める
+    FORUM_Q = "(site:4channel.org/x/ OR site:abovetopsecret.com OR site:forteantimes.com) (EVP OR Poltergeist OR 'Haunted Doll' OR OBE OR NHI)"
+    RU_Q = "Полтергейст OR ФЭГ OR 'Аномальные явления' OR 'ИТК'"
+    KO_Q = "심령 OR '유체 이탈' OR '오브' OR '초자연적'"
+    ZH_Q = "靈異 OR '曼德拉效應' OR '超常現象'"
+    JA_Q = "心霊 OR 幽体離脱 OR 呪物 OR マンデラエフェクト OR 'スピリットボックス'"
+
     sources = [
+        # 直接RSS
         "https://www.reddit.com/r/EVP/new/.rss",
         "https://www.reddit.com/r/MandelaEffect/new/.rss",
-        "https://www.reddit.com/r/OutOBodies/new/.rss", # OBE専門
-        "https://www.reddit.com/r/psi/new/.rss"           # Psy/超能力専門
+        "https://www.reddit.com/r/Paranormal/new/.rss",
+        "https://boards.4channel.org/x/index.rss", # 4chan /x/ を直接追加
+        
+        # 特化ノード
+        base_url.format(query=FORUM_Q, hl="en", gl="US", ceid="US:en"),
+        base_url.format(query=RU_Q, hl="ru", gl="RU", ceid="RU:ru"),
+        base_url.format(query=KO_Q, hl="ko", gl="KR", ceid="KR:ko"),
+        base_url.format(query=ZH_Q, hl="zh-TW", gl="TW", ceid="TW:zh-Hant"),
+        base_url.format(query=JA_Q, hl="ja", gl="JP", ceid="JP:ja")
     ]
-    for r in regions:
-        sources.append(base_url.format(query=KEYWORDS, **r))
     return sources
 
 translator = GoogleTranslator(source='auto', target='ja')
 
 def generate_tags(text):
-    """内容から自動でタグを生成する（OBE/ESP/Psyの追加）"""
     tags = []
     low_text = text.lower()
-    
-    # カテゴリ・現象
-    if any(x in low_text for x in ["音声", "録音", "声", "evp", "voice", "audio"]): tags.append("#Audio")
-    if any(x in low_text for x in ["人形", "ドール", "doll", "呪物", "object", "cursed"]): tags.append("#Object")
+    if any(x in low_text for x in ["音声", "録音", "声", "evp", "voice"]): tags.append("#Audio")
+    if any(x in low_text for x in ["人形", "ドール", "doll", "呪物", "object"]): tags.append("#Object")
     if any(x in low_text for x in ["ポルターガイスト", "物理", "poltergeist"]): tags.append("#Physical")
     if any(x in low_text for x in ["オーブ", "orb", "光球"]): tags.append("#Orb")
-    if any(x in low_text for x in ["nhi", "非人類", "intelligence", "uap", "ufo"]): tags.append("#NHI")
-    if any(x in low_text for x in ["マンデラ", "mandela", "記憶", "memory"]): tags.append("#Mandela")
-    
-    # OBE / ESP / Psy タグ
-    if any(x in low_text for x in ["離脱", "obe", "out of body", "体外", "幽体"]): tags.append("#OBE")
-    if any(x in low_text for x in ["超能力", "esp", "psy", "念力", "テレパシー", "感覚"]): tags.append("#Psy")
-    
-    if any(x in low_text for x in ["研究", "検証", "research", "lab", "超心理"]): tags.append("#Research")
-    
+    if any(x in low_text for x in ["nhi", "非人類", "intelligence"]): tags.append("#NHI")
+    if any(x in low_text for x in ["マンデラ", "mandela", "記憶"]): tags.append("#Mandela")
+    if any(x in low_text for x in ["離脱", "obe", "幽体"]): tags.append("#OBE")
+    if any(x in low_text for x in ["超能力", "esp", "psy"]): tags.append("#Psy")
     return " ".join(tags) if tags else "#Paranormal"
 
 def crawl():
     new_posts = []
-    print("📡 脂心霊パラノーマルBOT 超感覚・体外離脱を含む全方位スキャン開始...")
+    now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    print(f"📡 脂心霊パラノーマルBOT 広域スキャン開始 ({now_str})")
+    
     for url in get_sources():
         try:
             feed = feedparser.parse(url)
-            for entry in feed.entries[:15]:
+            for entry in feed.entries[:10]:
                 try:
-                    time.sleep(0.3)
-                    translated_text = translator.translate(entry.title)
-                    tags = generate_tags(translated_text + entry.title)
+                    time.sleep(0.5)
+                    title = entry.get('title', '')
+                    translated_text = translator.translate(title)
+                    tags = generate_tags(translated_text + title)
                     tagged_text = f"{tags} {translated_text}"
                     
                     new_posts.append({
-                        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                        "date": now_str,
                         "source": "Global Node",
                         "text": tagged_text,
-                        "url": entry.link
+                        "url": entry.get('link', '')
                     })
                 except: continue
         except: continue
@@ -88,17 +77,23 @@ def crawl():
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 
+    # 記事データの更新
     match = re.search(r'const posts = (\[.*?\]);', content, flags=re.DOTALL)
     old_posts = json.loads(match.group(1)) if match else []
     urls = {p['url'] for p in old_posts}
     final_posts = ([p for p in new_posts if p['url'] not in urls] + old_posts)[:200]
-
+    
     json_str = json.dumps(final_posts, ensure_ascii=False, indent=4)
-    new_content = re.sub(r'const posts = \[.*?\];', f'const posts = {json_str};', content, flags=re.DOTALL)
+    content = re.sub(r'const posts = \[.*?\];', f'const posts = {json_str};', content, flags=re.DOTALL)
+    
+    # 最終更新日時の更新
+    content = re.sub(r'const lastUpdated = ".*?";', f'const lastUpdated = "{now_str}";', content)
     
     with open("index.html", "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print(f"✅ 更新成功。全 {len(final_posts)} 件をアーカイブ中。")
+        f.write(content)
+    print(f"✅ スキャン完了。現在 {len(final_posts)} 件をアーカイブ。")
 
 if __name__ == "__main__":
     crawl()
+
+    
