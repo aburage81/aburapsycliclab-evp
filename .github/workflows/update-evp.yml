@@ -4,7 +4,7 @@ on:
   schedule:
     # 20分おき（毎時 0分, 20分, 40分）に実行
     # GitHubの混雑状況により数分の前後が発生することがあります
-    - cron: '*/20 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch: # これによりGitHubの管理画面から手動実行が可能になります
 
 permissions:
