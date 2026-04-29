@@ -1,7 +1,6 @@
 import feedparser
 from deep_translator import GoogleTranslator
 import datetime
-# 時差計算モジュールを導入
 from datetime import timedelta, timezone
 import json
 import re
@@ -11,7 +10,7 @@ import time
 def get_sources():
     base_url = "https://news.google.com/rss/search?q={query}&hl={hl}&gl={gl}&ceid={ceid}"
     
-    # ターゲットキーワード
+    # ターゲットキーワード（掲示板・各国ニュース）
     FORUM_Q = "(site:4channel.org/x/ OR site:abovetopsecret.com OR site:forteantimes.com) (EVP OR Poltergeist OR 'Haunted Doll' OR OBE OR NHI OR 'Mandela Effect')"
     RU_Q = "Полтергейст OR ФЭГ OR 'Аномальные явления' OR 'ИТК'"
     KO_Q = "심령 OR '유체 이탈' OR '오브' OR '초자연적'"
@@ -58,44 +57,69 @@ def crawl():
     for url in get_sources():
         try:
             feed = feedparser.parse(url)
+            # 各ソースから最新数件を取得
             for entry in feed.entries[:8]:
                 try:
-                    time.sleep(0.5)
+                    time.sleep(0.5) # 負荷軽減
                     title = entry.get('title', '')
+                    if not title: continue
+                    
                     translated_text = translator.translate(title)
                     tags = generate_tags(translated_text + title)
                     tagged_text = f"{tags} {translated_text}"
                     
                     new_posts.append({
-                        "date": now_str, # 個別記事の時刻もJSTに固定
+                        "date": now_str,
                         "source": "Global Node",
                         "text": tagged_text,
                         "url": entry.get('link', '')
                     })
-                except: continue
-        except: continue
+                except Exception as e:
+                    print(f"⚠️ 個別記事スキップ: {e}")
+                    continue
+        except Exception as e:
+            print(f"⚠️ ソース取得エラー ({url}): {e}")
+            continue
 
-    if not os.path.exists("index.html"): return
-    with open("index.html", "r", encoding="utf-8") as f:
+    # 実行環境のルートにある index.html を探す
+    html_path = "index.html"
+    if not os.path.exists(html_path):
+        print(f"❌ エラー: {html_path} が見つかりません。")
+        return
+
+    with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
     # 1. 記事データの更新
     match = re.search(r'const posts = (\[.*?\]);', content, flags=re.DOTALL)
     old_posts = json.loads(match.group(1)) if match else []
-    urls = {p['url'] for p in old_posts}
-    final_posts = ([p for p in new_posts if p['url'] not in urls] + old_posts)[:200]
+    
+    # URLによる重複排除
+    existing_urls = {p['url'] for p in old_posts}
+    unique_new_posts = []
+    for p in new_posts:
+        if p['url'] not in existing_urls:
+            unique_new_posts.append(p)
+            existing_urls.add(p['url'])
+            
+    # 新着を先頭にして最大200件を維持
+    final_posts = (unique_new_posts + old_posts)[:200]
     
     json_str = json.dumps(final_posts, ensure_ascii=False, indent=4)
     content = re.sub(r'const posts = \[.*?\];', f'const posts = {json_str};', content, flags=re.DOTALL)
     
     # 2. 最終更新日時（lastUpdated）を日本時間に書き換え
+    # index.html 内の "const lastUpdated = '...';" という記述を探して置換
     content = re.sub(r'const lastUpdated = ".*?";', f'const lastUpdated = "{now_str}";', content)
     
-    with open("index.html", "w", encoding="utf-8") as f:
+    with open(html_path, "w", encoding="utf-8") as f:
         f.write(content)
-    print(f"✅ 更新成功。時刻: {now_str}")
+        
+    print(f"✅ 更新成功。時刻: {now_str} (JST)")
+    print(f"📈 新規取得: {len(unique_new_posts)} 件 / 総蓄積: {len(final_posts)} 件")
 
 if __name__ == "__main__":
     crawl()
+
 
     
