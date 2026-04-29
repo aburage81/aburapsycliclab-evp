@@ -6,14 +6,17 @@ import re
 import os
 import time
 
-# キーワード強化：orb(オーブ)とnhi(非人類知性)を追加
+# キーワード強化：OBE, ESP, Psy, 超能力、体外離脱などのバリエーション
 KEYWORDS = (
     "EVP OR 'Spirit Box' OR ITC OR 'Ghost Voice' OR "
     "Poltergeist OR 'Haunted Doll' OR 'Cursed Object' OR "
-    "orb OR nhi OR 'Non-Human Intelligence' OR "
-    "電子音声現象 OR ポルターガイスト OR 呪物 OR オーブ OR 非人類知性 OR "
-    "심령 OR 폴터가이스트 OR 오브 OR '비인류 지성' OR "
-    "靈異聲音 OR 跑馬燈現象 OR 光球 OR '非人類知性'"
+    "orb OR nhi OR 'Mandela Effect' OR "
+    "OBE OR 'Out of Body Experience' OR ESP OR 'Extra Sensory Perception' OR Psy OR Psychokinesis OR "
+    "電子音声現象 OR ポルターガイスト OR 呪物 OR オーブ OR 非人類知性 OR マンデラエフェクト OR "
+    "体外離脱 OR 幽体離脱 OR 超能力 OR 超感覚的知覚 OR 念力 OR "
+    "심령 OR '유체 이탈' OR '초능력' OR 'ESP' OR "
+    "靈異聲音 OR '出體経験' OR '超能力' OR '曼德拉效應' OR "
+    "Внетелесный опыт OR Телепатия OR Психокинез OR Полтергейст"
 )
 
 def get_sources():
@@ -28,8 +31,9 @@ def get_sources():
     ]
     sources = [
         "https://www.reddit.com/r/EVP/new/.rss",
-        "https://www.reddit.com/r/Paranormal/new/.rss",
-        "https://www.reddit.com/r/UFOs/new/.rss" # NHI関連でUFOサブレを追加
+        "https://www.reddit.com/r/MandelaEffect/new/.rss",
+        "https://www.reddit.com/r/OutOBodies/new/.rss", # OBE専門
+        "https://www.reddit.com/r/psi/new/.rss"           # Psy/超能力専門
     ]
     for r in regions:
         sources.append(base_url.format(query=KEYWORDS, **r))
@@ -38,21 +42,29 @@ def get_sources():
 translator = GoogleTranslator(source='auto', target='ja')
 
 def generate_tags(text):
-    """内容から自動でタグを生成する"""
+    """内容から自動でタグを生成する（OBE/ESP/Psyの追加）"""
     tags = []
+    low_text = text.lower()
+    
     # カテゴリ・現象
-    if any(x in text.lower() for x in ["音声", "録音", "声", "evp", "voice", "audio"]): tags.append("#Audio")
-    if any(x in text.lower() for x in ["人形", "ドール", "doll", "呪物", "object", "cursed"]): tags.append("#Object")
-    if any(x in text.lower() for x in ["ポルターガイスト", "物理", "poltergeist"]): tags.append("#Physical")
-    if any(x in text.lower() for x in ["オーブ", "orb", "光球"]): tags.append("#Orb")
-    if any(x in text.lower() for x in ["nhi", "非人類", "intelligence", "uap", "ufo"]): tags.append("#NHI")
-    if any(x in text.lower() for x in ["研究", "検証", "research", "lab"]): tags.append("#Research")
+    if any(x in low_text for x in ["音声", "録音", "声", "evp", "voice", "audio"]): tags.append("#Audio")
+    if any(x in low_text for x in ["人形", "ドール", "doll", "呪物", "object", "cursed"]): tags.append("#Object")
+    if any(x in low_text for x in ["ポルターガイスト", "物理", "poltergeist"]): tags.append("#Physical")
+    if any(x in low_text for x in ["オーブ", "orb", "光球"]): tags.append("#Orb")
+    if any(x in low_text for x in ["nhi", "非人類", "intelligence", "uap", "ufo"]): tags.append("#NHI")
+    if any(x in low_text for x in ["マンデラ", "mandela", "記憶", "memory"]): tags.append("#Mandela")
+    
+    # OBE / ESP / Psy タグ
+    if any(x in low_text for x in ["離脱", "obe", "out of body", "体外", "幽体"]): tags.append("#OBE")
+    if any(x in low_text for x in ["超能力", "esp", "psy", "念力", "テレパシー", "感覚"]): tags.append("#Psy")
+    
+    if any(x in low_text for x in ["研究", "検証", "research", "lab", "超心理"]): tags.append("#Research")
     
     return " ".join(tags) if tags else "#Paranormal"
 
 def crawl():
     new_posts = []
-    print("📡 脂心霊パラノーマルBOT 広域スキャン開始...")
+    print("📡 脂心霊パラノーマルBOT 超感覚・体外離脱を含む全方位スキャン開始...")
     for url in get_sources():
         try:
             feed = feedparser.parse(url)
@@ -86,8 +98,7 @@ def crawl():
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(new_content)
-    print(f"✅ 更新成功。現在 {len(final_posts)} 件をアーカイブ。")
+    print(f"✅ 更新成功。全 {len(final_posts)} 件をアーカイブ中。")
 
 if __name__ == "__main__":
     crawl()
-  
