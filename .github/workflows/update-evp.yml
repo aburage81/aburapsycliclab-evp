@@ -1,28 +1,41 @@
-name: EVP_Realtime_Update
+name: Update EVP Data
+
 on:
   schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
+    # 20分おき（毎時 0分, 20分, 40分）に実行
+    # GitHubの混雑状況により数分の前後が発生することがあります
+    - cron: '*/20 * * * *'
+  workflow_dispatch: # これによりGitHubの管理画面から手動実行が可能になります
+
+permissions:
+  contents: write # HTMLファイルを書き換えてプッシュするために必要
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5 # バージョンを上げました
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.x'
+
       - name: Install dependencies
-        run: pip install feedparser deep-translator
-      - name: Run Crawler
-        run: python .github/scripts/update_evp.py
-      - name: Commit and Push
         run: |
-          git config user.name "EVP-Bot"
-          git config user.email "bot@evp-lab.com"
+          python -m pip install --upgrade pip
+          pip install feedparser deep-translator
+
+      - name: Run crawler script
+        run: python .github/scripts/update_evp.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add index.html
-          git commit -m "📡 記録更新" || exit 0
+          # 更新がない場合にエラーにならないよう "|| exit 0" を追加
+          git commit -m "Auto-update: $(date -u)" || exit 0
           git push
