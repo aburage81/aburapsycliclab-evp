@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -20,10 +21,9 @@
             border-right-color: #808080; 
             border-bottom-color: #808080; 
             box-shadow: 6px 6px 0 #000; 
-            max-width: 1100px; 
+            max-width: 1120px; 
             width: 100%; 
             margin: 0 auto; 
-            overflow: hidden;
         }
         .title-bar { 
             background: linear-gradient(to right, #000080, #1084d0); 
@@ -77,10 +77,19 @@
 
         .tag-link {
             color: #00ffff;
+            background: #000080;
+            padding: 3px 10px;
+            border: 2px solid #ffff00;
+            font-weight: bold;
             cursor: pointer;
-            text-decoration: underline;
+            font-size: 19px;
+            border-radius: 2px;
         }
-        .tag-link:hover { background: yellow; color: #000; }
+        .tag-link:hover { 
+            background: #ffff00; 
+            color: #000; 
+            border-color: #ff0000;
+        }
 
         .post-body {
             font-size: 21px;
@@ -93,13 +102,23 @@
             text-align: center;
             background: #000;
             padding: 8px;
-            border: 2px solid #444;
+            border: 2px solid #ff6666;
         }
-        .media-container img, .media-container video {
+        .media-container img, .media-container video, .media-container audio {
             max-width: 100%;
             height: auto;
             border: 2px solid #ffcc00;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+        }
+
+        .evp-notice {
+            background: #330000;
+            color: #ffaaaa;
+            padding: 10px;
+            margin: 12px 0;
+            border: 2px solid #ff6666;
+            font-size: 19px;
+            text-align: center;
         }
 
         .source-link { 
@@ -122,21 +141,25 @@
     <div class="mac-window">
         <div class="title-bar">
             <div>📂 リアルタイム怪現象データベース</div>
-            <div style="font-size: 14px;">[Ver 5.6.2 - メディア対応]</div>
+            <div style="font-size: 14px;">[Ver 5.6.3 - EVP広域対応]</div>
         </div>
         <div class="content">
             <h1 onclick="location.href='./';">👻 脂心霊パラノーマルBOT</h1>
-            <p class="subtitle">世界各地からの自動収集・要約アーカイブ 🛢️</p>
+            <p class="subtitle">世界各地からの自動収集・要約アーカイブ 🛢️ Electronic Voice Phenomena強化</p>
             <p id="last-update" class="last-update">LAST UPDATE: ---</p>
             
-            <!-- タグフィルターはそのまま -->
-            <div class="search-container" style="margin-bottom:25px;">
-                <select id="tagFilter" class="tag-select" onchange="filterPosts()" style="width:100%; max-width:600px; padding:12px; font-size:22px;">
+            <div class="search-container" style="margin-bottom:25px; text-align:center;">
+                <select id="tagFilter" onchange="filterPosts()" style="width:100%; max-width:680px; padding:12px; font-size:22px; font-family:'VT323'; background:#222; color:#ffcc00; border:3px solid #ffff00;">
                     <option value="">ALL TAGS (全記事を表示)</option>
                     <option value="#Audio">#Audio (音声/EVP)</option>
                     <option value="#Orb">#Orb (光球)</option>
+                    <option value="#OBE">#OBE (幽体離脱)</option>
+                    <option value="#Mandela">#Mandela (記憶異常)</option>
+                    <option value="#Psy">#Psy (超能力/ESP)</option>
                     <option value="#Physical">#Physical (物理現象)</option>
-                    <!-- 他のタグも必要なら追加 -->
+                    <option value="#NHI">#NHI (非人類知性)</option>
+                    <option value="#Object">#Object (呪物/物体)</option>
+                    <option value="#Paranormal">#Paranormal (その他)</option>
                 </select>
             </div>
             
@@ -153,24 +176,16 @@
     <script>
         // --- DATA START ---
         const posts = [
+            // ここにあなたの全posts配列を貼り付けてください（前のメッセージの長い配列）
+            // 例：
             {
                 "date": "2026-05-24 11:11",
                 "source": "Global Node",
-                "text": "#NHI 起こり得る超常現象体験とNHI/UAPの相関関係",
-                "url": "https://www.reddit.com/r/Paranormal/comments/1tlz03g/possible_paranormal_experience_and_nhiuap/",
-                "media": []  // ← 将来的にここに自動挿入
-            },
-            {
-                "date": "2026-05-24 01:50",
-                "source": "Global Node",
-                "text": "#Paranormal 幽霊は住んだことのない家を訪れることはあるのでしょうか？ (ビデオ録画)",
-                "url": "https://www.reddit.com/r/Paranormal/comments/1tlkyle/can_ghosts_visit_homes_they_never_lived_in_video/",
-                "media": [  // サンプル（実際はGitHub Actionsで自動取得）
-                    { "type": "video", "url": "https://example.com/sample-video.mp4" }
-                ]
-            },
-            // 他の投稿も同じ形式で "media": [] を追加してください
-            // ...（省略。残りの投稿はすべて "media": [] を付けてください）
+                "text": "#Audio EVP録音で声が聞こえた",
+                "url": "https://www.reddit.com/...",
+                "media": []  // GitHub Actionsで自動追加予定
+            }
+            // ... 残りの全投稿 ...
         ];
         const lastUpdated = "2026-05-24 11:11";
         // --- DATA END ---
@@ -192,18 +207,30 @@
                 const tag = tagMatch ? tagMatch[1] : "#Paranormal";
                 const body = tagMatch ? tagMatch[2].trim() : p.text;
 
-                // メディア表示部分
+                // EVP強調
+                const isEVP = tag === "#Audio" || 
+                             p.text.toLowerCase().includes("evp") || 
+                             p.text.toLowerCase().includes("electronic voice") ||
+                             p.text.toLowerCase().includes("ボイス");
+                
                 let mediaHTML = '';
                 if (p.media && p.media.length > 0) {
                     mediaHTML = p.media.map(m => {
                         if (m.type === 'image') {
                             return `<div class="media-container"><img src="${m.url}" alt="脂心霊メディア" loading="lazy"></div>`;
-                        } else if (m.type === 'video') {
+                        }
+                        if (m.type === 'video') {
                             return `<div class="media-container"><video controls muted loop><source src="${m.url}" type="video/mp4"></video></div>`;
+                        }
+                        if (m.type === 'audio') {
+                            return `<div class="media-container"><audio controls><source src="${m.url}" type="audio/mpeg"></audio></div>`;
                         }
                         return '';
                     }).join('');
                 }
+
+                const evpNotice = isEVP ? 
+                    `<div class="evp-notice">🔊 EVP / Electronic Voice Phenomena 検知</div>` : '';
 
                 return `
                     <div class="post">
@@ -212,8 +239,9 @@
                             <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
                         </div>
                         <div class="post-body">${body}</div>
+                        ${evpNotice}
                         ${mediaHTML}
-                        <a href="${p.url}" target="_blank" class="source-link">🔗 元Reddit投稿を確認（画像・動画あり）</a>
+                        <a href="${p.url}" target="_blank" class="source-link">🔗 元投稿を確認</a>
                     </div>
                 `;
             }).join('');
@@ -246,3 +274,4 @@
     </script>
 </body>
 </html>
+  
