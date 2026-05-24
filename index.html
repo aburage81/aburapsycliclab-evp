@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 脂心霊パラノーマルBOT - リアルタイム怪現象データベース</title>
+    <title>👻 脂心霊パラノーマルBOT - リアルタイム怪現象データベース</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         body { 
@@ -37,81 +37,82 @@
         }
         .content { padding: 20px; }
         
-    h1 { font-size: 32px; text-align: center; margin: 0; cursor: pointer; }
-    .subtitle { text-align: center; font-size: 20px; margin: 5px 0; color: #000080; }
-    .last-update { text-align: center; font-size: 14px; margin-bottom: 20px; color: #555; }
+        h1 { font-size: 32px; text-align: center; margin: 0; cursor: pointer; }
+        .subtitle { text-align: center; font-size: 20px; margin: 5px 0; color: #000080; }
+        .last-update { text-align: center; font-size: 14px; margin-bottom: 20px; color: #555; }
 
-    .search-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 25px;
-        padding: 0 10px;
-    }
-    .tag-select { 
-        width: 100%;
-        max-width: 500px; 
-        padding: 10px; 
-        font-family: 'VT323'; 
-        font-size: 22px; 
-        border: 3px inset #fff; 
-        background: #fff; 
-        cursor: pointer;
-        outline: none;
-    }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+        .tag-select { 
+            width: 100%;
+            max-width: 500px; 
+            padding: 10px; 
+            font-family: 'VT323'; 
+            font-size: 22px; 
+            border: 3px inset #fff; 
+            background: #fff; 
+            cursor: pointer;
+            outline: none;
+        }
 
-    .posts-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); 
-        gap: 20px; 
-    }
-    
-    .post { 
-        background: #c0c0c0; 
-        border: 3px inset #fff; 
-        border-right-color: #808080; 
-        border-bottom-color: #808080; 
-        padding: 18px; 
-    }
-    
-    .post-header { 
-        font-weight: bold; 
-        color: #000080; 
-        margin-bottom: 10px; 
-        border-bottom: 1px dashed #808080; 
-        display: flex;
-        justify-content: space-between;
-    }
+        .posts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); 
+            gap: 20px; 
+        }
+        
+        .post { 
+            background: #c0c0c0; 
+            border: 3px inset #fff; 
+            border-right-color: #808080; 
+            border-bottom-color: #808080; 
+            padding: 18px; 
+        }
+        
+        .post-header { 
+            font-weight: bold; 
+            color: #000080; 
+            margin-bottom: 10px; 
+            border-bottom: 1px dashed #808080; 
+            display: flex;
+            justify-content: space-between;
+        }
 
-    .tag-link {
-        color: #000080;
-        cursor: pointer;
-        padding: 0 4px;
-        text-decoration: underline;
-    }
-    .tag-link:hover {
-        background-color: yellow; 
-        color: #000;
-    }
+        .tag-link {
+            color: #000080;
+            cursor: pointer;
+            padding: 0 4px;
+            text-decoration: underline;
+        }
+        .tag-link:hover {
+            background-color: yellow; 
+            color: #000;
+        }
 
-    .source-link { 
-        color: #0000ff; 
-        text-decoration: underline; 
-        margin-top: 15px; 
-        display: block; 
-    }
+        .source-link { 
+            color: #0000ff; 
+            text-decoration: underline; 
+            margin-top: 15px; 
+            display: block; 
+        }
 
-    .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
-    .page-btn { 
-        padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; 
-        border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; 
-        font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; 
-    }
-    .page-btn:disabled { color: #808080; box-shadow: none; }
-</style></head>
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+        .page-btn { 
+            padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; 
+            border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; 
+            font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; 
+        }
+        .page-btn:disabled { color: #808080; box-shadow: none; }
+    </style>
+</head>
 <body>
     <div class="mac-window">
         <div class="title-bar">
-            <div> リアルタイム怪現象データベース</div>
+            <div>📂 リアルタイム怪現象データベース</div>
             <div style="font-size: 14px;">[Ver 5.6.1]</div>
         </div>
         <div class="content">
@@ -119,1303 +120,112 @@
             <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
             <p id="last-update" class="last-update">LAST UPDATE: ---</p>
             
-        <div class="search-container">
-            <select id="tagFilter" class="tag-select" onchange="filterPosts()">
-                <option value="">ALL TAGS (全記事を表示)</option>
-                <option value="#Audio">#Audio (音声/EVP)</option>
-                <option value="#Orb">#Orb (光球)</option>
-                <option value="#OBE">#OBE (幽体離脱)</option>
-                <option value="#Mandela">#Mandela (記憶異常)</option>
-                <option value="#Psy">#Psy (超能力/ESP)</option>
-                <option value="#Physical">#Physical (物理現象)</option>
-                <option value="#NHI">#NHI (非人類知性)</option>
-                <option value="#Object">#Object (呪物/物体)</option>
-                <option value="#Paranormal">#Paranormal (その他)</option>
-            </select>
-        </div>
-        
-        <div class="posts-grid" id="posts"></div>
-        
-        <div class="pagination">
-            <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
-            <span id="pageInfo" style="font-size:22px; align-self:center;">PAGE 1</span>
-            <button id="nextBtn" class="page-btn" onclick="changePage(1)">NEXT</button>
+            <div class="search-container">
+                <select id="tagFilter" class="tag-select" onchange="filterPosts()">
+                    <option value="">ALL TAGS (全信号を表示)</option>
+                    <option value="#Audio">#Audio (音声/EVP)</option>
+                    <option value="#Orb">#Orb (光球)</option>
+                    <option value="#OBE">#OBE (幽体離脱)</option>
+                    <option value="#Mandela">#Mandela (記憶異常)</option>
+                    <option value="#Psy">#Psy (超能力/ESP)</option>
+                    <option value="#Physical">#Physical (物理現象)</option>
+                    <option value="#NHI">#NHI (非人類知性)</option>
+                    <option value="#Object">#Object (呪物/物体)</option>
+                    <option value="#Paranormal">#Paranormal (その他)</option>
+                </select>
+            </div>
+            
+            <div class="posts-grid" id="posts"></div>
+            
+            <div class="pagination">
+                <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
+                <span id="pageInfo" style="font-size:22px; align-self:center;">PAGE 1</span>
+                <button id="nextBtn" class="page-btn" onclick="changePage(1)">NEXT</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // --- DATA START ---
-    // この部分はGitHub Actionsによって自動的に書き換えられます
-    const posts = [
-{
-    "date": "2026-05-24 11:11",
-    "source": "Global Node",
-    "text": "#NHI 起こり得る超常現象体験とNHI/UAPの相関関係",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlz03g/possible_paranormal_experience_and_nhiuap/"
-},
-{
-    "date": "2026-05-24 08:48",
-    "source": "Global Node",
-    "text": "#Paranormal あなたが経験した「マトリックスの不具合」タイプの状況は何でしたか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlvsxc/what_was_a_glitch_in_the_matrix_type_of_situation/"
-},
-{
-    "date": "2026-05-24 06:43",
-    "source": "Global Node",
-    "text": "#Paranormal 提案: ユニバーサル タイムライン コヒーレンシー テスト (UTCT)",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tlrs6p/proposal_universal_timeline_coherency_test_utct/"
-},
-{
-    "date": "2026-05-24 06:43",
-    "source": "Global Node",
-    "text": "#Paranormal 左後ろ側に違和感がある",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlsmjl/an_odd_feeling_in_my_back_left_side/"
-},
-{
-    "date": "2026-05-24 06:43",
-    "source": "Global Node",
-    "text": "#Paranormal 超常現象の可能性や危険性については不明。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlr5gs/unknown_about_a_possible_paranormal_experience/"
-},
-{
-    "date": "2026-05-24 05:01",
-    "source": "Global Node",
-    "text": "#Paranormal 妹の犬が近くにいないときでも、いつもその音が聞こえます。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlowdp/i_keep_hearing_my_sisters_dog_when_its_not_around/"
-},
-{
-    "date": "2026-05-24 03:55",
-    "source": "Global Node",
-    "text": "#Paranormal 私は懐疑的ですが、私の友人は強い信者で、北ノルウェーで幽霊狩りをするつもりです。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlo886/i_am_a_skeptic_and_a_friend_of_mine_is_a_strong/"
-},
-{
-    "date": "2026-05-24 03:55",
-    "source": "Global Node",
-    "text": "#Paranormal キラキラミストを体験してみませんか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlo2ro/experience_with_sparkly_mist/"
-},
-{
-    "date": "2026-05-24 02:53",
-    "source": "Global Node",
-    "text": "#Paranormal ヘルプ",
-    "url": "https://www.reddit.com/r/EVP/comments/1t7a15q/help/"
-},
-{
-    "date": "2026-05-24 01:50",
-    "source": "Global Node",
-    "text": "#Paranormal 新しいキットカットの「取り違え」",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tll0n5/new_kitkat_mixups/"
-},
-{
-    "date": "2026-05-24 01:50",
-    "source": "Global Node",
-    "text": "#Paranormal 「親しい人とデッサンをすると関係が壊れてしまう」という呪いを聞いたことがある人はいませんか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tll4s3/have_anyone_heard_of_the_curse_if_we_draw_our/"
-},
-{
-    "date": "2026-05-24 01:50",
-    "source": "Global Node",
-    "text": "#Paranormal 幽霊は住んだことのない家を訪れることはあるのでしょうか？ (ビデオ録画)",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlkyle/can_ghosts_visit_homes_they_never_lived_in_video/"
-},
-{
-    "date": "2026-05-24 01:50",
-    "source": "Global Node",
-    "text": "#Paranormal これが起こるまで私は媒体について懐疑的でした",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlkkn5/i_used_to_be_skeptical_about_mediums_until_this/"
-},
-{
-    "date": "2026-05-24 00:55",
-    "source": "Global Node",
-    "text": "#Paranormal 公衆電話から電話がかかってきたことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlk1qb/has_the_payphone_ever_called_you/"
-},
-{
-    "date": "2026-05-23 23:40",
-    "source": "Global Node",
-    "text": "#Paranormal ウェイバリーヒルズ療養所体験",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlh9kl/waverly_hills_sanatorium_experience/"
-},
-{
-    "date": "2026-05-23 21:59",
-    "source": "Global Node",
-    "text": "#Paranormal 私は自分の部屋のベッドに横たわり、リビングルームの明かりだけがついています",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlf8no/im_laying_in_bed_in_my_room_only_a_light_on_in/"
-},
-{
-    "date": "2026-05-23 21:59",
-    "source": "Global Node",
-    "text": "#Paranormal 誰かこれを説明してもらえますか",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tlex6n/can_someone_explain_this_to_me/"
-},
-{
-    "date": "2026-05-23 20:03",
-    "source": "Global Node",
-    "text": "#Paranormal アドバイスを求めています",
-    "url": "https://www.reddit.com/r/EVP/comments/1sne36f/looking_for_advice/"
-},
-{
-    "date": "2026-05-23 18:42",
-    "source": "Global Node",
-    "text": "#Paranormal 何を捕らえたのか分かりません。",
-    "url": "https://www.reddit.com/r/EVP/comments/1sd56ma/im_not_sure_what_i_captured/"
-},
-{
-    "date": "2026-05-23 18:42",
-    "source": "Global Node",
-    "text": "#Paranormal 億万長者が古いパナソニック DR60 テクノロジーを購入して開発を続けることができるでしょうか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tla9rb/could_a_billionaire_buy_the_old_panasonic_dr60/"
-},
-{
-    "date": "2026-05-23 18:42",
-    "source": "Global Node",
-    "text": "#Paranormal 私にくっついてついて来ているものは、人間ではありません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl9r5w/whatever_is_attached_and_following_me_isnt_human/"
-},
-{
-    "date": "2026-05-23 16:24",
-    "source": "Global Node",
-    "text": "#Paranormal 私にくっついてついて来ているものは、人間ではありません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl8s7u/what_ever_is_attached_and_following_me_isnt_human/"
-},
-{
-    "date": "2026-05-23 16:24",
-    "source": "Global Node",
-    "text": "#Paranormal 催眠体験",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl8j01/hypnosis_experience/"
-},
-{
-    "date": "2026-05-23 16:24",
-    "source": "Global Node",
-    "text": "#Paranormal ブラックダイバーの神話？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl7hg3/black_diver_myths/"
-},
-{
-    "date": "2026-05-23 16:24",
-    "source": "Global Node",
-    "text": "#Paranormal 何かが私を追っているような気がします (pt2)",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl7b4u/i_think_something_is_following_me_pt2/"
-},
-{
-    "date": "2026-05-23 16:24",
-    "source": "Global Node",
-    "text": "#Paranormal ウォーレン家について調べた後の質問",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl6us7/question_after_researching_the_warrens/"
-},
-{
-    "date": "2026-05-23 13:32",
-    "source": "Global Node",
-    "text": "#Paranormal 私の家の影の男",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl66o3/shadow_man_in_my_house/"
-},
-{
-    "date": "2026-05-23 13:32",
-    "source": "Global Node",
-    "text": "#Paranormal やあ、私はここに来たばかりです、誰かミミックやスキンウォーカーを見分ける方法を知っているかどうか尋ねたかっただけです",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl5k9x/hey_im_new_here_just_wanted_to_ask_if_somebody/"
-},
-{
-    "date": "2026-05-23 13:32",
-    "source": "Global Node",
-    "text": "#Paranormal アメリカの国立公園で身近な人を亡くしたり行方不明になったり死体で発見されたことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl52vy/have_you_ever_lost_someone_close_to_you_who_went/"
-},
-{
-    "date": "2026-05-23 13:32",
-    "source": "Global Node",
-    "text": "#Paranormal 死んだと思うけど覚えているのはポットブラウニーのせいだけ",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl52ma/i_think_i_died_and_i_only_remember_it_cause_of/"
-},
-{
-    "date": "2026-05-23 13:32",
-    "source": "Global Node",
-    "text": "#Paranormal 私の母は他の世の力によって癒されました",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tl4o9b/my_mother_was_healed_by_other_worldly_powers/"
-},
-{
-    "date": "2026-05-23 09:01",
-    "source": "Global Node",
-    "text": "#Paranormal ゴーストハンティング装備にはいくら使えばいいですか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkztwo/how_much_should_i_spend_on_ghost_hunting_gear/"
-},
-{
-    "date": "2026-05-23 09:01",
-    "source": "Global Node",
-    "text": "#Paranormal お母さんはウェストミンスター寺院でこの写真を撮りました。それは何ですか？？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkwzjs/mom_took_this_photo_at_westminster_abbey_what_is/"
-},
-{
-    "date": "2026-05-23 06:57",
-    "source": "Global Node",
-    "text": "#Paranormal この男はベレンシュタインの本を持っています",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkuo46/this_man_has_the_berenstein_books/"
-},
-{
-    "date": "2026-05-23 06:57",
-    "source": "Global Node",
-    "text": "#Paranormal 1979 年の古いコマーシャルを見ていたら、FotL の下着の広告を見つけました。",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkr9s8/was_watching_some_old_commercials_from_1979_and/"
-},
-{
-    "date": "2026-05-23 05:28",
-    "source": "Global Node",
-    "text": "#Paranormal これはホスフェンかそれ以上ですか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tku9h0/is_this_phosphenes_or_something_more/"
-},
-{
-    "date": "2026-05-23 03:28",
-    "source": "Global Node",
-    "text": "#Paranormal 幽霊の出る電話かスパイウェアか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkrg56/haunted_phone_or_spyware/"
-},
-{
-    "date": "2026-05-23 03:28",
-    "source": "Global Node",
-    "text": "#Paranormal 子供の頃に体験した超常現象",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkrbk4/paranormal_experience_i_had_as_a_kid/"
-},
-{
-    "date": "2026-05-23 03:28",
-    "source": "Global Node",
-    "text": "#Paranormal この男を見たことがありますか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkp508/have_you_seen_this_man/"
-},
-{
-    "date": "2026-05-23 03:28",
-    "source": "Global Node",
-    "text": "#Paranormal 最も暗い考えの 1 つは、苦しみを糧にし、人間の犠牲を要求する神です。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkovee/one_of_the_darkest_thoughts_gods_who_feed_on/"
-},
-{
-    "date": "2026-05-23 03:28",
-    "source": "Global Node",
-    "text": "#Paranormal それが何の実体だったのかは未だに分かりません……。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkogxk/i_still_dont_know_what_entity_was_that/"
-},
-{
-    "date": "2026-05-23 01:14",
-    "source": "Global Node",
-    "text": "#Orb 頭上に奇妙な球体？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkni10/weird_orbs_over_heads/"
-},
-{
-    "date": "2026-05-23 01:14",
-    "source": "Global Node",
-    "text": "#Paranormal 誰かが私と他の人に魔法をかけたと思う",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkkdxb/i_think_someone_did_witchcraft_on_me_and_another/"
-},
-{
-    "date": "2026-05-23 01:14",
-    "source": "Global Node",
-    "text": "#Psy オザーク山脈の超常現象、特に不可解な話を探しています。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkjy21/looking_for_paranormal_especially_cryptid_stories/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal いくつかのルールに関する簡単な注意事項/説明",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkgtqf/some_quick_remindersclarifications_on_some_rules/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal なぜ私たちは覚えているのでしょうか？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkf3ux/why_do_we_remember/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal ネガティブなエネルギーに囲まれている人を知っていますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkinat/do_you_know_anyone_surrounded_by_negative_energy/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal 午後10時から11時くらいに女性が歌っているのを聞いた",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkhev0/i_heard_a_woman_singing_on_like_1011_pm/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal マレフィークの古いお化け屋敷、フランス、1978 年。怖い。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkfcen/malefique_old_haunted_house_france_1978_scary/"
-},
-{
-    "date": "2026-05-22 22:23",
-    "source": "Global Node",
-    "text": "#Paranormal 自分が経験しているのが睡眠麻痺なのか、それとも別の何かなのか、わかりません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkejji/i_cant_tell_if_what_i_am_experiencing_is_sleep/"
-},
-{
-    "date": "2026-05-22 19:16",
-    "source": "Global Node",
-    "text": "#Paranormal ダークナイトツーは最後のコイン投げに直面します。",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkccfm/the_dark_knight_two_faces_last_coin_flip/"
-},
-{
-    "date": "2026-05-22 19:16",
-    "source": "Global Node",
-    "text": "#Paranormal ラグラッツを見ているときにMEの残留物を発見",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tkbf3c/found_me_residue_while_watching_rugrats/"
-},
-{
-    "date": "2026-05-22 19:16",
-    "source": "Global Node",
-    "text": "#Paranormal 家の周りの家事で緊急に助けが必要です。もうどうしたらいいのかわかりません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tke4j0/i_urgently_need_help_with_chores_around_my_house/"
-},
-{
-    "date": "2026-05-22 19:16",
-    "source": "Global Node",
-    "text": "#Paranormal あなたの家族の不気味な迷信は何ですか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tkaw9t/whats_your_creepy_family_superstition/"
-},
-{
-    "date": "2026-05-22 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 「それが素晴らしいところです！何もしません！」",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tk5g8z/thats_the_beauty_of_it_it_doesnt_do_anything/"
-},
-{
-    "date": "2026-05-22 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 子供の頃、何かが私を追いかけ始めたと思う",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tka8p3/i_think_something_started_following_me_when_i_was/"
-},
-{
-    "date": "2026-05-22 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 私の悪魔祓い - 実話",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk9lf2/my_exorcism_true_story/"
-},
-{
-    "date": "2026-05-22 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 霊を見る能力",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk957u/ability_to_see_spirits/"
-},
-{
-    "date": "2026-05-22 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 久しぶりに幽霊が私に姿を現した",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk6e5g/first_time_a_long_time_ghost_showed_itself_to_me/"
-},
-{
-    "date": "2026-05-22 11:15",
-    "source": "Global Node",
-    "text": "#Audio ベビーモニターで自分の声が聞こえましたか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk54k8/heard_my_own_voice_on_the_baby_monitor/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal エンティティがコマンド 2 で私の犬を怖がらせる",
-    "url": "https://www.reddit.com/r/EVP/comments/1tcj9j0/entity_scares_my_dog_with_command_2/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal 黒死神ジン",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk1s4g/black_reaper_jinn/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal 幽霊や霊的存在のさまざまな種類とその見分け方は何ですか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk1fx1/what_are_the_different_types_of_ghosts_or/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal 私の幽霊話",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk1buu/my_aswang_story/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal 超常現象の存在の否定できない証拠?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tk0rlz/actual_undeniable_proof_of_paranormal_beings/"
-},
-{
-    "date": "2026-05-22 08:51",
-    "source": "Global Node",
-    "text": "#Paranormal 私の学校に出没する悪魔。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjzoi9/the_demon_haunting_my_school/"
-},
-{
-    "date": "2026-05-22 07:11",
-    "source": "Global Node",
-    "text": "#Paranormal ベレンスタイン・ベアーズの代わりにバーンスタイン",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjy88t/bernstein_instead_of_berenstain_bears/"
-},
-{
-    "date": "2026-05-22 05:30",
-    "source": "Global Node",
-    "text": "#Paranormal 独占マンは1000%片眼鏡を持っていた、そして私はこの丘で死ぬだろう",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjuwb9/the_monopoly_man_1000_had_a_monocle_and_i_will/"
-},
-{
-    "date": "2026-05-22 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal セックス・イン・ザ・シティ・レジデュアル",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjqvi8/sex_in_the_city_residue/"
-},
-{
-    "date": "2026-05-22 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal 初めて木とコミュニケーションを取ったとき...楽しい経験ではありませんでした ",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjqv8c/the_first_time_i_ever_communicated_with_a_treeit/"
-},
-{
-    "date": "2026-05-22 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal これはカメラのエラーなのか、それとも何か他のことが原因なのでしょうか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjpr7t/could_this_be_a_camera_error_or_spmething_else/"
-},
-{
-    "date": "2026-05-22 01:34",
-    "source": "Global Node",
-    "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-05-21)",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjoy79/did_you_discover_a_new_mandela_effect_post_it/"
-},
-{
-    "date": "2026-05-22 01:34",
-    "source": "Global Node",
-    "text": "#Mandela フォルクスワーゲンのロゴ - マンデラ効果を体験したばかりですか?",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjlsre/volkswagen_logo_did_i_just_experience_the_mandela/"
-},
-{
-    "date": "2026-05-22 01:34",
-    "source": "Global Node",
-    "text": "#Paranormal 私に何か付いてるの？？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjo25w/is_something_attached_to_me/"
-},
-{
-    "date": "2026-05-22 01:34",
-    "source": "Global Node",
-    "text": "#Paranormal 私の助けを必要としていた樫の木です。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjn7wa/he_oak_tree_that_needed_my_help/"
-},
-{
-    "date": "2026-05-22 01:34",
-    "source": "Global Node",
-    "text": "#Paranormal 私の人生で最も鮮明な超常現象体験。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjmjn0/the_most_vivid_paranormal_experience_in_my_life/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal 鼻輪をつけて笑っている牛を覚えている人もいるでしょう。そうしない人もいます。あなたがどのタイムラインから来たのか知りたいのですが？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjivdp/some_of_you_remember_the_laughing_cow_having_a/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal アリのいじめっ子と織機の果実",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjhguw/the_ant_bully_and_fruit_of_the_loom/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal Daeは湾の南側が不気味であることに気づきました。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjl1a2/dae_find_the_south_bay_of_the_bay_are_spooky/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal 私が6年近く住んでいた映画館 — 中国の超常現象の物語",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjjycu/the_cinema_where_i_lived_for_nearly_six_years/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal GhostTube アプリが開かれていませんでした。ゴーストが真夜中22時と言っていたので、記録を確認しようとアプリを開いたところ…",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjjhu4/ghosttube_app_was_not_opened_ghost_said_22_at/"
-},
-{
-    "date": "2026-05-21 22:55",
-    "source": "Global Node",
-    "text": "#Paranormal バックグラウンドで実行されている Ghost Tube アプリ",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjioi9/ghost_tube_app_running_in_background/"
-},
-{
-    "date": "2026-05-21 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 「ガンピン・タイム」",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tjfpbf/gumpin_time/"
-},
-{
-    "date": "2026-05-21 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 母は何を見たのでしょうか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjd2mh/what_did_my_mother_see/"
-},
-{
-    "date": "2026-05-21 19:31",
-    "source": "Global Node",
-    "text": "#Audio 実際に機能するボイスボックスアプリはありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjczga/is_there_any_voice_box_apps_that_actually_work/"
-},
-{
-    "date": "2026-05-21 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal サンディエゴの影の人物。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tjcv02/shadow_figures_in_san_diego/"
-},
-{
-    "date": "2026-05-21 15:42",
-    "source": "Global Node",
-    "text": "#Paranormal アパラチアの古き神々に興味がある",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tja6bm/curious_about_the_old_gods_of_appalachia/"
-},
-{
-    "date": "2026-05-21 15:42",
-    "source": "Global Node",
-    "text": "#Paranormal 私の「エピソード」は実は予感なのだと思う",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj9024/i_think_my_episodes_are_actually_premonitions/"
-},
-{
-    "date": "2026-05-21 15:42",
-    "source": "Global Node",
-    "text": "#Paranormal まあ、それは起こりました。金縛りのエピソードで見た影の存在は、100%私の部屋に出没しています",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj6o80/well_it_happened_the_shadow_entity_that_i_saw_in/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal 何かを捕まえたと思った。",
-    "url": "https://www.reddit.com/r/EVP/comments/1tj5o84/thought_i_caught_something/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal 飛べた少年のエンディングが変更されました",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tj6067/the_boy_who_could_fly_ending_changed/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal 実際に幽霊をカメラに収めることはできるのでしょうか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj5l6b/can_you_actually_capture_ghosts_on_camera/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal あなたのキャンドルは再点灯したことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj54kq/has_your_candle_ever_relit_itself/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal アパラチア山脈に住んでいる人たちは、何かクレイジーな体験をしたことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj3syd/people_who_live_in_appalachian_mountaines_have_u/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal みんなの霊的信念は何ですか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj3epj/what_are_everyones_spiritual_beliefs/"
-},
-{
-    "date": "2026-05-21 11:12",
-    "source": "Global Node",
-    "text": "#Paranormal 90年代に何かが足りない??",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj2jfd/there_is_something_missing_from_the_90s/"
-},
-{
-    "date": "2026-05-21 08:04",
-    "source": "Global Node",
-    "text": "#Paranormal 母は何かがおかしいと感じました。結局彼女は正しかった",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tj0z7o/my_mother_sensed_something_was_off_turns_out_she/"
-},
-{
-    "date": "2026-05-21 06:42",
-    "source": "Global Node",
-    "text": "#Paranormal 道路上で恐ろしい目に遭った人のredditコメント/投稿を見つけるのに助けが必要です",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiwq3v/i_need_help_finding_a_reddit_comment_post_of/"
-},
-{
-    "date": "2026-05-21 06:42",
-    "source": "Global Node",
-    "text": "#Paranormal 私の友人が考えた理論",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiwgcb/a_theory_my_friend_thought_of/"
-},
-{
-    "date": "2026-05-21 06:42",
-    "source": "Global Node",
-    "text": "#Paranormal 本には霊の執着や残留エネルギーが宿ることはあるのでしょうか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiw775/can_a_book_carry_a_spirit_attachment_or_residual/"
-},
-{
-    "date": "2026-05-21 06:42",
-    "source": "Global Node",
-    "text": "#Paranormal ろうそくが人間のような煙の姿を残した",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tivwzv/a_candle_left_a_humanlike_smoke_figure/"
-},
-{
-    "date": "2026-05-21 04:13",
-    "source": "Global Node",
-    "text": "#Paranormal 私の二度目の超常現象体験。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiu8ok/my_second_paranormal_experience/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal ベレンテインかベレンシュタインか？両方？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1ting9z/berentain_or_berenstein_both/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal スピリチュアルなアドバイスが必要です",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiqocy/needing_advice_spiritual/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal ジンとの私の経験。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiq6nh/my_experience_with_djinn/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal もう終わったと思います..",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiolhs/it_is_over_i_think/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal 今日撮った写真には幽霊のような顔が8枚…",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tioea3/eight_ghostly_faces_in_photo_i_took_today/"
-},
-{
-    "date": "2026-05-21 01:46",
-    "source": "Global Node",
-    "text": "#Paranormal 臭い匂い…。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tioe21/smelly_smells/"
-},
-{
-    "date": "2026-05-20 22:30",
-    "source": "Global Node",
-    "text": "#Paranormal 私たちを制御している分析機械があるようです。",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tii2y1/i_think_there_is_an_analytical_machine/"
-},
-{
-    "date": "2026-05-20 22:30",
-    "source": "Global Node",
-    "text": "#Paranormal 以前にもそうなったことはありますが、こんなにひどいことはありませんでした。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiktha/ive_had_it_happen_before_but_never_this_bad/"
-},
-{
-    "date": "2026-05-20 22:30",
-    "source": "Global Node",
-    "text": "#Paranormal 私たちは母と会い続けていますか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tiknij/we_keep_seeing_my_mom/"
-},
-{
-    "date": "2026-05-20 19:18",
-    "source": "Global Node",
-    "text": "#Mandela リスクのあるビジネス マンデラ効果は私にとって変化をもたらしました",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tidsqz/risky_business_mandela_effect_has_changed_for_me/"
-},
-{
-    "date": "2026-05-20 19:18",
-    "source": "Global Node",
-    "text": "#Paranormal 勝手に点灯するランプ。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tigpnq/lamp_that_turns_on_by_itself/"
-},
-{
-    "date": "2026-05-20 19:18",
-    "source": "Global Node",
-    "text": "#Paranormal TW: 人物に関する超常現象のネガティブな出来事。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tifpwl/tw_paranormal_negative_events_with_a_person/"
-},
-{
-    "date": "2026-05-20 19:18",
-    "source": "Global Node",
-    "text": "#Paranormal なぜ私の体は勝手に裂けようとするのでしょうか？ （質問も）",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tie8gw/why_does_my_body_want_to_tear_itself_open_on_its/"
-},
-{
-    "date": "2026-05-20 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 誰かこれが間違いであることを証明できますか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tid26a/can_anyone_debunk_this/"
-},
-{
-    "date": "2026-05-20 11:13",
-    "source": "Global Node",
-    "text": "#Paranormal 黒い霧が目の前に現れた",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti6ksl/black_mist_appeared_before_me/"
-},
-{
-    "date": "2026-05-20 11:13",
-    "source": "Global Node",
-    "text": "#Paranormal イースタン州立刑務所",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti6dn7/eastern_state_penitentiary/"
-},
-{
-    "date": "2026-05-20 11:13",
-    "source": "Global Node",
-    "text": "#Paranormal 絶え間なく続く問題がジンクスか呪いかどうか、誰か見分けられますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti5l3z/can_someone_tell_if_constant_problems_is_a_jinx/"
-},
-{
-    "date": "2026-05-20 08:54",
-    "source": "Global Node",
-    "text": "#Paranormal 夢は超常現象と関係があるのでしょうか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti2xpa/can_dreams_have_to_do_with_the_paranormal/"
-},
-{
-    "date": "2026-05-20 08:54",
-    "source": "Global Node",
-    "text": "#Paranormal 私は老人の幽霊を見ました。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti2ssc/i_saw_the_ghost_of_an_old_man/"
-},
-{
-    "date": "2026-05-20 08:54",
-    "source": "Global Node",
-    "text": "#Paranormal 赤い影/シルエット",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti2iyn/red_shadow_siluette/"
-},
-{
-    "date": "2026-05-20 07:06",
-    "source": "Global Node",
-    "text": "#Paranormal 怖い映画2",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1thzl79/scary_movie_2/"
-},
-{
-    "date": "2026-05-20 07:06",
-    "source": "Global Node",
-    "text": "#Paranormal 墓地・墓地",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1ti0y5c/graveyardscemeteries/"
-},
-{
-    "date": "2026-05-20 07:06",
-    "source": "Global Node",
-    "text": "#Paranormal 私たちはその知らせを聞く前に彼が亡くなったことを知っていた",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thzbif/i_knew_he_died_before_we_got_the_news/"
-},
-{
-    "date": "2026-05-20 07:06",
-    "source": "Global Node",
-    "text": "#Paranormal 深夜の恐怖鏡体験",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thz7ix/scary_mirror_experience_at_midnight/"
-},
-{
-    "date": "2026-05-20 05:24",
-    "source": "Global Node",
-    "text": "#Paranormal 私たちはその知らせを聞く前に彼が亡くなったことを知っていた",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thz5zv/i_knew_he_died_before_we_got_the_news/"
-},
-{
-    "date": "2026-05-20 05:24",
-    "source": "Global Node",
-    "text": "#Paranormal これは透聴ですか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thyc1l/is_this_clairaudience/"
-},
-{
-    "date": "2026-05-20 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal これはホテルで私に起こったのですが、まだ本当に説明できません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thw8u0/this_happened_to_me_at_a_hotel_and_i_genuinely/"
-},
-{
-    "date": "2026-05-20 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal 地元の人はニューオーリンズの吸血鬼について知っていますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thuhud/locals_who_know_about_vampires_in_new_orleans/"
-},
-{
-    "date": "2026-05-20 03:52",
-    "source": "Global Node",
-    "text": "#Paranormal 初めての超常現象調査。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thsst3/my_first_paranormal_investigation/"
-},
-{
-    "date": "2026-05-20 01:44",
-    "source": "Global Node",
-    "text": "#Paranormal 思い出以上に特定の感情を場所と結びつける人はいますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thrnu5/does_anyone_else_associate_certain_emotions_with/"
-},
-{
-    "date": "2026-05-20 01:44",
-    "source": "Global Node",
-    "text": "#Paranormal 2歳半の娘が、自分に噛みつきたい男を見かけます。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thr1v5/25yo_daughter_sees_guy_that_wants_to_bite_her/"
-},
-{
-    "date": "2026-05-20 01:44",
-    "source": "Global Node",
-    "text": "#Paranormal 銃砲店の調査",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thpvdj/gun_store_investigation/"
-},
-{
-    "date": "2026-05-20 01:44",
-    "source": "Global Node",
-    "text": "#Paranormal 私の叔父はアパートで何かに話しかけました",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thonbe/my_uncle_spoke_to_something_in_his_apartment/"
-},
-{
-    "date": "2026-05-19 22:50",
-    "source": "Global Node",
-    "text": "#Paranormal 速く動く白い影",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thn4l9/white_shadow_moving_fastly/"
-},
-{
-    "date": "2026-05-19 22:50",
-    "source": "Global Node",
-    "text": "#Paranormal 何か気になる",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thl5sn/im_curious_about_something/"
-},
-{
-    "date": "2026-05-19 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 私の母親はホスピスで亡くなっており、私は彼女の亡くなった親戚と会い続けています",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thiqta/my_moms_is_dying_on_hospice_and_i_keep_seeing_her/"
-},
-{
-    "date": "2026-05-19 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 私の目の前で時間が曲がってしまった",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thi9km/time_bent_in_front_of_me/"
-},
-{
-    "date": "2026-05-19 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal ドアの外に角を持つ女性の姿",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thi77c/female_with_horns_figure_outside_the_door/"
-},
-{
-    "date": "2026-05-19 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 邪悪な、または霊的に堕落した雰囲気のある都市。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thi4th/cities_with_evil_or_spiritually_depraved/"
-},
-{
-    "date": "2026-05-19 19:31",
-    "source": "Global Node",
-    "text": "#Paranormal 霊が人を襲うことはできるのでしょうか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thfebm/can_spirits_claim_a_person/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal OK、誓います。ベレンスタイン ベアだったのを覚えていますが、その後ベレンスタイン ベアに切り替わって、「ベレンスタインではなくベレンスタインのはずだ」と思ったのを覚えていますが、今またベレンスタインに戻りました",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1thbeyf/ok_i_swear_i_remember_it_was_berenstain_bears_but/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 超常現象か偶然か…",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1theins/paranormal_or_coincidence/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 昨夜何かが起こりました、それが何だったのか分かりません、また同じことを経験するのが怖いです",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thd9am/something_happened_last_night_im_not_sure_what_it/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 午後9時45分から午後10時まで、アジア系の年配の女性が家の前を行ったり来たりしながら拍手をする。話さない。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thcvax/from_945pm_to_10pm_an_older_asian_lady_walks_back/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 話してもいいですか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thcrr7/could_i_talk_to_it/"
-},
-{
-    "date": "2026-05-19 15:39",
-    "source": "Global Node",
-    "text": "#Paranormal 彼は私たちに留まってほしかったのだろうか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1thbgn7/could_he_have_wanted_us_to_stay/"
-},
-{
-    "date": "2026-05-19 11:34",
-    "source": "Global Node",
-    "text": "#Mandela マンデラ効果とCERNの完全な説明 - いいえ、それは次元間ポータルではなく、神の粒子です",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1th4ust/full_explanation_of_mandela_effect_and_cern_no/"
-},
-{
-    "date": "2026-05-19 11:34",
-    "source": "Global Node",
-    "text": "#Paranormal 昨夜、電気が自動的に点灯しました、そして家の中で起きているのは私だけでした",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th95nq/the_lights_turned_themselves_on_last_night_and_i/"
-},
-{
-    "date": "2026-05-19 11:34",
-    "source": "Global Node",
-    "text": "#Paranormal 昨日の夜に何が起こったのか本当にわかりません...",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th8s48/i_genuinely_dont_know_what_to_make_of_what/"
-},
-{
-    "date": "2026-05-19 11:34",
-    "source": "Global Node",
-    "text": "#Paranormal 日々のシンクロニシティ。これまでに他の人にこのようなことが起こったことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th8bwc/daily_synchronicities_has_this_happened_to_anyone/"
-},
-{
-    "date": "2026-05-19 11:34",
-    "source": "Global Node",
-    "text": "#Paranormal テレポーテーションが私に起こりました。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th6seg/teleportation_happened_to_me/"
-},
-{
-    "date": "2026-05-19 08:55",
-    "source": "Global Node",
-    "text": "#Paranormal 94度の天候で暖房をオンにする",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th5dtp/turning_the_heat_on_in_94_degree_weather/"
-},
-{
-    "date": "2026-05-19 08:55",
-    "source": "Global Node",
-    "text": "#Paranormal サルバッタ未確認動物",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th4qxt/monkeygrasshopper_cryptid/"
-},
-{
-    "date": "2026-05-19 07:49",
-    "source": "Global Node",
-    "text": "#Paranormal 幽霊のキッチン？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th33py/haunted_kitchen/"
-},
-{
-    "date": "2026-05-19 07:49",
-    "source": "Global Node",
-    "text": "#Paranormal 私たちが一度も話さなかったら、どうして彼はすべてを知っていたのでしょうか？」",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th29l3/how_did_he_know_everything_if_we_never_spoke/"
-},
-{
-    "date": "2026-05-19 07:49",
-    "source": "Global Node",
-    "text": "#Paranormal 幽霊の出るキャンプ場",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th21xs/haunted_camping_spots/"
-},
-{
-    "date": "2026-05-19 07:49",
-    "source": "Global Node",
-    "text": "#Paranormal 窓の外のメロディー",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1th1prn/melody_out_of_window/"
-},
-{
-    "date": "2026-05-19 06:02",
-    "source": "Global Node",
-    "text": "#Paranormal これは超常現象だったのか、それとも何か別の何かだったのか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgttzy/was_this_paranormal_or_something_else/"
-},
-{
-    "date": "2026-05-19 06:02",
-    "source": "Global Node",
-    "text": "#Paranormal これは超常現象だったのか、それとも何か別の何かだったのか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgttio/was_this_paranormal_or_something_else/"
-},
-{
-    "date": "2026-05-19 06:02",
-    "source": "Global Node",
-    "text": "#Paranormal それは幽霊か何かでしたか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgtrqr/was_it_a_ghost_or_something_else/"
-},
-{
-    "date": "2026-05-19 06:02",
-    "source": "Global Node",
-    "text": "#Paranormal それは幽霊か何かでしたか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgtqgt/was_it_a_ghost_or_something_else/"
-},
-{
-    "date": "2026-05-19 06:02",
-    "source": "Global Node",
-    "text": "#Paranormal それは幽霊か何かでしたか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgtpzb/was_it_a_ghost_or_something_else/"
-},
-{
-    "date": "2026-05-18 23:28",
-    "source": "Global Node",
-    "text": "#Paranormal ハリウッドは何かをする前に私たちに見せなければならないと言う人がいることをご存知でしょう。 Ｌ？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tgkxs1/you_know_how_some_people_say_hollywood_has_to/"
-},
-{
-    "date": "2026-05-18 23:28",
-    "source": "Global Node",
-    "text": "#Paranormal 私はいつも自分の部屋の数字で目が覚めます",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgmmmp/i_keep_waking_up_to_figures_in_my_room/"
-},
-{
-    "date": "2026-05-18 23:28",
-    "source": "Global Node",
-    "text": "#Paranormal 拍手の音、同じようなことをした人はいますか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgj8uq/clapping_sounds_has_anyone_had_something_similar/"
-},
-{
-    "date": "2026-05-18 19:57",
-    "source": "Global Node",
-    "text": "#Mandela アン・マンデラ効果？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tgg1mm/unmandela_effect/"
-},
-{
-    "date": "2026-05-18 19:57",
-    "source": "Global Node",
-    "text": "#Mandela ターゲットロゴ マンデラ効果は解決？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tgdzya/target_logo_mandela_effect_solved/"
-},
-{
-    "date": "2026-05-18 19:57",
-    "source": "Global Node",
-    "text": "#Paranormal 私が子供の頃に経験したことを理解するのに助けが必要です。それが超常現象だったのか、それとも夢だったのかはわかりません。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgepg8/i_need_help_understanding_an_experience_i_had_as/"
-},
-{
-    "date": "2026-05-18 15:44",
-    "source": "Global Node",
-    "text": "#Mandela 臨死体験とマンデラの奇妙さ",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tgckcg/nde_experience_then_mandela_weirdness/"
-},
-{
-    "date": "2026-05-18 15:44",
-    "source": "Global Node",
-    "text": "#Paranormal 超常現象の可能性",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgduag/paranormal_possibilities/"
-},
-{
-    "date": "2026-05-18 15:44",
-    "source": "Global Node",
-    "text": "#Paranormal Uber で最も奇妙で不気味な経験は何ですか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgdlpz/what_has_been_your_strangest_or_creepiest/"
-},
-{
-    "date": "2026-05-18 15:44",
-    "source": "Global Node",
-    "text": "#Paranormal だから私は熱心な幽霊愛好家です",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgbzdp/so_i_am_an_avid_ghost_lover/"
-},
-{
-    "date": "2026-05-18 15:44",
-    "source": "Global Node",
-    "text": "#Paranormal 私の写真には悪魔か幽霊が写っていますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tgavmf/demon_or_ghost_in_my_photo/"
-},
-{
-    "date": "2026-05-18 11:15",
-    "source": "Global Node",
-    "text": "#Paranormal FOTL信者の皆さん、物的証拠がないことをどう説明しますか？",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tg697c/to_the_fotl_believers_how_do_you_explain_the_lack/"
-},
-{
-    "date": "2026-05-18 11:15",
-    "source": "Global Node",
-    "text": "#Paranormal ユタ州の近くで一晩滞在するのになんて良い場所でしょう",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tg7vd4/what_a_good_place_near_utah_to_stay_over_night/"
-},
-{
-    "date": "2026-05-18 11:15",
-    "source": "Global Node",
-    "text": "#Paranormal 私の家族では、私の出会いは猫の目として知られています。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tg66f7/in_my_family_my_encounter_in_known_as_cat_eyes/"
-},
-{
-    "date": "2026-05-18 08:48",
-    "source": "Global Node",
-    "text": "#Paranormal 30分間連続してドアが勝手に開閉する",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tg4c43/door_opening_and_closing_on_its_own_for_30/"
-},
-{
-    "date": "2026-05-18 06:44",
-    "source": "Global Node",
-    "text": "#Paranormal ハットマンは、",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tg259a/the_hat_man_is_a/"
-},
-{
-    "date": "2026-05-18 05:00",
-    "source": "Global Node",
-    "text": "#Paranormal 説明してください。",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfzlnq/please_explain/"
-},
-{
-    "date": "2026-05-18 03:53",
-    "source": "Global Node",
-    "text": "#Paranormal 何かが私を追って母の家まで来たと思う",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfxvv9/i_think_something_followed_me_to_my_moms_house/"
-},
-{
-    "date": "2026-05-18 03:53",
-    "source": "Global Node",
-    "text": "#Paranormal 亡くなった父からのサイン",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfvsgw/signs_from_my_dad_after_his_death/"
-},
-{
-    "date": "2026-05-18 01:44",
-    "source": "Global Node",
-    "text": "#Mandela 新しいマンデラ効果を発見しましたか?ここに投稿してください！ (2026-05-17)",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tftjn6/did_you_discover_a_new_mandela_effect_post_it/"
-},
-{
-    "date": "2026-05-18 01:44",
-    "source": "Global Node",
-    "text": "#Paranormal 赤ちゃんの頃に体験した超常現象",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tftowy/paranormal_experience_as_a_baby/"
-},
-{
-    "date": "2026-05-18 00:50",
-    "source": "Global Node",
-    "text": "#Paranormal ドナ・ブラジルはジフィーのピーナッツバターについて言及したばかりですか?",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tfswqp/did_donna_brazile_just_mention_jiffy_peanut_butter/"
-},
-{
-    "date": "2026-05-18 00:50",
-    "source": "Global Node",
-    "text": "#Paranormal アン・カウルとして生まれたこと、あるいはカウルの担い手として生まれたことについて何か超常現象はありますか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tft1za/is_there_anything_paranormal_about_being_born_en/"
-},
-{
-    "date": "2026-05-18 00:50",
-    "source": "Global Node",
-    "text": "#Paranormal 私がまだ眠れない理由",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfscvu/the_reason_i_still_sturggke_to_sleep/"
-},
-{
-    "date": "2026-05-18 00:50",
-    "source": "Global Node",
-    "text": "#Paranormal あなたが輪廻転生や死後の世界を信じるようになるようなことを子供たちから言われたことがありますか?",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfrla2/have_your_kids_said_anything_to_you_that_made_you/"
-},
-{
-    "date": "2026-05-18 00:50",
-    "source": "Global Node",
-    "text": "#Paranormal これが実際の超常現象なのか、それともただの金縛りなのか、誰か教えてくれませんか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfqzlq/could_someone_tell_whether_or_not_this_was_an/"
-},
-{
-    "date": "2026-05-17 21:56",
-    "source": "Global Node",
-    "text": "#Paranormal 裏庭での奇妙な音",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfi1s6/weird_sound_in_backyard/"
-},
-{
-    "date": "2026-05-17 20:53",
-    "source": "Global Node",
-    "text": "#Object ブレース付きドリー",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tfjbiq/dolly_with_braces/"
-},
-{
-    "date": "2026-05-17 19:20",
-    "source": "Global Node",
-    "text": "#Paranormal ホーンテッド ドリスキル ホテル",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfkd5w/haunted_driskill_hotel/"
-},
-{
-    "date": "2026-05-17 17:57",
-    "source": "Global Node",
-    "text": "#Paranormal フライドポテトを持つ男性",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tfj231/men_with_fries/"
-},
-{
-    "date": "2026-05-17 17:57",
-    "source": "Global Node",
-    "text": "#Paranormal ばかばかしいように思えるかもしれませんが... グレイトフル/グレートフル デッド",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tfhl8t/might_seem_dumb_but_gratefulgreatful_dead/"
-},
-{
-    "date": "2026-05-17 17:57",
-    "source": "Global Node",
-    "text": "#Paranormal 田舎のアイルランド人女性",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfk3e3/irish_woman_in_country_side/"
-},
-{
-    "date": "2026-05-17 17:57",
-    "source": "Global Node",
-    "text": "#Paranormal 何が起こっているのか分かりません、誰かが助けてくれれば良いのですが",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfjq0k/i_dont_what_is_going_on_if_someone_could_help_it/"
-},
-{
-    "date": "2026-05-17 17:57",
-    "source": "Global Node",
-    "text": "#Paranormal 大きなブユがたくさんいる部屋が窓の近くで飛び回り、そしてそのまま消えてしまったのですか？",
-    "url": "https://www.reddit.com/r/Paranormal/comments/1tfiv13/a_room_full_of_big_black_flies_buzzing_around_by/"
-},
-{
-    "date": "2026-05-17 15:13",
-    "source": "Global Node",
-    "text": "#Paranormal オーディオのスペシャリストを求めています。",
-    "url": "https://www.reddit.com/r/EVP/comments/1tfene2/looking_for_audio_specialist/"
-},
-{
-    "date": "2026-05-17 15:13",
-    "source": "Global Node",
-    "text": "#Paranormal ケニー・ロジャース - ギャンブラー",
-    "url": "https://www.reddit.com/r/MandelaEffect/comments/1tfgni6/kenny_rogers_the_gambler/"
-}]; 
-        const lastUpdated = "2026-05-24 11:11"; 
-        // --- DATA END ---    let currentPage = 1;
-    const postsPerPage = 10;
-    let filteredPosts = [...posts];
+    <script>
+        // --- DATA START ---
+        // この部分はGitHub Actionsによって自動的に書き換えられます
+        const posts = [
+            {
+                "date": "2026-04-30 08:44",
+                "source": "Global Node",
+                "text": "#Paranormal スクービードゥービードゥーの映画",
+                "url": "https://www.reddit.com/r/MandelaEffect/comments/1szfcrg/scooby_doobie_doo_movie/"
+            }
+        ]; 
+        const lastUpdated = "2026-04-30 08:44"; 
+        // --- DATA END ---
 
-    function render() {
-        document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated} (JST)`;
-        const start = (currentPage - 1) * postsPerPage;
-        const end = start + postsPerPage;
-        const target = filteredPosts.slice(start, end);
-        const container = document.getElementById('posts');
-        
-        if (target.length === 0) {
-            container.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 24px;">信号が見つかりません...</div>';
-        } else {
-            container.innerHTML = target.map(p => {
-                // タグと本文を分離（スペースがなくても対応）
-                const tagMatch = p.text.match(/^(#[a-zA-Z]+)(.*)/);
-                let tag, body;
+        let currentPage = 1;
+        const postsPerPage = 10;
+        let filteredPosts = [...posts];
 
-                if (tagMatch) {
-                    tag = tagMatch[1];
-                    body = tagMatch[2].trim() || p.text; // 本文が空なら原文を表示
-                } else {
-                    tag = "#Paranormal";
-                    body = p.text;
-                }
+        function render() {
+            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated} (JST)`;
+            const start = (currentPage - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const target = filteredPosts.slice(start, end);
+            const container = document.getElementById('posts');
+            
+            if (target.length === 0) {
+                container.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 24px;">信号が見つかりません...</div>';
+            } else {
+                container.innerHTML = target.map(p => {
+                    // タグと本文を分離（スペースがなくても対応）
+                    const tagMatch = p.text.match(/^(#[a-zA-Z]+)(.*)/);
+                    let tag, body;
 
-                return `
-                    <div class="post">
-                        <div class="post-header">
-                            <span>${p.date}</span>
-                            <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
+                    if (tagMatch) {
+                        tag = tagMatch[1];
+                        body = tagMatch[2].trim() || p.text; // 本文が空なら原文を表示
+                    } else {
+                        tag = "#Paranormal";
+                        body = p.text;
+                    }
+
+                    return `
+                        <div class="post">
+                            <div class="post-header">
+                                <span>${p.date}</span>
+                                <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
+                            </div>
+                            <div style="font-size: 20px; line-height: 1.4;">${body}</div>
+                            <a href="${p.url}" target="_blank" class="source-link">🔗 出典を確認</a>
                         </div>
-                        <div style="font-size: 20px; line-height: 1.4;">${body}</div>
-                        <a href="${p.url}" target="_blank" class="source-link"> 出典を確認</a>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }).join('');
+            }
+            
+            document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
         }
-        
-        document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
-    }
 
-    function filterPosts() {
-        const tagTerm = document.getElementById('tagFilter').value.toLowerCase();
-        filteredPosts = posts.filter(p => {
-            return tagTerm === "" || p.text.toLowerCase().includes(tagTerm);
-        });
-        currentPage = 1;
+        function filterPosts() {
+            const tagTerm = document.getElementById('tagFilter').value.toLowerCase();
+            filteredPosts = posts.filter(p => {
+                return tagTerm === "" || p.text.toLowerCase().includes(tagTerm);
+            });
+            currentPage = 1;
+            render();
+        }
+
+        function quickFilter(tag) {
+            document.getElementById('tagFilter').value = tag;
+            filterPosts();
+            window.scrollTo(0, 0);
+        }
+
+        function changePage(dir) {
+            currentPage += dir;
+            render();
+            window.scrollTo(0, 0);
+        }
+
         render();
-    }
-
-    function quickFilter(tag) {
-        document.getElementById('tagFilter').value = tag;
-        filterPosts();
-        window.scrollTo(0, 0);
-    }
-
-    function changePage(dir) {
-        currentPage += dir;
-        render();
-        window.scrollTo(0, 0);
-    }
-
-    render();
-</script></body>
+    </script>
+</body>
 </html>
-
