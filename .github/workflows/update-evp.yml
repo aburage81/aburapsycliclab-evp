@@ -1,33 +1,23 @@
-name: 脂心霊 1時間更新 (update_evp)
+name: 脂心霊 1時間更新
 
 on:
   schedule:
-    - cron: '0 * * * *'     # 1時間ごと（毎時0分）
+    - cron: '0 * * * *'     # 1時間ごと
   workflow_dispatch:
 
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: リポジトリチェックアウト
-        uses: actions/checkout@v4
-
-      - name: Python 3.11
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: ライブラリインストール
-        run: pip install feedparser deep-translator
-
-      - name: EVPクローラー実行
-        run: python update_evp.py
-
-      - name: コミット＆プッシュ
-        run: |
+      - run: pip install feedparser deep-translator
+      - run: python update_evp.py
+      - run: |
           git config user.name "脂心霊BOT"
           git config user.email "bot@aburage81.github.io"
           git add index.html
-          git commit -m "🌍 1時間自動更新 ${{ github.event_name }}" || echo "No changes"
+          git commit -m "自動更新" || echo "No changes"
           git push
