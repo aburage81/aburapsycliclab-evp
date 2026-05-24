@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -149,7 +148,7 @@
     <script>
         // --- DATA START ---
         const posts = [
-            // ここにあなたの元のposts配列を貼り付けてください
+            // ここにあなたの元の全投稿配列を貼り付けてください
         ];
         const lastUpdated = "2026-05-24 11:11"; 
         // --- DATA END ---
@@ -170,15 +169,8 @@
             } else {
                 container.innerHTML = target.map(p => {
                     const tagMatch = p.text.match(/^(#[a-zA-Z]+)(.*)/);
-                    let tag, body;
-
-                    if (tagMatch) {
-                        tag = tagMatch[1];
-                        body = tagMatch[2].trim() || p.text;
-                    } else {
-                        tag = "#Paranormal";
-                        body = p.text;
-                    }
+                    let tag = tagMatch ? tagMatch[1] : "#Paranormal";
+                    let body = tagMatch ? tagMatch[2].trim() || p.text : p.text;
 
                     return `
                         <div class="post">
@@ -200,9 +192,7 @@
 
         function filterPosts() {
             const tagTerm = document.getElementById('tagFilter').value.toLowerCase();
-            filteredPosts = posts.filter(p => {
-                return tagTerm === "" || p.text.toLowerCase().includes(tagTerm);
-            });
+            filteredPosts = posts.filter(p => tagTerm === "" || p.text.toLowerCase().includes(tagTerm));
             currentPage = 1;
             render();
         }
@@ -223,3 +213,4 @@
     </script>
 </body>
 </html>
+
