@@ -1,5 +1,5 @@
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -8,20 +8,21 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         body { 
-            background: #1a1a1a; 
-            color: #ddd; 
+            background: #c0c0c0; 
+            color: #000; 
             font-family: 'VT323', monospace; 
             margin: 0; 
             padding: 20px 10px; 
-            min-height: 100vh;
+            min-height: 100vh; 
+            box-sizing: border-box; 
         }
         .mac-window { 
             background: #c0c0c0; 
-            border: 4px solid #fff; 
+            border: 3px solid #fff; 
             border-right-color: #808080; 
             border-bottom-color: #808080; 
-            box-shadow: 6px 6px 0 #000; 
-            max-width: 1120px; 
+            box-shadow: 4px 4px 0 #000; 
+            max-width: 1000px; 
             width: 100%; 
             margin: 0 auto; 
         }
@@ -35,121 +36,93 @@
             justify-content: space-between; 
             font-size: 18px; 
         }
-        .content { padding: 20px; background: #111; }
+        .content { padding: 20px; }
+        
+        h1 { font-size: 32px; text-align: center; margin: 0; cursor: pointer; }
+        .subtitle { text-align: center; font-size: 20px; margin: 5px 0; color: #000080; }
+        .last-update { text-align: center; font-size: 14px; margin-bottom: 20px; color: #555; }
 
-        h1 { 
-            font-size: 36px; text-align: center; margin: 0; 
-            text-shadow: 3px 3px 0 #000; 
-            cursor: pointer;
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
         }
-        .subtitle { text-align: center; font-size: 22px; margin: 8px 0; color: #ffcc00; }
-        .last-update { text-align: center; font-size: 16px; margin-bottom: 25px; color: #aaa; }
+        .tag-select { 
+            width: 100%;
+            max-width: 500px; 
+            padding: 10px; 
+            font-family: 'VT323'; 
+            font-size: 22px; 
+            border: 3px inset #fff; 
+            background: #fff; 
+            cursor: pointer;
+            outline: none;
+        }
 
         .posts-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); 
-            gap: 22px; 
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr)); 
+            gap: 20px; 
         }
         
         .post { 
-            background: #222; 
-            border: 4px inset #fff; 
-            border-right-color: #555; 
-            border-bottom-color: #555; 
+            background: #c0c0c0; 
+            border: 3px inset #fff; 
+            border-right-color: #808080; 
+            border-bottom-color: #808080; 
             padding: 18px; 
-            position: relative;
-            transition: transform 0.2s;
-        }
-        .post:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 0 15px rgba(255, 100, 100, 0.6);
         }
         
         .post-header { 
             font-weight: bold; 
-            color: #ffcc00; 
-            margin-bottom: 12px; 
-            border-bottom: 2px dashed #555; 
+            color: #000080; 
+            margin-bottom: 10px; 
+            border-bottom: 1px dashed #808080; 
             display: flex;
             justify-content: space-between;
-            font-size: 18px;
         }
 
         .tag-link {
-            color: #00ffff;
-            background: #000080;
-            padding: 3px 10px;
-            border: 2px solid #ffff00;
-            font-weight: bold;
+            color: #000080;
             cursor: pointer;
-            font-size: 19px;
-            border-radius: 2px;
+            padding: 0 4px;
+            text-decoration: underline;
         }
-        .tag-link:hover { 
-            background: #ffff00; 
-            color: #000; 
-            border-color: #ff0000;
-        }
-
-        .post-body {
-            font-size: 21px;
-            line-height: 1.35;
-            margin-bottom: 15px;
-        }
-
-        .media-container {
-            margin: 15px 0;
-            text-align: center;
-            background: #000;
-            padding: 8px;
-            border: 2px solid #ff6666;
-        }
-        .media-container img, .media-container video, .media-container audio {
-            max-width: 100%;
-            height: auto;
-            border: 2px solid #ffcc00;
-            box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
-        }
-
-        .evp-notice {
-            background: #330000;
-            color: #ffaaaa;
-            padding: 10px;
-            margin: 12px 0;
-            border: 2px solid #ff6666;
-            font-size: 19px;
-            text-align: center;
+        .tag-link:hover {
+            background-color: yellow; 
+            color: #000;
         }
 
         .source-link { 
-            color: #ff6666; 
+            color: #0000ff; 
             text-decoration: underline; 
-            margin-top: 12px; 
+            margin-top: 15px; 
             display: block; 
-            font-size: 18px;
         }
 
-        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
         .page-btn { 
-            padding: 10px 25px; background: #c0c0c0; border: 4px solid #fff; 
+            padding: 8px 20px; background: #c0c0c0; border: 3px solid #fff; 
             border-right-color: #808080; border-bottom-color: #808080; cursor: pointer; 
-            font-family: 'VT323'; font-size: 22px; box-shadow: 3px 3px 0 #000; 
+            font-family: 'VT323'; font-size: 20px; box-shadow: 2px 2px 0 #000; 
         }
+        .page-btn:disabled { color: #808080; box-shadow: none; }
     </style>
 </head>
 <body>
     <div class="mac-window">
         <div class="title-bar">
             <div>📂 リアルタイム怪現象データベース</div>
-            <div style="font-size: 14px;">[Ver 5.6.3 - EVP広域対応]</div>
+            <div style="font-size: 14px;">[Ver 5.6.1]</div>
         </div>
         <div class="content">
-            <h1 onclick="location.href='./';">👻 脂心霊パラノーマルBOT</h1>
-            <p class="subtitle">世界各地からの自動収集・要約アーカイブ 🛢️ Electronic Voice Phenomena強化</p>
+            <h1 onclick="location.href='./';">脂心霊パラノーマルBOT</h1>
+            <p class="subtitle">世界各地からの自動収集・要約アーカイブ</p>
             <p id="last-update" class="last-update">LAST UPDATE: ---</p>
             
-            <div class="search-container" style="margin-bottom:25px; text-align:center;">
-                <select id="tagFilter" onchange="filterPosts()" style="width:100%; max-width:680px; padding:12px; font-size:22px; font-family:'VT323'; background:#222; color:#ffcc00; border:3px solid #ffff00;">
+            <div class="search-container">
+                <select id="tagFilter" class="tag-select" onchange="filterPosts()">
                     <option value="">ALL TAGS (全記事を表示)</option>
                     <option value="#Audio">#Audio (音声/EVP)</option>
                     <option value="#Orb">#Orb (光球)</option>
@@ -167,7 +140,7 @@
             
             <div class="pagination">
                 <button id="prevBtn" class="page-btn" onclick="changePage(-1)">PREV</button>
-                <span id="pageInfo" style="font-size:24px; align-self:center; color:#ffcc00;">PAGE 1</span>
+                <span id="pageInfo" style="font-size:22px; align-self:center;">PAGE 1</span>
                 <button id="nextBtn" class="page-btn" onclick="changePage(1)">NEXT</button>
             </div>
         </div>
@@ -176,18 +149,9 @@
     <script>
         // --- DATA START ---
         const posts = [
-            // ここにあなたの全posts配列を貼り付けてください（前のメッセージの長い配列）
-            // 例：
-            {
-                "date": "2026-05-24 11:11",
-                "source": "Global Node",
-                "text": "#Audio EVP録音で声が聞こえた",
-                "url": "https://www.reddit.com/...",
-                "media": []  // GitHub Actionsで自動追加予定
-            }
-            // ... 残りの全投稿 ...
+            // ここにあなたの元のposts配列を貼り付けてください
         ];
-        const lastUpdated = "2026-05-24 11:11";
+        const lastUpdated = "2026-05-24 11:11"; 
         // --- DATA END ---
 
         let currentPage = 1;
@@ -195,65 +159,50 @@
         let filteredPosts = [...posts];
 
         function render() {
-            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated} (JST) 🛢️`;
-            
+            document.getElementById('last-update').innerText = `LAST UPDATE: ${lastUpdated} (JST)`;
             const start = (currentPage - 1) * postsPerPage;
             const end = start + postsPerPage;
             const target = filteredPosts.slice(start, end);
             const container = document.getElementById('posts');
+            
+            if (target.length === 0) {
+                container.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 24px;">信号が見つかりません...</div>';
+            } else {
+                container.innerHTML = target.map(p => {
+                    const tagMatch = p.text.match(/^(#[a-zA-Z]+)(.*)/);
+                    let tag, body;
 
-            container.innerHTML = target.map(p => {
-                const tagMatch = p.text.match(/^(#[a-zA-Z]+)(.*)/);
-                const tag = tagMatch ? tagMatch[1] : "#Paranormal";
-                const body = tagMatch ? tagMatch[2].trim() : p.text;
+                    if (tagMatch) {
+                        tag = tagMatch[1];
+                        body = tagMatch[2].trim() || p.text;
+                    } else {
+                        tag = "#Paranormal";
+                        body = p.text;
+                    }
 
-                // EVP強調
-                const isEVP = tag === "#Audio" || 
-                             p.text.toLowerCase().includes("evp") || 
-                             p.text.toLowerCase().includes("electronic voice") ||
-                             p.text.toLowerCase().includes("ボイス");
-                
-                let mediaHTML = '';
-                if (p.media && p.media.length > 0) {
-                    mediaHTML = p.media.map(m => {
-                        if (m.type === 'image') {
-                            return `<div class="media-container"><img src="${m.url}" alt="脂心霊メディア" loading="lazy"></div>`;
-                        }
-                        if (m.type === 'video') {
-                            return `<div class="media-container"><video controls muted loop><source src="${m.url}" type="video/mp4"></video></div>`;
-                        }
-                        if (m.type === 'audio') {
-                            return `<div class="media-container"><audio controls><source src="${m.url}" type="audio/mpeg"></audio></div>`;
-                        }
-                        return '';
-                    }).join('');
-                }
-
-                const evpNotice = isEVP ? 
-                    `<div class="evp-notice">🔊 EVP / Electronic Voice Phenomena 検知</div>` : '';
-
-                return `
-                    <div class="post">
-                        <div class="post-header">
-                            <span>${p.date}</span>
-                            <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
+                    return `
+                        <div class="post">
+                            <div class="post-header">
+                                <span>${p.date}</span>
+                                <span class="tag-link" onclick="quickFilter('${tag}')">${tag}</span>
+                            </div>
+                            <div style="font-size: 20px; line-height: 1.4;">${body}</div>
+                            <a href="${p.url}" target="_blank" class="source-link">🔗 出典を確認</a>
                         </div>
-                        <div class="post-body">${body}</div>
-                        ${evpNotice}
-                        ${mediaHTML}
-                        <a href="${p.url}" target="_blank" class="source-link">🔗 元投稿を確認</a>
-                    </div>
-                `;
-            }).join('');
-
+                    `;
+                }).join('');
+            }
+            
             document.getElementById('pageInfo').innerText = `PAGE ${currentPage}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= filteredPosts.length;
         }
 
         function filterPosts() {
-            const tagTerm = document.getElementById('tagFilter').value;
-            filteredPosts = posts.filter(p => !tagTerm || p.text.includes(tagTerm));
+            const tagTerm = document.getElementById('tagFilter').value.toLowerCase();
+            filteredPosts = posts.filter(p => {
+                return tagTerm === "" || p.text.toLowerCase().includes(tagTerm);
+            });
             currentPage = 1;
             render();
         }
@@ -274,4 +223,3 @@
     </script>
 </body>
 </html>
-  
