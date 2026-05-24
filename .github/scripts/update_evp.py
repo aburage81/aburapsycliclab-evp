@@ -16,7 +16,7 @@ def parse_with_headers(url):
     }
     return feedparser.parse(url, agent=headers['User-Agent'])
 
-# --- 2. 翻訳キャッシュ ---
+# --- 2. 翻訳 ---
 translator = GoogleTranslator(source='auto', target='ja')
 
 @lru_cache(maxsize=500)
@@ -94,7 +94,6 @@ def crawl():
         except Exception as e:
             print(f"❌ エラー: {url} -> {e}")
 
-    # HTML更新
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -118,6 +117,3 @@ def crawl():
 
 if __name__ == "__main__":
     crawl()
-
-  
-   
