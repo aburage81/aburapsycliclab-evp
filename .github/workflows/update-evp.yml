@@ -1,33 +1,33 @@
-name: 脂心霊 世界中1時間更新クローラー
+name: 脂心霊 1時間更新 (update_evp)
 
 on:
   schedule:
-    - cron: '0 * * * *'      # 1時間ごと（毎時0分）
-  workflow_dispatch:         # 手動実行も可能にする
+    - cron: '0 * * * *'     # 1時間ごと（毎時0分）
+  workflow_dispatch:
 
 jobs:
   crawl:
     runs-on: ubuntu-latest
     
     steps:
-      - name: リポジトリをチェックアウト
+      - name: リポジトリチェックアウト
         uses: actions/checkout@v4
 
-      - name: Python 3.11 セットアップ
+      - name: Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: 必要ライブラリインストール
+      - name: ライブラリインストール
         run: pip install feedparser deep-translator
 
-      - name: クローラー実行
-        run: python crawler.py
+      - name: EVPクローラー実行
+        run: python update_evp.py
 
-      - name: 変更をコミット＆プッシュ
+      - name: コミット＆プッシュ
         run: |
           git config user.name "脂心霊BOT"
           git config user.email "bot@aburage81.github.io"
           git add index.html
-          git commit -m "🌍 1時間自動更新 - ${{ github.event_name }}" || echo "No changes to commit"
+          git commit -m "🌍 1時間自動更新 ${{ github.event_name }}" || echo "No changes"
           git push
