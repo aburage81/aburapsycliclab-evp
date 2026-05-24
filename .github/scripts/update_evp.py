@@ -1,4 +1,3 @@
-
 import feedparser
 from deep_translator import GoogleTranslator
 import datetime
@@ -9,128 +8,115 @@ import os
 import time
 from functools import lru_cache
 
-# --- 1. Reddit RSS用ヘッダー付きパース ---
-def parse_with_headers(url):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': 'application/rss+xml'
-    }
-    # feedparserは内部でrequestsのようなヘッダー送信が難しいため、
-    # 実際にはUser-Agentを偽装して取得を試みます
-    return feedparser.parse(url, agent=headers['User-Agent'])
+# ==================== 設定 ====================
+MAX_PER_SOURCE = 8          # 1ソースあたりの取得上限（高頻度対応）
+MAX_TOTAL_POSTS = 250       # HTML保持上限
+SLEEP_BETWEEN = 1.5         # 翻訳時の待機秒（ブロック対策）
 
-# --- 2. 翻訳キャッシュとレート制限対策 ---
 translator = GoogleTranslator(source='auto', target='ja')
 
-@lru_cache(maxsize=500)
+@lru_cache(maxsize=800)
 def safe_translate(text):
-    if not text: return ""
+    if not text or len(text) < 3: return text
     try:
-        # 翻訳前に少し待機してGoogleの機嫌を伺う
-        time.sleep(1.2) 
+        time.sleep(SLEEP_BETWEEN)
         return translator.translate(text)
-    except Exception as e:
-        print(f"⚠️ 翻訳エラー: {e} -> 原文を使用します")
+    except:
         return text
 
 def get_sources():
-    base_url = "https://news.google.com/rss/search?q={query}&hl={hl}&gl={gl}&ceid={ceid}"
-    FORUM_Q = "(site:4channel.org/x/ OR site:abovetopsecret.com) (EVP OR Poltergeist OR NHI OR 'Mandela Effect')"
-    sources = [
+    return [
+        # === Reddit（高活性）===
         "https://www.reddit.com/r/EVP/new/.rss",
-        "https://www.reddit.com/r/MandelaEffect/new/.rss",
         "https://www.reddit.com/r/Paranormal/new/.rss",
-        "https://boards.4channel.org/x/index.rss",
-        base_url.format(query=FORUM_Q, hl="en", gl="US", ceid="US:en"),
-        base_url.format(query="심령 OR '유체 이탈' OR '오브'", hl="ko", gl="KR", ceid="KR:ko"),
-        base_url.format(query="靈異 OR '曼德拉效應'", hl="zh-TW", gl="TW", ceid="TW:zh-Hant"),
-        base_url.format(query="心霊 OR 幽体離脱 OR 呪物", hl="ja", gl="JP", ceid="JP:ja")
+        "https://www.reddit.com/r/Ghosts/new/.rss",
+        "https://www.reddit.com/r/GhostAdventures/new/.rss",
+        "https://www.reddit.com/r/MandelaEffect/new/.rss",
+        "https://www.reddit.com/r/HighStrangeness/new/.rss",
+        
+        # === 国際フォーラム・その他 ===
+        "https://boards.4channel.org/x/index.rss",           # /x/ Paranormal
+        "https://www.abovetopsecret.com/rss.php",           # AboveTopSecret
+        
+        # === YouTube Paranormal（RSS対応）===
+        # 人気EVP/心霊チャンネル（必要に応じて追加）
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UC-CkanqtNAoCmIWkyG4nmlQ",  # Ghost Hunters公式例
+        # 他のチャンネルは channel_id を調べて追加可能
+        
+        # === 多言語Google News ===
+        "https://news.google.com/rss/search?q=EVP+OR+Electronic+Voice+Phenomena+OR+心霊+OR+幽霊+OR+靈異&hl=en-US&gl=US&ceid=US:en",
+        "https://news.google.com/rss/search?q=心霊+OR+EVP+OR+幽体離脱&hl=ja&gl=JP&ceid=JP:ja",
+        "https://news.google.com/rss/search?q=심령+OR+EVP&hl=ko&gl=KR&ceid=KR:ko",
+        "https://news.google.com/rss/search?q=靈異+OR+曼德拉效應&hl=zh-TW&gl=TW&ceid=TW:zh-Hant",
     ]
-    return sources
 
 def generate_tags(text):
+    low = text.lower()
     tags = []
-    low_text = text.lower()
-    keywords = {
-        "#Audio": ["音声", "録音", "声", "evp", "voice"],
-        "#Object": ["人形", "ドール", "doll", "呪物", "object"],
-        "#Physical": ["ポルターガイスト", "物理", "poltergeist"],
-        "#Orb": ["オーブ", "orb", "光球"],
-        "#NHI": ["nhi", "非人類", "intelligence"],
-        "#Mandela": ["マンデラ", "mandela", "記憶"],
-        "#OBE": ["離脱", "obe", "幽体"],
-        "#Psy": ["超能力", "esp", "psy"]
-    }
-    for tag, keys in keywords.items():
-        if any(k in low_text for k in keys):
-            tags.append(tag)
+    if any(k in low for k in ["evp", "voice", "録音", "声", "electronic voice"]): tags.append("#Audio")
+    if any(k in low for k in ["orb", "オーブ", "光球"]): tags.append("#Orb")
+    if any(k in low for k in ["mandela", "マンデラ"]): tags.append("#Mandela")
+    if any(k in low for k in ["nhi", "uap", "非人類"]): tags.append("#NHI")
+    if any(k in low for k in ["obe", "離脱", "幽体"]): tags.append("#OBE")
+    if any(k in low for k in ["poltergeist", "物理", "ポルター"]): tags.append("#Physical")
     return " ".join(tags) if tags else "#Paranormal"
 
 def crawl():
     jst = timezone(timedelta(hours=9), 'JST')
     now_str = datetime.datetime.now(jst).strftime("%Y-%m-%d %H:%M")
     
-    # 絶対パスの取得
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.dirname(os.path.dirname(script_dir))
-    html_path = os.path.join(repo_root, "index.html")
+    html_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
     new_posts = []
-    print(f"📡 スキャン開始 (JST: {now_str})")
-    
+    print(f"🌍 世界中高頻度スキャン開始 - {now_str}")
+
     for url in get_sources():
-        print(f"🔍 巡回中: {url}")
+        print(f"🔍 {url}")
         try:
-            feed = parse_with_headers(url)
-            if not feed.entries:
-                print(f"   -> 取得数 0 (ブロックまたは更新なし)")
-                continue
-                
-            for entry in feed.entries[:5]: # 翻訳制限回避のため件数を絞る
+            feed = feedparser.parse(url)
+            for entry in feed.entries[:MAX_PER_SOURCE]:
                 title = entry.get('title', '')
                 link = entry.get('link', '')
                 if not title or not link: continue
-                
-                # 翻訳
+
                 translated = safe_translate(title)
                 tags = generate_tags(translated + title)
-                
+
                 new_posts.append({
                     "date": now_str,
                     "source": "Global Node",
                     "text": f"{tags} {translated}",
-                    "url": link
+                    "url": link,
+                    "media": []   # 将来：YouTubeはvideo、音声はaudioに拡張可能
                 })
         except Exception as e:
-            print(f"❌ エラー: {url} -> {e}")
+            print(f"   ⚠️ エラー: {e}")
 
-    if not os.path.exists(html_path):
-        print(f"❌ ファイル未発見: {html_path}")
-        return
-
-    # --- HTML更新ロジック (replace方式で堅牢化) ---
+    # === HTML更新 ===
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # 記事データの置換
-    posts_match = re.search(r'const posts = (\[[\s\S]*?\]);', content)
+    posts_match = re.search(r'const posts = (\[[\s\S]*?\]);', content, re.DOTALL)
     if posts_match:
         old_posts = json.loads(posts_match.group(1))
-        existing_urls = {p['url'] for p in old_posts}
+        existing_urls = {p.get('url') for p in old_posts if p.get('url')}
         
         unique_new = [p for p in new_posts if p['url'] not in existing_urls]
-        final_posts = (unique_new + old_posts)[:200]
-        
+        final_posts = unique_new + old_posts
+        final_posts = final_posts[:MAX_TOTAL_POSTS]
+
         json_str = json.dumps(final_posts, ensure_ascii=False, indent=4)
         content = content.replace(posts_match.group(0), f'const posts = {json_str};')
 
-    # 更新時刻の置換
-    content = re.sub(r'const lastUpdated = ".*?";', f'const lastUpdated = "{now_str}";', content)
-    
+    content = re.sub(r'const lastUpdated = ".*?";', 
+                     f'const lastUpdated = "{now_str}";', content)
+
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(content)
         
-    print(f"✅ 更新成功: {len(unique_new)}件の新信号をキャッチ")
+    print(f"✅ 世界中更新完了: +{len(unique_new)}件（合計 {len(final_posts)}件）")
 
 if __name__ == "__main__":
     crawl()
+
+
