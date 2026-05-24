@@ -1,24 +1,33 @@
+name: 脂心霊 世界中1時間更新クローラー
 
-# .github/workflows/paranormal-crawl.yml
-name: 脂心霊 世界中高頻度クローラー
 on:
   schedule:
-    - cron: '0 */4 * * *'      # 4時間ごと（1日6回）
-    - cron: '30 */6 * * *'     # 6時間ごと（保険）
-  workflow_dispatch:
+    - cron: '0 * * * *'      # 1時間ごと（毎時0分）
+  workflow_dispatch:         # 手動実行も可能にする
 
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
-      - name: Python 3.11
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python 3.11 セットアップ
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install feedparser deep-translator
-      - run: python crawler.py
-      - run: git config user.name "脂心霊BOT"
-      - run: git config user.email "bot@aburage81.github.io"
-      - run: git add index.html && git commit -m "🌍 世界中自動更新 ${{ github.event_name }}" || echo "No new signals"
-      - run: git push
+
+      - name: 必要ライブラリインストール
+        run: pip install feedparser deep-translator
+
+      - name: クローラー実行
+        run: python crawler.py
+
+      - name: 変更をコミット＆プッシュ
+        run: |
+          git config user.name "脂心霊BOT"
+          git config user.email "bot@aburage81.github.io"
+          git add index.html
+          git commit -m "🌍 1時間自動更新 - ${{ github.event_name }}" || echo "No changes to commit"
+          git push
