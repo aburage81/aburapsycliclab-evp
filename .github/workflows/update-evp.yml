@@ -1,13 +1,14 @@
-
-name: Update EVP Data (韓国・台湾シャーマニズム強化)
+name: Update EVP Data
 
 on:
   schedule:
+    # APIのレート制限（BAN）とGitHub Actionsの遅延を考慮し、30分おきに設定
+    # 毎時 0分、30分に実行されます
     - cron: '*/30 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: # 管理画面からいつでも手動実行できるようにする設定
 
 permissions:
-  contents: write
+  contents: write # index.html を書き換えてコミット・プッシュするために必須の権限
 
 jobs:
   build:
@@ -16,13 +17,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -37,5 +36,6 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add index.html
-          git commit -m "🕯️ Auto-update: $(date -u +'%Y-%m-%d %H:%M') [KR/TW]" || exit 0
+          # データ更新がない（差分がない）場合でも、エラーで落ちないように || exit 0 を付与
+          git commit -m "Auto-update: $(date -u)" || exit 0
           git push
