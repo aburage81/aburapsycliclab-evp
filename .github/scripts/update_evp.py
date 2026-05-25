@@ -1,4 +1,3 @@
-
 import feedparser
 from deep_translator import GoogleTranslator
 import datetime
@@ -39,12 +38,8 @@ def get_sources():
         "https://www.reddit.com/r/Paranormal/new/.rss",
         "https://boards.4channel.org/x/index.rss",
         base_url.format(query=FORUM_Q, hl="en", gl="US", ceid="US:en"),
-        # 韓国シャーマニズム・心霊
-        base_url.format(query="무당 OR 굿 OR 귀신 OR 심령 OR mudang OR gwishin", hl="ko", gl="KR", ceid="KR:ko"),
-        base_url.format(query="무당 OR 굿 OR 귀신", hl="en", gl="US", ceid="US:en"),
-        # 台湾シャーマニズム・心霊
-        base_url.format(query="鬼月 OR 乩童 OR 媽祖 OR 靈異 OR jitong OR mazu OR 'ghost month'", hl="zh-TW", gl="TW", ceid="TW:zh-Hant"),
-        base_url.format(query="鬼月 OR 乩童 OR 媽祖", hl="en", gl="US", ceid="US:en"),
+        base_url.format(query="심령 OR '유체 이탈' OR '오브'", hl="ko", gl="KR", ceid="KR:ko"),
+        base_url.format(query="靈異 OR '曼德拉效應'", hl="zh-TW", gl="TW", ceid="TW:zh-Hant"),
         base_url.format(query="心霊 OR 幽体離脱 OR 呪物", hl="ja", gl="JP", ceid="JP:ja")
     ]
     return sources
@@ -60,9 +55,7 @@ def generate_tags(text):
         "#NHI": ["nhi", "非人類", "intelligence"],
         "#Mandela": ["マンデラ", "mandela", "記憶"],
         "#OBE": ["離脱", "obe", "幽体"],
-        "#Psy": ["超能力", "esp", "psy"],
-        "#ShamanKR": ["무당", "굿", "mudang", "gwishin"],
-        "#TaiwanGhost": ["鬼月", "乩童", "jitong", "媽祖", "mazu"]
+        "#Psy": ["超能力", "esp", "psy"]
     }
     for tag, keys in keywords.items():
         if any(k in low_text for k in keys):
@@ -73,7 +66,7 @@ def crawl():
     jst = timezone(timedelta(hours=9), 'JST')
     now_str = datetime.datetime.now(jst).strftime("%Y-%m-%d %H:%M")
     
-    # 絶対パスの取得（あなたが最初に渡した通り）
+    # 絶対パスの取得
     script_dir = os.path.dirname(os.path.abspath(__file__))
     repo_root = os.path.dirname(os.path.dirname(script_dir))
     html_path = os.path.join(repo_root, "index.html")
@@ -111,7 +104,7 @@ def crawl():
         print(f"❌ ファイル未発見: {html_path}")
         return
 
-    # --- HTML更新ロジック (replace方式) ---
+    # --- HTML更新ロジック (replace方式で堅牢化) ---
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
