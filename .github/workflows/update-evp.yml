@@ -1,14 +1,12 @@
-name: Update EVP Data
+name: Update EVP Data (韓国・台湾シャーマニズム強化)
 
 on:
   schedule:
-    # APIのレート制限（BAN）とGitHub Actionsの遅延を考慮し、30分おきに設定
-    # 毎時 0分、30分に実行されます
-    - cron: '*/30 * * * *'
-  workflow_dispatch: # 管理画面からいつでも手動実行できるようにする設定
+    - cron: '*/30 * * * *'   # 30分ごと
+  workflow_dispatch:         # 手動実行可能
 
 permissions:
-  contents: write # index.html を書き換えてコミット・プッシュするために必須の権限
+  contents: write
 
 jobs:
   build:
@@ -17,18 +15,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # コミット履歴を確保
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install feedparser deep-translator
 
-      - name: Run crawler script
+      - name: Run crawler script (韓国・台湾ホラー強化版)
         run: python .github/scripts/update_evp.py
 
       - name: Commit and push changes
@@ -36,6 +36,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add index.html
-          # データ更新がない（差分がない）場合でも、エラーで落ちないように || exit 0 を付与
-          git commit -m "Auto-update: $(date -u)" || exit 0
+          git commit -m "🕯️ Auto-update: $(date -u +'%Y-%m-%d %H:%M') [韓国・台湾シャーマニズム]" || exit 0
           git push
