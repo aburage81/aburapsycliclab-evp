@@ -1,9 +1,10 @@
+
 name: Update EVP Data (韓国・台湾シャーマニズム強化)
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # 30分ごと
-  workflow_dispatch:         # 手動実行可能
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # コミット履歴を確保
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,7 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install feedparser deep-translator
 
-      - name: Run crawler script (韓国・台湾ホラー強化版)
+      - name: Run crawler script
         run: python .github/scripts/update_evp.py
 
       - name: Commit and push changes
@@ -36,5 +37,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add index.html
-          git commit -m "🕯️ Auto-update: $(date -u +'%Y-%m-%d %H:%M') [韓国・台湾シャーマニズム]" || exit 0
+          git commit -m "🕯️ Auto-update: $(date -u +'%Y-%m-%d %H:%M') [KR/TW]" || exit 0
           git push
